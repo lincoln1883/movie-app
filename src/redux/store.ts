@@ -1,11 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
+import movieReducer from "../features/movies/movieSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 
 
 
 const store = configureStore({
 	reducer: {
-		// Here we will be adding reducers
+		movies: movieReducer,
 	},
 });
 
