@@ -17,7 +17,7 @@ export default function MovieList() {
     <div className="flex flex-col sm:flex-row justify-center items-center">
       <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-4 justify-center sm:gap-3 px-3 pr-3 mb-8">
         {movies.map((movie) => (
-          <Movie 
+          <Movie
 					key={movie.id}
 					movie={movie}
           />
