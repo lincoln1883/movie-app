@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 type Movie = {
 	id: string | number
@@ -16,15 +16,11 @@ const Movie = ({movie}: Props) => {
 		<>
 		<Link to={`/movies/${movie.id}`}>
 			<div className="flex flex-col items-center justify-center">
-					<h1 className="text-center text-lg">Title:{" "}{movie.title}</h1>
 					<img
-					className="w-64 h-96 rounded-lg shadow-md"
+					className="w-full h-96 rounded-lg shadow-md"
 					src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
 					alt={movie.title}
 				/>
-				<p className="">
-					Rating:{" "}{movie.vote_average}
-				</p>
 			</div>
 		</Link>
 		</>
