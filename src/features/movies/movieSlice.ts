@@ -33,7 +33,6 @@ export const fetchMovies = createAsyncThunk<Movie[],void,{rejectValue: string}>(
 	const response = await axios.get(
     `${BASE_URL}/movie/popular?api_key=${apiKey}&language=en-US&page=1`,
   );
-	console.log(response.data);
 		return response.data.results;
 	}catch(error: unknown | any){
 		return thunkAPI.rejectWithValue(error.message || "Failed to fetch movies");
@@ -45,7 +44,6 @@ export const fetchMovieById = createAsyncThunk<Movie,string,{rejectValue: string
 	const response = await axios.get(`${BASE_URL}/movie/${id}?api_key=${apiKey}&language=en-US`,
 	);
 	const result = response.data;
-	console.log(result);
 	return result;
 	}catch(error: unknown | any){
 		return thunkAPI.rejectWithValue(error.message || "Failed to fetch movies");
@@ -57,7 +55,6 @@ export const fetchMovieBySearch = createAsyncThunk<Movie[],string,{rejectValue: 
 	const response = await axios.get(`${BASE_URL}/search/movie?query=${search}&api_key=${apiKey}&language=en-US&page=1&include_adult=false`,
 	);
 	const result = response.data.results;
-	console.log(result);
 	return result;
 	}catch(error: unknown | any){
 		return thunkAPI.rejectWithValue(error.message || "Failed to fetch movies");
