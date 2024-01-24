@@ -35,7 +35,7 @@ export const fetchMovies = createAsyncThunk<Movie[],void,{rejectValue: string}>(
   );
 	console.log(response.data);
 		return response.data.results;
-	}catch(error: any){
+	}catch(error: unknown | any){
 		return thunkAPI.rejectWithValue(error.message || "Failed to fetch movies");
 	}
 });
@@ -47,7 +47,19 @@ export const fetchMovieById = createAsyncThunk<Movie,string,{rejectValue: string
 	const result = response.data;
 	console.log(result);
 	return result;
-	}catch(error: any){
+	}catch(error: unknown | any){
+		return thunkAPI.rejectWithValue(error.message || "Failed to fetch movies");
+	}
+});
+
+export const fetchMovieBySearch = createAsyncThunk<Movie[],string,{rejectValue: string}>("movies/fetchMovieBySearch",async (search, thunkAPI) => {
+	try {	
+	const response = await axios.get(`${BASE_URL}/search/movie?query=${search}&api_key=${apiKey}&language=en-US&page=1&include_adult=false`,
+	);
+	const result = response.data.results;
+	console.log(result);
+	return result;
+	}catch(error: unknown | any){
 		return thunkAPI.rejectWithValue(error.message || "Failed to fetch movies");
 	}
 });
@@ -80,10 +92,17 @@ const movieSlice = createSlice({
 			state.movie = movie;
 		}).addCase(fetchMovieById.rejected, (state) => {
 			state.status = "failed";
+		}).addCase(fetchMovieBySearch.pending, (state) => {
+			state.status = "loading";
+		}).addCase(fetchMovieBySearch.fulfilled, (state, action: PayloadAction<Movie[]>) => {
+			state.movies = action.payload;
+			state.status = "success";
+		}).addCase(fetchMovieBySearch.rejected, (state) => {
+			state.status = "failed";
 		});
 	}
 });
 
 export default movieSlice.reducer;
 
-export const fetchOneMovie = (state: any) => state.movies.movies;
+export const fetchOneMovie = (state: MovieState) => state.movies;
