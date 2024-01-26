@@ -7,21 +7,20 @@ import { Spinner } from 'flowbite-react';
 const MovieSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const dispatch = useAppDispatch();
-	
+
   const loading = useAppSelector((state) => state.movies.status === 'loading');
   const movies = useAppSelector((state) => state.movies.movies);
-  
-	const [searchResults, setSearchResults] = useState('');
 
-	useEffect(() => {
-		if (searchTerm) {
-			const timer = setTimeout(() => {
-			setSearchResults(searchTerm)
-			}, 500);
-			return () => clearTimeout(timer);
-		}
+  const [searchResults, setSearchResults] = useState('');
+
+  useEffect(() => {
+    if (searchTerm) {
+      const timer = setTimeout(() => {
+        setSearchResults(searchTerm);
+      }, 500);
+      return () => clearTimeout(timer);
+    }
   }, [searchTerm]);
-
 
   if (loading) {
     return <Spinner aria-label="Default status example" />;
@@ -33,7 +32,7 @@ const MovieSearch = () => {
 
   const handleChange = (e: any | KeyboardEvent) => {
     setSearchTerm(e.currentTarget.value);
-		setSearchResults(e.currentTarget.value);
+    setSearchResults(e.currentTarget.value);
   };
 
   const handleSubmit = (e: FormEvent) => {
@@ -43,7 +42,7 @@ const MovieSearch = () => {
 
   return (
     <>
-      <div className="flex justify-center items-center my-5">
+      <div className="flex justify-center items-center my-5 w-auto">
         <div className="flex">
           <form
             className="flex justify-center items-center"
@@ -59,8 +58,9 @@ const MovieSearch = () => {
             />
             <button
               type="submit"
-              className="hover:bg-blue-200:text-white text-blue-500 py-1 px-1 cursor-pointer font-bold rounded">
-							<FaSearch className="sm:w-8 h-8" />
+              className="hover:bg-blue-200:text-white text-blue-500 py-1 px-1 cursor-pointer font-bold rounded"
+            >
+              <FaSearch className="sm:w-8 h-8" />
             </button>
           </form>
         </div>
