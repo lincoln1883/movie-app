@@ -35,8 +35,8 @@ const MovieDetails = () => {
       <div className="flex h-screen w-100">
         {loading ? (
           <Spinner aria-label="Default status example" />
-        ) : (
-          <div className="flex flex-col justify-center items-center w-100 sm:flex-row">
+          ) : (
+            <div className="flex flex-col justify-center items-center w-100 sm:flex-row">
             <div className="flex items-center justify-center w-full h-full flex-1">
               <img
                 src={`https://image.tmdb.org/t/p/w500${movies.poster_path}`}
