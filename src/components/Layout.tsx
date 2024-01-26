@@ -3,17 +3,15 @@ import NavBar from './NavBar';
 import Footer from './Footer';
 
 const Layout = () => (
-  <>
-  <header>
-    <NavBar />
-  </header>
-  <main className='h-100 my-5'>
-    <Outlet />
-  </main>
-  <footer className='mb-0'>
-    <Footer />
-  </footer>
-  </>
+  <div className='min-w-full overscroll-x-none'>
+    <header>
+      <NavBar />
+    </header>
+    <main className="h-screen ">
+      <Outlet />
+      <Footer />
+    </main>
+  </div>
 );
 
 export default Layout;
