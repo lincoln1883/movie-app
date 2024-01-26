@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import Movie from './Movie';
 import { fetchMovies } from './movieSlice';
-import MovieSearch from './MovieSearch';
 import { Spinner } from 'flowbite-react';
+import MovieSearch from './MovieSearch';
 
-export default function MovieList() {
+const MovieList = () => {
   const dispatch = useAppDispatch();
   const movies = useAppSelector((state) => state.movies.movies);
   const loading = useAppSelector((state) => state.movies.status === 'loading');
@@ -15,8 +15,11 @@ export default function MovieList() {
   }, [dispatch]);
 
   return (
-    <>
+    <div>
       <MovieSearch />
+      <h1 className="text-center text-3xl font-semibold mb-2 capitalize">
+        Popular movies
+      </h1>
       {loading ? (
         <Spinner aria-label="Default status example" />
       ) : (
@@ -28,6 +31,8 @@ export default function MovieList() {
           </ul>
         </div>
       )}
-    </>
+    </div>
   );
 }
+
+export default MovieList
