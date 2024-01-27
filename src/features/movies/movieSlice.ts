@@ -28,10 +28,10 @@ const initialState: MovieState = {
 };
 
 
-export const fetchMovies = createAsyncThunk<Movie[],void,{rejectValue: string}>("movies/fetchMovies",async (_,thunkAPI) => {
+export const fetchMovies = createAsyncThunk<Movie[],string,{rejectValue: string}>("movies/fetchMovies",async (page,thunkAPI) => {
 	try {	
 	const response = await axios.get(
-    `${BASE_URL}/movie/popular?api_key=${apiKey}&language=en-US&page=1`,
+    `${BASE_URL}/movie/popular?api_key=${apiKey}&language=en-US&page=${page}`,
   );
 		return response.data.results;
 	}catch(error: unknown | any){

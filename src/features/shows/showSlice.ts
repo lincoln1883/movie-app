@@ -27,12 +27,12 @@ const initialState: ShowState = {
 	error: null,
 };
 
-export const fetchShows = createAsyncThunk<Show[], void, {rejectValue: string}>(
+export const fetchShows = createAsyncThunk<Show[], string, {rejectValue: string}>(
 	'shows/fetchShows',
-	async (_, thunkAPI) => {
+	async (page, thunkAPI) => {
 		try {
 			const response = await axios.get(
-				`${BASE_URL}/tv/popular?api_key=${apiKey}&language=en-US&page=1`
+				`${BASE_URL}/tv/popular?api_key=${apiKey}&language=en-US&page=${page}`
 			);
 			return response.data.results;
 		} catch (error: unknown | any) {
