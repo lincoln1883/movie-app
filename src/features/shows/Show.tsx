@@ -17,7 +17,7 @@ const Show = ({ show }: Props) => {
     <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-5 duration-300">
       <Link to={`/shows/${show.id}`}>
         <img
-          className="w-full h-96 rounded-t-lg"
+          className="w-full h-64 rounded-t-lg"
           src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
           alt={show.name}
         />
