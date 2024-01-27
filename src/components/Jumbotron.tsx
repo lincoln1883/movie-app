@@ -1,6 +1,6 @@
 const Jumbotron = () => {
   return (
-    <section className="bg-center bg-no-repeat bg-[url('https://images.adsttc.com/media/images/5f7d/fef2/63c0/170a/9100/0273/slideshow/Jiangnan_Photography.jpg?1602092773')] bg-gray-700 bg-blend-multiply min-h-screen">
+    <section className="bg-center bg-no-repeat bg-[url('https://images.adsttc.com/media/images/5f7d/fef2/63c0/170a/9100/0273/slideshow/Jiangnan_Photography.jpg?1602092773')] bg-gray-700 bg-blend-multiply min-h-screen m-0.5">
       <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
         <h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">
           Welcome to Movie App
