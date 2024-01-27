@@ -7,7 +7,7 @@ const Layout = () => (
     <header>
       <NavBar />
     </header>
-    <main className="h-screen ">
+    <main className="min-h-screen ">
       <Outlet />
       <Footer />
     </main>
