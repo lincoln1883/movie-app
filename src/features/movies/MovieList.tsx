@@ -1,18 +1,24 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import Movie from './Movie';
 import { fetchMovies } from './movieSlice';
-import { Spinner } from 'flowbite-react';
+import { Pagination, Spinner } from 'flowbite-react';
 import MovieSearch from './MovieSearch';
 
 const MovieList = () => {
+  const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useAppDispatch();
   const movies = useAppSelector((state) => state.movies.movies);
   const loading = useAppSelector((state) => state.movies.status === 'loading');
 
   useEffect(() => {
-    dispatch(fetchMovies());
-  }, [dispatch]);
+    let page = currentPage.toString();
+    dispatch(fetchMovies(page));
+  }, [dispatch, currentPage]);
+
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <div>
@@ -31,8 +37,17 @@ const MovieList = () => {
           </ul>
         </div>
       )}
+      <div className="flex items-center justify-center mb-3">
+        <Pagination
+          layout="table"
+          currentPage={currentPage}
+          totalPages={100}
+          onPageChange={onPageChange}
+          showIcons
+        />
+      </div>
     </div>
   );
-}
+};
 
-export default MovieList
+export default MovieList;

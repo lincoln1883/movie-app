@@ -1,18 +1,24 @@
-import {useEffect} from 'react'
+import {useEffect, useState} from 'react'
 import {useAppDispatch, useAppSelector} from '../../redux/store'
 import {fetchShows} from './showSlice'
-import { Spinner } from 'flowbite-react';
+import { Spinner, Pagination } from 'flowbite-react';
 import Show from './Show';
 import ShowSearch from './ShowSearch';
 
 const ShowList = () => {
+  const [currentPage, setCurrentPage] = useState(1);
 	const dispatch = useAppDispatch();
 	const shows = useAppSelector((state) => state.shows.shows);
 	const loading = useAppSelector((state) => state.shows.status === 'loading');
 
 	useEffect(() => {
-		dispatch(fetchShows());
-	}, [dispatch]);
+    let page = currentPage.toString();
+		dispatch(fetchShows(page));
+	}, [dispatch, currentPage]);
+
+  const onPageChange = (page: number) => {
+    setCurrentPage(page);
+  }
 
 	return (
     <div>
@@ -29,6 +35,15 @@ const ShowList = () => {
           </ul>
         </div>
       )}
+      <div className="flex items-center justify-center mb-3">
+        <Pagination
+          layout="table"
+          currentPage={currentPage}
+          totalPages={100}
+          onPageChange={onPageChange}
+          showIcons
+        />
+      </div>
     </div>
   );
 }
