@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom';
+import 'react-circular-progressbar/dist/styles.css';
+import  { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 
 type Show = {
   id: string | number;
@@ -14,7 +16,7 @@ interface Props {
 
 const Show = ({ show }: Props) => {
   return (
-    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-5 duration-300">
+    <div className="relative max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 transition ease-in-out delay-150 hover:-translate-y-1 hover:scale-5 duration-300">
       <Link to={`/shows/${show.id}`}>
         <img
           className="w-full h-64 rounded-t-lg"
@@ -28,6 +30,19 @@ const Show = ({ show }: Props) => {
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
             {show.first_air_date}
           </p>
+        </div>
+        <div className="absolute top-56 left-1 flex items-center w-14 justify-center bg-black rounded-full">
+          <CircularProgressbar
+            value={show.vote_average * 10}
+            text={`${show.vote_average * 10}%`}
+            styles={buildStyles({
+              backgroundColor: '#272525',
+              textSize: '18px',
+              pathColor: '#34E714',
+              textColor: '#34E714',
+              trailColor: '#d6d6d6',
+            })}
+          />
         </div>
       </Link>
     </div>
