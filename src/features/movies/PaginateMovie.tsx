@@ -11,7 +11,6 @@ interface Movie {
 
 const PaginateMovie = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -24,12 +23,12 @@ const PaginateMovie = () => {
       );
       const data = await response.json();
       setMovies(data.results);
-      setTotalPages(data.total_pages);
     } catch (error) {
       console.error('Error fetching movies:', error);
     }
     setLoading(false);
   };
+
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);

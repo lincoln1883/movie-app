@@ -11,7 +11,6 @@ interface Show {
 
 const PaginateShow = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [totalPages, setTotalPages] = useState<number>(1);
   const [shows, setShows] = useState<Show[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -24,7 +23,6 @@ const PaginateShow = () => {
       );
       const data = await response.json();
       setShows(data.results);
-      setTotalPages(data.total_pages);
     } catch (error) {
       console.error('Error fetching shows:', error);
     }
