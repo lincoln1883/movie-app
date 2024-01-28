@@ -2,7 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { fetchMovieById } from './movieSlice';
 import { useEffect } from 'react';
-import { Spinner } from 'flowbite-react';
+import { Rating, Spinner } from 'flowbite-react';
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -23,6 +23,13 @@ const MovieDetails = () => {
   const goBack = () => {
     navigate(-1);
   };
+
+  const ratingOutOf5 = movies.vote_average / 2;
+  const numberOfStars = Math.round(ratingOutOf5);
+
+  const starComponents = Array.from({ length: numberOfStars }, (_, index) => (
+    <Rating.Star key={index} />
+  ));
 
   return (
     <div className="m-5 sm:mx-12 mt-5">
@@ -53,10 +60,12 @@ const MovieDetails = () => {
                 <span className="text-lg font-bold">Details: </span>
                 {movies.overview}
               </p>
-              <p className="text-lg px-1">
-                <span className="text-lg font-bold">Rating: </span>
-                {movies.vote_average}
-              </p>
+              <div className="flex">
+                <p className="text-lg px-1 w-full">
+                  <span className="text-lg font-bold">Rating: </span>
+                </p>
+                <Rating>{starComponents}</Rating>
+              </div>
               <p className="text-lg px-1">
                 <span className="text-lg font-bold">Released: </span>
                 {movies.release_date}

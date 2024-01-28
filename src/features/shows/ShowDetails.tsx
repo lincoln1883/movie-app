@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { fetchShowById } from './showSlice';
 import { useParams, useNavigate } from 'react-router-dom';
-import { Spinner } from 'flowbite-react';
+import { Spinner, Rating } from 'flowbite-react';
 
 const ShowDetails = () => {
   const { id } = useParams();
@@ -24,6 +24,13 @@ const ShowDetails = () => {
     Navigate(-1);
   };
 
+  const ratingOutOf5 = show.vote_average / 2;
+  const numberOfStars = Math.round(ratingOutOf5);
+
+  const starComponents = Array.from({ length: numberOfStars }, (_, index) => (
+    <Rating.Star key={index} />
+  ));
+
   return (
     <div className="m-5 sm:mx-12 mt-5">
       <button
@@ -35,8 +42,8 @@ const ShowDetails = () => {
       <div className="flex h-screen w-100">
         {loading ? (
           <Spinner aria-label="Default status example" />
-					) : (
-						<div className="flex flex-col justify-center items-center w-100 sm:flex-row">
+        ) : (
+          <div className="flex flex-col justify-center items-center w-100 sm:flex-row">
             <div className="flex items-center justify-center w-full h-3/4 sm:w-full sm:h-full flex-1">
               <img
                 src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
@@ -53,10 +60,12 @@ const ShowDetails = () => {
                 <span className="text-lg font-bold">Details: </span>
                 {show.overview}
               </p>
-              <p className="text-lg px-1">
-                <span className="text-lg font-bold">Rating: </span>
-                {show.vote_average}
-              </p>
+              <div className="flex">
+                <p className="text-lg px-1 w-full">
+                  <span className="text-lg font-bold">Rating: </span>
+                </p>
+                <Rating>{starComponents}</Rating>
+              </div>
               <p className="text-lg px-1">
                 <span className="text-lg font-bold">First Air Date: </span>
                 {show.first_air_date}
