@@ -6,6 +6,7 @@ import Layout from './components/Layout';
 import Home from './components/Home';
 import ShowDetails from './features/shows/ShowDetails';
 import ShowList from './features/shows/ShowList';
+import NotFound from './components/NotFound';
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/movies/:id" element={<MovieDetails />} />
           <Route path="/shows" element={<ShowList />} />
           <Route path="/shows/:id" element={<ShowDetails />} />
+          <Route path="*" element={<NotFound/>} />
         </Route>
       </Routes>
     </>
