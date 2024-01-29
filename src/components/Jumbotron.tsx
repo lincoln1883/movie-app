@@ -1,4 +1,13 @@
 const Jumbotron = () => {
+
+  const handleGetStarted = () => {
+    alert('This is a demo app, login is not required.');
+  }
+
+  const handleLearnMore = () => {
+    alert('Please visit https://www.themoviedb.org/ for more information.');
+  }
+
   return (
     <section className="bg-center bg-no-repeat bg-[url('https://images.adsttc.com/media/images/5f7d/fef2/63c0/170a/9100/0273/slideshow/Jiangnan_Photography.jpg?1602092773')] bg-gray-700 bg-blend-multiply min-h-screen m-0.5">
       <div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
@@ -12,6 +21,7 @@ const Jumbotron = () => {
           <a
             href="#"
             className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+            onClick={handleGetStarted}
           >
             Get started
             <svg
@@ -33,6 +43,7 @@ const Jumbotron = () => {
           <a
             href="#"
             className="inline-flex justify-center hover:text-gray-900 items-center py-3 px-5 sm:ms-4 text-base font-medium text-center text-white rounded-lg border border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400"
+            onClick={handleLearnMore}
           >
             Learn more
           </a>
