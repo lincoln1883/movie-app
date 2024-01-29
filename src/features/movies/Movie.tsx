@@ -24,17 +24,17 @@ const Movie = ({ movie }: Props) => {
           alt={movie.title}
         />
         <div className="p-5">
-          <p className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+          <p className="mb-2 text-left font-medium sm:text-2xl sm:font-bold tracking-tight text-gray-900 dark:text-white line-clamp-1">
             {movie.title}
           </p>
           <p className="mb-3 font-normal text-gray-700 dark:text-gray-400">
             {movie.release_date}
           </p>
         </div>
-        <div className="absolute top-56 left-1 flex items-center w-12 justify-center bg-black rounded-full mr-1">
+        <div className="absolute top-60 sm:top-56 left-1 flex items-center w-9 sm:w-12 justify-center bg-black rounded-full mr-1">
           <CircularProgressbar
             value={movie.vote_average * 10}
-            text={`${movie.vote_average * 10}%`}
+            text={`${Math.round(movie.vote_average) * 10}%`}
             styles={buildStyles({
               backgroundColor: '#272525',
               textSize: '18px',
