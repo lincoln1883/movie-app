@@ -8,7 +8,9 @@ const Layout = () => (
       <NavBar />
     </header>
     <main className="min-h-screen ">
-      <Outlet />
+      <div className='flex justify-center items-center'>
+        <Outlet />
+      </div>
       <Footer />
     </main>
   </div>
