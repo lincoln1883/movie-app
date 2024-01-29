@@ -10,7 +10,6 @@ import NotFound from './components/NotFound';
 
 function App() {
   return (
-    <>
       <Routes>
         <Route path="/" element={<Layout />} >
           <Route index element={<Home />} />
@@ -21,7 +20,6 @@ function App() {
           <Route path="*" element={<NotFound/>} />
         </Route>
       </Routes>
-    </>
   );
 }
 
