@@ -2,13 +2,12 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { fetchMovieBySearch } from './movieSlice';
 import { FormEvent, useEffect, useState } from 'react';
 import { FaSearch } from 'react-icons/fa';
-import { Spinner } from 'flowbite-react';
 
 const MovieSearch = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const dispatch = useAppDispatch();
 
-  const loading = useAppSelector((state) => state.movies.status === 'loading');
+  
   const movies = useAppSelector((state) => state.movies.movies);
 
   const [searchResults, setSearchResults] = useState('');
@@ -21,10 +20,7 @@ const MovieSearch = () => {
       return () => clearTimeout(timer);
     }
   }, [searchTerm]);
-
-  if (loading) {
-    return <Spinner aria-label="Default status example" />;
-  }
+  
 
   if (!movies) {
     return <h1>No movie found</h1>;
@@ -41,7 +37,6 @@ const MovieSearch = () => {
   };
 
   return (
-    <>
       <div className="flex justify-center items-center my-5 w-auto">
         <div className="flex">
           <form
@@ -65,7 +60,6 @@ const MovieSearch = () => {
           </form>
         </div>
       </div>
-    </>
   );
 };
 
