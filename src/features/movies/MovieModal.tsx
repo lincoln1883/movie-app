@@ -52,8 +52,8 @@ const MovieModal = ({ movies }: Props) => {
     <>
       <Button onClick={handleWatchTrailer}>Watch trailer</Button>
       <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header>{movies.title}</Modal.Header>
-        <Modal.Body>
+        <Modal.Header className="p-2 font-normal">{movies.title}</Modal.Header>
+        <Modal.Body className="w-full h-full p-0 sm:p-4">
           {!trailers && <p className="text-center">No trailer available</p>}
           {trailers && (
             <iframe
@@ -61,7 +61,7 @@ const MovieModal = ({ movies }: Props) => {
               key={trailers.id}
               src={`https://www.youtube.com/embed/${trailers.key}`}
               title={trailers.name}
-              allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture'
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             />
           )}
         </Modal.Body>
