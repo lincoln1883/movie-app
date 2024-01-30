@@ -2,6 +2,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { fetchMovieById } from './movieSlice';
 import { useEffect } from 'react';
+import MovieModal from './MovieModal';
 import { Rating, Spinner } from 'flowbite-react';
 
 const MovieDetails = () => {
@@ -70,6 +71,7 @@ const MovieDetails = () => {
                 <span className="text-lg font-bold">Released: </span>
                 {movies.release_date}
               </p>
+              <MovieModal movies={movies} />
             </div>
           </div>
         )}

@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../redux/store';
 import { fetchShowById } from './showSlice';
 import { useParams, useNavigate } from 'react-router-dom';
 import { Spinner, Rating } from 'flowbite-react';
+import ShowModal from './ShowModal';
 
 const ShowDetails = () => {
   const { id } = useParams();
@@ -70,6 +71,7 @@ const ShowDetails = () => {
                 <span className="text-lg font-bold">First Air Date: </span>
                 {show.first_air_date}
               </p>
+              <ShowModal show={show} />
             </div>
           </div>
         )}
