@@ -54,6 +54,7 @@ const MovieModal = ({ movies }: Props) => {
       <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>{movies.title}</Modal.Header>
         <Modal.Body>
+          {!trailers && <p className="text-center">No trailer available</p>}
           {trailers && (
             <iframe
               className="w-full h-96"

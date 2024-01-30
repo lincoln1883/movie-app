@@ -54,16 +54,17 @@ const ShowModal = ({show}: Props) => {
 			<Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
 				<Modal.Header>{show.name}</Modal.Header>
 				<Modal.Body>
-					{trailers && (
-						<iframe
-						key={trailers?.id}
-						className='w-full h-96'
-						src={`https://www.youtube.com/embed/${trailers?.key}`}
-						title={trailers?.name}
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						/>
-					)}
-				</Modal.Body>
+					{!trailers && <p className='text-center'>No trailer available</p>}
+						{trailers && (
+							<iframe
+							key={trailers?.id}
+							className='w-full h-96'
+							src={`https://www.youtube.com/embed/${trailers?.key}`}
+							title={trailers?.name}
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							/>
+							)}
+							</Modal.Body>
 			</Modal>
 		</>
 	)
