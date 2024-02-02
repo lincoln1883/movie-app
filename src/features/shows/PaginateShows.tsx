@@ -30,9 +30,7 @@ const PaginateShow = () => {
   };
 
   const onPageChange = (page: number) => {
-    //setTimeout(() => {
     setCurrentPage(page);
-    // }, 10000);
   };
 
   useEffect(() => {

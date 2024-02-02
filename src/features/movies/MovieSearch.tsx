@@ -26,6 +26,7 @@ const MovieSearch = () => {
     return <h1>No movie found</h1>;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleChange = (e: any | KeyboardEvent) => {
     setSearchTerm(e.currentTarget.value);
     setSearchResults(e.currentTarget.value);
@@ -52,6 +53,7 @@ const MovieSearch = () => {
               value={searchTerm}
             />
             <button
+              aria-label='search button'
               type="submit"
               className="hover:bg-blue-200:text-white text-blue-500 py-1 px-1 cursor-pointer font-bold rounded"
             >

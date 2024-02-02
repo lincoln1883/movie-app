@@ -25,6 +25,7 @@ const MovieModal = ({ movies }: Props) => {
   const apiKey = import.meta.env.VITE_APP_API_KEY;
 
   const fetchMovieWithVideo = async () => {
+    // eslint-disable-next-line no-useless-catch
     try {
       if (apiKey && movies.id) {
         const response = await fetch(
@@ -39,6 +40,7 @@ const MovieModal = ({ movies }: Props) => {
   };
 
   const handleWatchTrailer = async () => {
+    // eslint-disable-next-line no-useless-catch
     try {
       const trailers = await fetchMovieWithVideo();
       setTrailers(trailers[0] || null);
@@ -61,7 +63,7 @@ const MovieModal = ({ movies }: Props) => {
               key={trailers.id}
               src={`https://www.youtube.com/embed/${trailers.key}`}
               title={trailers.name}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              //="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             />
           )}
         </Modal.Body>

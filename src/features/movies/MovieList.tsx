@@ -12,7 +12,7 @@ const MovieList = () => {
   const loading = useAppSelector((state) => state.movies.status === 'loading');
 
   useEffect(() => {
-    let page = currentPage.toString();
+    const page = currentPage.toString();
     dispatch(fetchMovies(page));
   }, [dispatch, currentPage]);
 
