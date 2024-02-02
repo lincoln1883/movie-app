@@ -1,6 +1,6 @@
-import { Spinner } from 'flowbite-react';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Spinner } from "flowbite-react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 interface Show {
   id: number;
@@ -19,12 +19,12 @@ const PaginateShow = () => {
     try {
       const apiKey = import.meta.env.VITE_APP_API_KEY;
       const response = await fetch(
-        `https://api.tmdb.org/3/discover/tv?api_key=${apiKey}&page=${page}`,
+        `https://api.tmdb.org/3/discover/tv?api_key=${apiKey}&page=${page}`
       );
       const data = await response.json();
       setShows(data.results);
     } catch (error) {
-      console.error('Error fetching shows:', error);
+      console.error("Error fetching shows:", error);
     }
     setLoading(false);
   };
@@ -40,7 +40,7 @@ const PaginateShow = () => {
 
   return (
     <>
-      <Link to={'/shows'} className="font-bold text-xl underline mb-2">
+      <Link to={"/shows"} className="font-bold text-xl underline mb-2">
         Popular shows
       </Link>
       <div className="flex flex-col items-start overflow-x-scroll">

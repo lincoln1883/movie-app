@@ -1,6 +1,6 @@
-import { useState } from 'react';
-import Show from './Show';
-import { Button, Modal } from 'flowbite-react';
+import { useState } from "react";
+import Show from "./Show";
+import { Button, Modal } from "flowbite-react";
 
 interface Trailer {
   id: string;
@@ -25,10 +25,11 @@ const ShowModal = ({ show }: Props) => {
   const apiKey = import.meta.env.VITE_APP_API_KEY;
 
   const fetchShowWithVideo = async () => {
+    // eslint-disable-next-line no-useless-catch
     try {
       if (apiKey && show.id) {
         const response = await fetch(
-          `https://api.themoviedb.org/3/tv/${show.id}/videos?api_key=${apiKey}&language=en-US`,
+          `https://api.themoviedb.org/3/tv/${show.id}/videos?api_key=${apiKey}&language=en-US`
         );
         const data = await response.json();
         return data.results;
@@ -39,6 +40,7 @@ const ShowModal = ({ show }: Props) => {
   };
 
   const handleWatchTrailer = async () => {
+    // eslint-disable-next-line no-useless-catch
     try {
       const trailers = await fetchShowWithVideo();
       setTrailers(trailers[0] || null);
@@ -61,7 +63,7 @@ const ShowModal = ({ show }: Props) => {
               className="w-full h-96"
               src={`https://www.youtube.com/embed/${trailers?.key}`}
               title={trailers?.name}
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              //allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             />
           )}
         </Modal.Body>

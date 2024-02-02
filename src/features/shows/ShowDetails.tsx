@@ -1,9 +1,9 @@
-import { useEffect } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { fetchShowById } from './showSlice';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Spinner, Rating } from 'flowbite-react';
-import ShowModal from './ShowModal';
+import { useEffect } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { fetchShowById } from "./showSlice";
+import { useParams, useNavigate } from "react-router-dom";
+import { Spinner, Rating } from "flowbite-react";
+import ShowModal from "./ShowModal";
 
 const ShowDetails = () => {
   const { id } = useParams();
@@ -11,7 +11,7 @@ const ShowDetails = () => {
 
   const dispatch = useAppDispatch();
   const show = useAppSelector((state) => state.shows.show);
-  const loading = useAppSelector((state) => state.shows.status === 'loading');
+  const loading = useAppSelector((state) => state.shows.status === "loading");
 
   useEffect(() => {
     dispatch(fetchShowById(id as string));

@@ -1,12 +1,11 @@
 const Jumbotron = () => {
-
   const handleGetStarted = () => {
-    alert('This is a demo app, login is not required.');
-  }
+    alert("This is a demo app, login is not required.");
+  };
 
   const handleLearnMore = () => {
-    alert('Please visit https://www.themoviedb.org/ for more information.');
-  }
+    alert("Please visit https://www.themoviedb.org/ for more information.");
+  };
 
   return (
     <section className="bg-center bg-no-repeat bg-[url('https://images.adsttc.com/media/images/5f7d/fef2/63c0/170a/9100/0273/slideshow/Jiangnan_Photography.jpg?1602092773')] bg-gray-700 bg-blend-multiply min-h-screen m-0.5">

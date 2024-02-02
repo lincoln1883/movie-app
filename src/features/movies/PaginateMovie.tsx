@@ -1,6 +1,6 @@
-import { Spinner } from 'flowbite-react';
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Spinner } from "flowbite-react";
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 interface Movie {
   id: number;
@@ -19,16 +19,15 @@ const PaginateMovie = () => {
     try {
       const apiKey = import.meta.env.VITE_APP_API_KEY;
       const response = await fetch(
-        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}`,
+        `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&page=${page}`
       );
       const data = await response.json();
       setMovies(data.results);
     } catch (error) {
-      console.error('Error fetching movies:', error);
+      console.error("Error fetching movies:", error);
     }
     setLoading(false);
   };
-
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
@@ -41,7 +40,7 @@ const PaginateMovie = () => {
 
   return (
     <>
-      <Link to={'/movies'} className="font-bold text-xl underline mb-2">
+      <Link to={"/movies"} className="font-bold text-xl underline mb-2">
         Popular Movies
       </Link>
       <div className="flex flex-col items-start bg-inherit overflow-auto">

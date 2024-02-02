@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import Movie from './Movie';
-import { fetchMovies } from './movieSlice';
-import { Pagination, Spinner } from 'flowbite-react';
-import MovieSearch from './MovieSearch';
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import Movie from "./Movie";
+import { fetchMovies } from "./movieSlice";
+import { Pagination, Spinner } from "flowbite-react";
+import MovieSearch from "./MovieSearch";
 
 const MovieList = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const dispatch = useAppDispatch();
   const movies = useAppSelector((state) => state.movies.movies);
-  const loading = useAppSelector((state) => state.movies.status === 'loading');
+  const loading = useAppSelector((state) => state.movies.status === "loading");
 
   useEffect(() => {
     const page = currentPage.toString();

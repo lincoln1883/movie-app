@@ -1,6 +1,6 @@
-import { Button, Modal } from 'flowbite-react';
-import { useState } from 'react';
-import Movie from './Movie';
+import { Button, Modal } from "flowbite-react";
+import { useState } from "react";
+import Movie from "./Movie";
 
 interface Trailer {
   id: string;
@@ -29,7 +29,7 @@ const MovieModal = ({ movies }: Props) => {
     try {
       if (apiKey && movies.id) {
         const response = await fetch(
-          `https://api.themoviedb.org/3/movie/${movies.id}/videos?api_key=${apiKey}&language=en-US`,
+          `https://api.themoviedb.org/3/movie/${movies.id}/videos?api_key=${apiKey}&language=en-US`
         );
         const data = await response.json();
         return data.results;

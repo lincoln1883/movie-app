@@ -1,29 +1,31 @@
-import {useEffect, useState} from 'react'
-import {useAppDispatch, useAppSelector} from '../../redux/store'
-import {fetchShows} from './showSlice'
-import { Spinner, Pagination } from 'flowbite-react';
-import Show from './Show';
-import ShowSearch from './ShowSearch';
+import { useEffect, useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { fetchShows } from "./showSlice";
+import { Spinner, Pagination } from "flowbite-react";
+import Show from "./Show";
+import ShowSearch from "./ShowSearch";
 
 const ShowList = () => {
   const [currentPage, setCurrentPage] = useState(1);
-	const dispatch = useAppDispatch();
-	const shows = useAppSelector((state) => state.shows.shows);
-	const loading = useAppSelector((state) => state.shows.status === 'loading');
+  const dispatch = useAppDispatch();
+  const shows = useAppSelector((state) => state.shows.shows);
+  const loading = useAppSelector((state) => state.shows.status === "loading");
 
-	useEffect(() => {
-    let page = currentPage.toString();
-		dispatch(fetchShows(page));
-	}, [dispatch, currentPage]);
+  useEffect(() => {
+    const page = currentPage.toString();
+    dispatch(fetchShows(page));
+  }, [dispatch, currentPage]);
 
   const onPageChange = (page: number) => {
     setCurrentPage(page);
-  }
+  };
 
-	return (
+  return (
     <div>
-      <ShowSearch /> 
-      <h1 className="text-center text-3xl font-semibold mb-2 capitalize">Popular shows</h1>
+      <ShowSearch />
+      <h1 className="text-center text-3xl font-semibold mb-2 capitalize">
+        Popular shows
+      </h1>
       {loading ? (
         <Spinner aria-label="Default status example" />
       ) : (
@@ -46,6 +48,6 @@ const ShowList = () => {
       </div>
     </div>
   );
-}
+};
 
-export default ShowList
+export default ShowList;

@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import 'react-circular-progressbar/dist/styles.css';
-import  { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
+import { Link } from "react-router-dom";
+import "react-circular-progressbar/dist/styles.css";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 
 type Show = {
   id: string | number;
@@ -36,11 +36,11 @@ const Show = ({ show }: Props) => {
             value={show.vote_average * 10}
             text={`${Math.round(show.vote_average) * 10}%`}
             styles={buildStyles({
-              backgroundColor: '#272525',
-              textSize: '18px',
-              pathColor: '#34E714',
-              textColor: '#34E714',
-              trailColor: '#d6d6d6',
+              backgroundColor: "#272525",
+              textSize: "18px",
+              pathColor: "#34E714",
+              textColor: "#34E714",
+              trailColor: "#d6d6d6",
             })}
           />
         </div>

@@ -1,6 +1,6 @@
-import { Link } from 'react-router-dom';
-import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
-import 'react-circular-progressbar/dist/styles.css';
+import { Link } from "react-router-dom";
+import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 type Movie = {
   id: string | number;
@@ -36,11 +36,11 @@ const Movie = ({ movie }: Props) => {
             value={movie.vote_average * 10}
             text={`${Math.round(movie.vote_average) * 10}%`}
             styles={buildStyles({
-              backgroundColor: '#272525',
-              textSize: '18px',
-              pathColor: '#34E714',
-              textColor: '#34E714',
-              trailColor: '#d6d6d6',
+              backgroundColor: "#272525",
+              textSize: "18px",
+              pathColor: "#34E714",
+              textColor: "#34E714",
+              trailColor: "#d6d6d6",
             })}
           />
         </div>

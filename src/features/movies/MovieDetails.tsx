@@ -1,9 +1,9 @@
-import { useParams, useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../redux/store';
-import { fetchMovieById } from './movieSlice';
-import { useEffect } from 'react';
-import MovieModal from './MovieModal';
-import { Rating, Spinner } from 'flowbite-react';
+import { useParams, useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import { fetchMovieById } from "./movieSlice";
+import { useEffect } from "react";
+import MovieModal from "./MovieModal";
+import { Rating, Spinner } from "flowbite-react";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -14,7 +14,7 @@ const MovieDetails = () => {
     dispatch(fetchMovieById(id as string));
   }, [dispatch, id]);
 
-  const loading = useAppSelector((state) => state.movies.status === 'loading');
+  const loading = useAppSelector((state) => state.movies.status === "loading");
   const movies = useAppSelector((state) => state.movies.movie);
 
   if (!movies) {
