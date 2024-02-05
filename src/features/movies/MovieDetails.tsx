@@ -4,6 +4,7 @@ import { fetchMovieById } from "./movieSlice";
 import { useEffect } from "react";
 import MovieModal from "./MovieModal";
 import { Rating, Spinner } from "flowbite-react";
+import MovieCredit from "../credits/MovieCredit";
 
 const MovieDetails = () => {
   const { id } = useParams();
@@ -76,6 +77,8 @@ const MovieDetails = () => {
           </div>
         )}
       </div>
+      <hr className="border m-4" />
+      <MovieCredit />
     </div>
   );
 };
