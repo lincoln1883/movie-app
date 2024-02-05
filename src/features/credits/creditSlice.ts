@@ -35,7 +35,6 @@ export const fetchMovieCredits = createAsyncThunk<
         const response = await axios.get(
         `${BASE_URL}/movie/${id}/credits?api_key=${apiKey}&language=en-US`);
         const result = response.data;
-        console.log(result.cast);
         return result.cast;
     } catch (error) {
         return thunkAPI.rejectWithValue('Failed to fetch movie credits');
