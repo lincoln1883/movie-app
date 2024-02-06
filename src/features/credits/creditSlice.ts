@@ -12,6 +12,7 @@ interface Credit {
   credit_id: string;
   profile_path: string;
   name: string;
+  known_for_department: string;
 }
 
 interface CreditState {
