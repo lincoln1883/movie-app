@@ -77,6 +77,7 @@ const ShowDetails = () => {
           </div>
         )}
       </div>
+      <hr className="border m-4" />
       <ShowCredit />
     </div>
   );
