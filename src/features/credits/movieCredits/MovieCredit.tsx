@@ -1,14 +1,14 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { fetchMovieCredits } from "./creditSlice";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
+import { fetchMovieCredits } from "./movieCreditSlice";
 import { Spinner } from "flowbite-react";
 
 const MovieCredit = () => {
   const { id } = useParams();
   const dispatch = useAppDispatch();
-  const credits = useAppSelector((state) => state.credits.credits);
-  const loading = useAppSelector((state) => state.credits.status === "loading");
+  const credits = useAppSelector((state) => state.movieCredits.credits);
+  const loading = useAppSelector((state) => state.movieCredits.status === "loading");
 
   useEffect(() => {
     dispatch(fetchMovieCredits(id as string));
@@ -24,7 +24,8 @@ const MovieCredit = () => {
         <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 justify-center sm:gap-2 px-1 pr-1 mb-8">
           {newCast.map((credit) => (
             <li key={credit.id} className="border-2 rounded-lg shadow-md">
-              {credit.profile_path === null || credit.profile_path === undefined ? (
+              {credit.profile_path === null ||
+              credit.profile_path === undefined ? (
                 <img
                   className="w-44 h-44 object-cover rounded-t-lg"
                   src="https://via.placeholder.com/300x450?text=No+Image"

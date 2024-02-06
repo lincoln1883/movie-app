@@ -4,7 +4,7 @@ import { fetchMovieById } from "./movieSlice";
 import { useEffect } from "react";
 import MovieModal from "./MovieModal";
 import { Rating, Spinner } from "flowbite-react";
-import MovieCredit from "../credits/MovieCredit";
+import MovieCredit from "../credits/movieCredits/MovieCredit";
 
 const MovieDetails = () => {
   const { id } = useParams();

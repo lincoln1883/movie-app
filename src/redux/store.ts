@@ -2,13 +2,15 @@ import { configureStore } from "@reduxjs/toolkit";
 import movieReducer from "../features/movies/movieSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import showReducer from "../features/shows/showSlice";
-import creditsReducer from "../features/credits/creditSlice";
+import movieCreditsReducer from "../features/credits/movieCredits/movieCreditSlice";
+import showCreditsReducer from "../features/credits/showCredits/showCreditSlice";
 
 const store = configureStore({
   reducer: {
     movies: movieReducer,
     shows: showReducer,
-    credits: creditsReducer,
+    movieCredits: movieCreditsReducer,
+    showCredits: showCreditsReducer,
   },
 });
 

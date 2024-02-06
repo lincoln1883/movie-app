@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
+import {createSlice, PayloadAction, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const apiKey = import.meta.env.VITE_APP_API_KEY;
@@ -27,38 +27,39 @@ const initialState: CreditState = {
   error: null,
 };
 
-export const fetchMovieCredits = createAsyncThunk<
+export const fetchShowCredits = createAsyncThunk<
   Credit[],
   string,
   {rejectValue: string}
->('credits/fetchMovieCredits', async (id, thunkAPI) => {
+>('credits/fetchShowCredits', async (id, thunkAPI) => {
     try {
         const response = await axios.get(
-        `${BASE_URL}/movie/${id}/credits?api_key=${apiKey}&language=en-US`);
+        `${BASE_URL}/tv/${id}/credits?api_key=${apiKey}&language=en-US`);
         const result = response.data;
+        console.log(result.cast);
         return result.cast;
     } catch (error) {
-        return thunkAPI.rejectWithValue('Failed to fetch movie credits');
+        return thunkAPI.rejectWithValue('Failed to fetch show credits');
     }
 });
 
-export const creditSlice = createSlice({
+export const showCreditSlice = createSlice({
     name: 'credits',
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        builder.addCase(fetchMovieCredits.pending, (state) => {
+        builder.addCase(fetchShowCredits.pending, (state) => {
         state.status = 'loading';
         });
-        builder.addCase(fetchMovieCredits.fulfilled, (state, action: PayloadAction<Credit[]>) => {
+        builder.addCase(fetchShowCredits.fulfilled, (state, action: PayloadAction<Credit[]>) => {
         state.status = 'success';
         state.credits = action.payload;
         });
-        builder.addCase(fetchMovieCredits.rejected, (state, action) => {
+        builder.addCase(fetchShowCredits.rejected, (state, action) => {
         state.status = 'failed';
         state.error = action.payload as string;
         });
-    },
+    }
 });
 
-export default creditSlice.reducer;
+export default showCreditSlice.reducer;

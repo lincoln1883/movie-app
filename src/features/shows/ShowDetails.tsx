@@ -4,6 +4,7 @@ import { fetchShowById } from "./showSlice";
 import { useParams, useNavigate } from "react-router-dom";
 import { Spinner, Rating } from "flowbite-react";
 import ShowModal from "./ShowModal";
+import ShowCredit from "../credits/showCredits/ShowCredit";
 
 const ShowDetails = () => {
   const { id } = useParams();
@@ -76,6 +77,7 @@ const ShowDetails = () => {
           </div>
         )}
       </div>
+      <ShowCredit />
     </div>
   );
 };
