@@ -7,11 +7,12 @@ const express_1 = __importDefault(require("express"));
 const passport_1 = __importDefault(require("passport"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const userRoutes_1 = require("./routes/users/userRoutes");
 dotenv_1.default.config();
 mongoose_1.default
     .connect(process.env.MONGO_URI)
     .then(() => {
-    console.log('MongoDb is connected');
+    console.log("MongoDb is connected");
 })
     .catch((err) => {
     console.log(err);
@@ -24,6 +25,7 @@ app.use(passport_1.default.initialize());
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
+app.use("/api", userRoutes_1.signUp);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
