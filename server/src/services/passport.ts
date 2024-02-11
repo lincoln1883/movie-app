@@ -1,30 +1,26 @@
 import passport from 'passport';
-import JwtStrategy from "passport-jwt";
-import { ExtractJwt } from "passport-jwt";
+import {Strategy as JwtStrategy, ExtractJwt} from "passport-jwt";
 import dotenv from 'dotenv';
-import mongoose from 'mongoose';
+import User from '../models/User';
 
 dotenv.config();
-const User = mongoose.model("User");
-
-passport.serializeUser((user, done) => {
-  done(null, user);
-});
-
-passport.deserializeUser((id, done) => {
-  User.findById(id).then(user => {
-    done(null, user);
-  });
-});
 
 const jwtOptions = {
     jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
     secretOrKey: process.env.JWT_SECRET as string,
   };
   
-  passport.use(new JwtStrategy.Strategy(jwtOptions, (payload, done) => {
-    if (payload) {
-      return done(null, payload);
-    }
-    return done(null, false);
+  passport.use(new JwtStrategy(jwtOptions, async (jwtPayload, done) => {
+		try {
+			const user = await User.findById(jwtPayload.userId);
+			if (!user) {
+				return done(null, false);
+			}
+			return done(null, user);
+		} catch (error: unknown | any) {
+			done(error, false);
+			throw error as Error;
+		}
   }));
+
+	export default passport;
