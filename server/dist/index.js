@@ -8,6 +8,7 @@ const passport_1 = __importDefault(require("passport"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const dotenv_1 = __importDefault(require("dotenv"));
 const userRoutes_1 = require("./routes/users/userRoutes");
+const loginRoute_1 = require("./routes/auth/loginRoute");
 dotenv_1.default.config();
 mongoose_1.default
     .connect(process.env.MONGO_URI)
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
     res.send("Hello World!");
 });
 app.use("/api", userRoutes_1.signUp);
+app.use("/api/auth", loginRoute_1.login);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

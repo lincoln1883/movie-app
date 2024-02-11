@@ -14,38 +14,38 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const User_1 = __importDefault(require("../../models/User"));
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const passwordHelper_1 = require("../../utils/passwordHelper");
-const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const dotenv_1 = __importDefault(require("dotenv"));
+dotenv_1.default.config();
+const secret = process.env.JWT_SECRET;
+const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { username, email, password } = req.body;
-        if (!username ||
-            !email ||
-            !password ||
-            username === "" ||
-            email === "" ||
-            password === "") {
+        const { email, password } = req.body;
+        if (!email || !password || email === "" || password === "") {
             return res.status(400).json({ error: "All fields are required" });
         }
-        if (email.indexOf("@") === -1 || email.indexOf(".") === -1) {
-            return res.status(400).json({ error: "Invalid email" });
+        const user = yield User_1.default.findOne({ email });
+        if (!user) {
+            return res.status(404).json({ error: "User not found" });
         }
         if (!(0, passwordHelper_1.verifyPassword)(password)) {
-            return res
-                .status(400)
-                .json({ error: "Password must be at least 6 characters uppercase, lowercase and digit." });
+            return res.status(400).json({
+                error: "Password must be at least 6 characters uppercase, lowercase and digit.",
+            });
         }
-        const existingUser = yield User_1.default.findOne({ email });
-        if (existingUser) {
-            return res.status(409).json({ error: "User already exists" });
+        const isPasswordValid = yield bcrypt_1.default.compare(password, user.password);
+        if (!isPasswordValid) {
+            return res.status(401).json({ error: "Invalid password" });
         }
-        const hashedPassword = yield bcrypt_1.default.hashSync(password, 10);
-        const user = new User_1.default({ username, email, password: hashedPassword });
-        yield user.save();
-        return res.status(201).json((0, passwordHelper_1.omitPassword)(user.toObject()));
+        const token = jsonwebtoken_1.default.sign({ userId: user._id }, secret, { expiresIn: "1h" });
+        // Generate the user object to return without the password
+        const userObject = (0, passwordHelper_1.omitPassword)(user.toObject());
+        return res.status(200).json({ token, userObject });
     }
     catch (error) {
         res.status(500).json({ error: error.message });
         throw error;
     }
 });
-exports.default = createUser;
+exports.default = loginUser;
