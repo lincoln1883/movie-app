@@ -22,5 +22,6 @@ const verifyPassword = (password) => {
     if (!regex.test(password)) {
         return false;
     }
+    return true;
 };
 exports.verifyPassword = verifyPassword;

@@ -19,5 +19,6 @@ export const verifyPassword = (password: string) => {
 	if (!regex.test(password)) {
 		return false;
 	}
+	return true;
 }
 
