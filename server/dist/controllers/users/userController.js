@@ -26,6 +26,10 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             password === "") {
             return res.status(400).json({ error: "All fields are required" });
         }
+        const nameInUse = yield User_1.default.findOne({ username }).exec();
+        if (nameInUse) {
+            return res.status(409).json({ error: "Username already taken, try again" });
+        }
         if (email.indexOf("@") === -1 || email.indexOf(".") === -1) {
             return res.status(400).json({ error: "Invalid email" });
         }
