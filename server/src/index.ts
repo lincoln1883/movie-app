@@ -3,6 +3,7 @@ import passport from "passport";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import { signUp } from "./routes/users/userRoutes";
+import { login } from "./routes/auth/loginRoute";
 
 dotenv.config();
 
@@ -28,6 +29,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api", signUp);
+app.use("/api/auth", login);
 
 app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
