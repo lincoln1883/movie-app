@@ -7,12 +7,14 @@ import Home from "./components/Home";
 import ShowDetails from "./features/shows/ShowDetails";
 import ShowList from "./features/shows/ShowList";
 import NotFound from "./components/NotFound";
+import UserCreate from "./features/users/UserCreate";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
+        <Route path="/signup" element={<UserCreate />} />
         <Route path="/movies" element={<MovieList />} />
         <Route path="/movies/:id" element={<MovieDetails />} />
         <Route path="/shows" element={<ShowList />} />

@@ -4,6 +4,8 @@ import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import showReducer from "../features/shows/showSlice";
 import movieCreditsReducer from "../features/credits/movieCredits/movieCreditSlice";
 import showCreditsReducer from "../features/credits/showCredits/showCreditSlice";
+import userReducer from "../features/users/userSlice";
+import authReducer from "../features/auth/authSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,6 +13,8 @@ const store = configureStore({
     shows: showReducer,
     movieCredits: movieCreditsReducer,
     showCredits: showCreditsReducer,
+    registeredUser: userReducer,
+    auth: authReducer,
   },
 });
 

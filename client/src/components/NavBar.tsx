@@ -18,6 +18,9 @@ const NavBar = () => {
         <Navbar.Link as={Link} to="/shows">
           Shows
         </Navbar.Link>
+        <Navbar.Link as={Link} to="/signup">
+          Sign Up
+        </Navbar.Link>
       </Navbar.Collapse>
     </Navbar>
   );
