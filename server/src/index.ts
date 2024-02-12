@@ -2,6 +2,7 @@ import express from "express";
 import passport from "passport";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cors from "cors";
 import { signUp } from "./routes/users/userRoutes";
 import { login } from "./routes/auth/loginRoute";
 
@@ -19,6 +20,7 @@ mongoose
 const app = express();
 const port = process.env.PORT;
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
