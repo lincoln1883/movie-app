@@ -1,32 +1,83 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-const initialState = {
-  user: null,
+const BASE_URL = "http://localhost:5000/api";
+
+interface Auth {
+  id: string;
+  username: string;
+  email: string;
+  password: string;
+  token: string;
+}
+
+interface AuthState {
+  currentUser: Auth | null;
+  status: "idle" | "loading" | "failed" | "success";
+  error: string | null;
+}
+
+const initialState: AuthState = {
+  currentUser: null,
   status: "idle",
   error: null,
 };
+
+export const loginUser = createAsyncThunk<Auth, object, { rejectValue: string }>(
+  "auth/loginUser",
+  async (user, thunkAPI) => {
+    thunkAPI.dispatch(loginPending());
+    try {
+      const response = await axios.post(`${BASE_URL}/auth/login`, user);
+      thunkAPI.dispatch(loginSuccess(response.data.user));
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("currentUser", JSON.stringify(response.data.userObject));
+      return response.data.userObject;
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (error: unknown | any) {
+      thunkAPI.dispatch(loginFailed(error.response.data.error));
+      return thunkAPI.rejectWithValue(error.response.data.error);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    registerPending: (state) => {
+    loginPending: (state) => {
       state.status = "loading";
     },
-    registerSuccess: (state, action) => {
+    loginSuccess: (state, action) => {
       state.status = "success";
-      state.user = action.payload;
+      state.currentUser = action.payload;
       state.error = null;
     },
-    registerFailed: (state, action) => {
+    loginFailed: (state, action) => {
       state.status = "failed";
       state.error = action.payload;
     },
     clearError: (state) => {
       state.error = null;
-    }
+    },
+    logout: (state) => {
+      state.currentUser = null;
+      localStorage.removeItem("token");
+      localStorage.removeItem("currentUser");
+    },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(loginUser.pending, (state) => {
+      state.status = "loading";
+    }).addCase(loginUser.fulfilled, (state, action) => {
+      state.status = "success";
+      state.currentUser = action.payload;
+      state.error = null;
+    }).addCase(loginUser.rejected, (state, action) => {
+      state.error = action.payload as string;
+    });
   },
 });
 
-export const { registerPending, registerSuccess, registerFailed, clearError } = authSlice.actions;
+export const {loginPending, loginSuccess,loginFailed, clearError,logout } = authSlice.actions;
 export default authSlice.reducer;
