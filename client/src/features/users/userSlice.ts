@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_APP_SERVER_URL;
-console.log(BASE_URL)
 
 interface User {
   id: string; 
