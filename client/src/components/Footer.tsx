@@ -11,7 +11,7 @@ const AppFooter = () => {
 							<Footer.Title title="about" />
 							<Footer.LinkGroup col>
 								<Footer.Link href="#">Pipoca digital</Footer.Link>
-								<Footer.Link href="#">Team</Footer.Link>
+								<Footer.Link href="#">Meet The Team</Footer.Link>
 							</Footer.LinkGroup>
 						</div>
 						<div>
