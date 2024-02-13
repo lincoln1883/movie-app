@@ -1,9 +1,8 @@
 import { Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../redux/store";
-import { FormEvent, useState } from "react";
-import { createUser } from "./userSlice";
-import { clearError } from "../auth/authSlice";
+import { FormEvent, useEffect, useState } from "react";
+import { createUser,clearError } from "./userSlice";
 
 interface User {
 	username: string;
@@ -19,6 +18,8 @@ const UserCreate = () => {
 		password: "",
 	});
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const success = useAppSelector((state) => state.registeredUser.status);
   const error = useAppSelector((state) => state.registeredUser.error);
 
 	const handleSubmit = (e: FormEvent) => {
@@ -35,8 +36,17 @@ const UserCreate = () => {
 		setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
 	};
 
+	useEffect(() => {
+		if (userInfo.username && userInfo.email && userInfo.password) {
+			setButtonDisabled(false);
+		}
+		if(success === 'success'){
+			navigate('/login');
+		}
+	}, [navigate, userInfo, success]);
+
 	return (
-		<div className="flex flex-col justify-center items-center w-80 h-screen mx-2 sm:min-h-screen sm:min-w-full">
+		<div className="flex flex-col justify-start mt-3 sm:justify-center items-center w-80 h-screen mx-2 sm:min-h-screen sm:min-w-full">
 			<h1 className="text-2xl font-semibold mb-4">Sign Up</h1>
 			<form
 				className="flex w-full max-w-md flex-col gap-4"
@@ -44,7 +54,7 @@ const UserCreate = () => {
 			>
 				<div>
 					<div className="mb-2 block">
-						<Label htmlFor="username" value="Your name" />
+						<Label htmlFor="username" value="Username" />
 					</div>
 					<TextInput
 						id="username"
@@ -57,7 +67,7 @@ const UserCreate = () => {
 				</div>
 				<div>
 					<div className="mb-2 block">
-						<Label htmlFor="email" value="Your email" />
+						<Label htmlFor="email" value="Email" />
 					</div>
 					<TextInput
 						id="email"
@@ -70,7 +80,7 @@ const UserCreate = () => {
 				</div>
 				<div>
 					<div className="mb-2 block">
-						<Label htmlFor="password" value="Your password" />
+						<Label htmlFor="password" value="Password" />
 					</div>
 					<TextInput
 						id="password"
@@ -95,7 +105,7 @@ const UserCreate = () => {
 			</form>
 			<div className="flex gap-2 text-sm mt-5">
 				<span>Have an account?</span>
-				<Link to="/sign-in" className="text-blue-500">
+				<Link to="/login" className="text-blue-500">
 					Sign In
 				</Link>
 			</div>
