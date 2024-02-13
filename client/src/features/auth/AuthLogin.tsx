@@ -44,7 +44,7 @@ const AuthLogin: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col justify-start mt-3 sm:justify-center items-center w-80 h-screen mx-2 sm:min-h-screen sm:min-w-full">
+    <div className="flex flex-col justify-start my-10  sm:justify-center items-center w-80 h-full mx-2 sm:min-h-full sm:min-w-full">
       <h1 className="text-2xl font-semibold mb-4">Login</h1>
       <form
         className="flex w-full max-w-md flex-col gap-4"
