@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "./NavBar";
-import Footer from "./Footer";
+import AppFooter from "./Footer";
 
 const Layout = () => (
   <div className="min-w-full overscroll-x-none">
@@ -11,7 +11,7 @@ const Layout = () => (
       <div className="flex justify-center items-center">
         <Outlet />
       </div>
-      <Footer />
+      <AppFooter />
     </main>
   </div>
 );

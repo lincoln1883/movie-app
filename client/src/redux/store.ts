@@ -14,7 +14,7 @@ const store = configureStore({
     movieCredits: movieCreditsReducer,
     showCredits: showCreditsReducer,
     registeredUser: userReducer,
-    auth: authReducer,
+    currentUser: authReducer,
   },
 });
 
