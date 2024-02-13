@@ -1,11 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import { registerPending, registerFailed, registerSuccess } from '../auth/authSlice';
 import axios from 'axios';
 
 const BASE_URL = 'http://localhost:5000/api';
 
 interface User {
-  id: string;
+  id: string; 
   username: string;
   email: string;
   password: string;
@@ -26,37 +25,54 @@ const initialState: UserState = {
 export const createUser = createAsyncThunk<User, object, { rejectValue: string }>(
   'user/createUser',
   async (user, thunkAPI) => {
-    registerPending();
+    thunkAPI.dispatch(registerPending());
     try {
       const response = await axios.post(`${BASE_URL}/signup`, user);
-      registerSuccess(response.data);
+      thunkAPI.dispatch(registerSuccess(response.data));
       return response.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: unknown | any) {
-      registerFailed(error.response.data.error);
+      thunkAPI.dispatch(registerFailed(error.response.data.error));
       return thunkAPI.rejectWithValue(error.response.data.error);
     }
   }
 );
 
 const userSlice = createSlice({
-  name: 'user',
-  initialState,
-  reducers: {},
-  extraReducers: (builder) => {
-    builder
-      .addCase(createUser.pending, (state) => {
-        state.status = 'loading';
-      })
-      .addCase(createUser.fulfilled, (state, action) => {
-        state.status = 'success';
-        state.user = action.payload;
-      })
-      .addCase(createUser.rejected, (state, action) => {
-        state.status = 'failed';
-        state.error = action.payload as string;
-      });
-  },
+	name: "user",
+	initialState,
+	reducers: {
+		registerPending: (state) => {
+			state.status = "loading";
+		},
+		registerSuccess: (state, action) => {
+			state.status = "success";
+			state.user = action.payload;
+			state.error = null;
+		},
+		registerFailed: (state, action) => {
+			state.status = "failed";
+			state.error = action.payload;
+		},
+		clearError: (state) => {
+			state.error = null;
+		},
+	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(createUser.pending, (state) => {
+				state.status = "loading";
+			})
+			.addCase(createUser.fulfilled, (state, action) => {
+				state.status = "success";
+				state.user = action.payload;
+			})
+			.addCase(createUser.rejected, (state, action) => {
+				state.status = "failed";
+				state.error = action.payload as string;
+			});
+	},
 });
 
+export const { registerPending, registerSuccess, registerFailed, clearError } = userSlice.actions;
 export default userSlice.reducer;
