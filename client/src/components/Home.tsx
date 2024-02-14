@@ -4,9 +4,9 @@ import Jumbotron from "./Jumbotron";
 
 const Home = () => {
   return (
-    <div className="relative overflow-hidden">
+    <div className="relative w-full h-full overflow-hidden">
       <Jumbotron />
-      {/* <div className="flex flex-col gap-1 w-full h-full object-cover m-3">
+      {/* <div className="flex flex-col gap-1 object-cover m-3">
         <PaginateMovie />
         <PaginateShow />
       </div> */}
