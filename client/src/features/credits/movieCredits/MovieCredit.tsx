@@ -20,6 +20,7 @@ const MovieCredit = () => {
     <>
       <h1 className="text-xl font-bold mb-4">Main Cast</h1>
       <div className="flex justify-center">
+        {newCast.length === 0 && <h1>No cast found</h1> }
         {loading && <Spinner aria-label="Default status example" />}
         <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 justify-center sm:gap-2 px-1 pr-1 mb-8">
           {newCast.map((credit) => (
