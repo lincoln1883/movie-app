@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_APP_LOCAL_URL;
+const BASE_URL = import.meta.env.VITE_APP_SERVER_URL;
 const token = localStorage.getItem("token") as string;
 
 interface Comment {
