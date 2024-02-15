@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const User_1 = __importDefault(require("../../models/User"));
+const User_1 = __importDefault(require("../../models/users/User"));
 const passwordHelper_1 = require("../../utils/passwordHelper");
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -28,7 +28,9 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         const nameInUse = yield User_1.default.findOne({ username }).exec();
         if (nameInUse) {
-            return res.status(409).json({ error: "Username already taken, try again" });
+            return res
+                .status(409)
+                .json({ error: "Username already taken, try again" });
         }
         if (email.indexOf("@") === -1 || email.indexOf(".") === -1) {
             return res.status(400).json({ error: "Invalid email" });
@@ -36,7 +38,9 @@ const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         if (!(0, passwordHelper_1.verifyPassword)(password)) {
             return res
                 .status(400)
-                .json({ error: "Password must be at least 6 characters uppercase, lowercase and digit." });
+                .json({
+                error: "Password must be at least 6 characters uppercase, lowercase and digit.",
+            });
         }
         const existingUser = yield User_1.default.findOne({ email });
         if (existingUser) {

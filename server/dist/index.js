@@ -10,6 +10,8 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const userRoutes_1 = require("./routes/users/userRoutes");
 const loginRoute_1 = require("./routes/auth/loginRoute");
+const movieComments_1 = require("./routes/comments/movieComments");
+const showComments_1 = require("./routes/comments/showComments");
 dotenv_1.default.config();
 mongoose_1.default
     .connect(process.env.MONGO_URI)
@@ -30,6 +32,10 @@ app.get("/", (req, res) => {
 });
 app.use("/api", userRoutes_1.signUp);
 app.use("/api/auth", loginRoute_1.login);
+app.use("/api", movieComments_1.postMovieComment);
+app.use("/api", movieComments_1.getMovieComments);
+app.use("/api", showComments_1.postShowComment);
+app.use("/api", showComments_1.getShowComments);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

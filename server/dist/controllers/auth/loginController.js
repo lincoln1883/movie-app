@@ -13,7 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const bcrypt_1 = __importDefault(require("bcrypt"));
-const User_1 = __importDefault(require("../../models/User"));
+const User_1 = __importDefault(require("../../models/users/User"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const passwordHelper_1 = require("../../utils/passwordHelper");
 const dotenv_1 = __importDefault(require("dotenv"));
@@ -38,7 +38,7 @@ const loginUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!isPasswordValid) {
             return res.status(401).json({ error: "Invalid password" });
         }
-        const token = jsonwebtoken_1.default.sign({ userId: user._id }, secret, { expiresIn: "1h" });
+        const token = jsonwebtoken_1.default.sign({ userId: user._id }, secret, { expiresIn: "3h" });
         // Generate the user object to return without the password
         const userObject = (0, passwordHelper_1.omitPassword)(user.toObject());
         return res.status(200).json({ token, userObject });

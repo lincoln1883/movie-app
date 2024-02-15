@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
-import User from "../../models/User";
+import User from "../../models/users/User";
 import jwt from "jsonwebtoken";
 import { omitPassword, verifyPassword } from "../../utils/passwordHelper";
 import dotenv from "dotenv";
@@ -37,7 +37,7 @@ const loginUser = async (req: Request, res: Response) => {
 		if (!isPasswordValid) {
 			return res.status(401).json({ error: "Invalid password" });
 		}
-		const token = jwt.sign({ userId: user._id }, secret, { expiresIn: "1h" });
+		const token = jwt.sign({ userId: user._id }, secret, { expiresIn: "3h" });
 		// Generate the user object to return without the password
 		const userObject = omitPassword(user.toObject() as UserType);
 		return res.status(200).json({ token, userObject });
