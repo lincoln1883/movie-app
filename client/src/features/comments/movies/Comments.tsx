@@ -25,12 +25,16 @@ const Comments = () => {
 
 	return (
 		<div className="flex flex-col gap-1 w-full">
-			<div className="flex relative mt-4">
-				<FaComment className="text-2xl text-blue-600" />
-				<p className="text-center text-xs absolute bottom-2.5 left-5 w-4 mb-1 bg-red-600 rounded-full text-white">
-					{commentsCount}
-				</p>
-			</div>
+			{commentsCount === 0 ? (
+				<p className="text-center">There are no comments yet!</p>
+			) : (
+				<div className="flex relative mt-4">
+					<FaComment className="text-2xl text-blue-600" />
+					<p className="text-center text-xs absolute bottom-2.5 left-5 w-4 mb-1 bg-red-600 rounded-full text-white">
+						{commentsCount}
+					</p>
+				</div>
+			)}
 			{status === "loading" && <Spinner aria-label="Loading" />}
 			{status === "failed" && <div>{error}</div>}
 			<ul>
