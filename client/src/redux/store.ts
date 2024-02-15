@@ -6,16 +6,18 @@ import movieCreditsReducer from "../features/credits/movieCredits/movieCreditSli
 import showCreditsReducer from "../features/credits/showCredits/showCreditSlice";
 import userReducer from "../features/users/userSlice";
 import authReducer from "../features/auth/authSlice";
+import commentReducer from "../features/comments/movies/commentSlice";
 
 const store = configureStore({
-  reducer: {
-    movies: movieReducer,
-    shows: showReducer,
-    movieCredits: movieCreditsReducer,
-    showCredits: showCreditsReducer,
-    registeredUser: userReducer,
-    currentUser: authReducer,
-  },
+	reducer: {
+		movies: movieReducer,
+		shows: showReducer,
+		movieCredits: movieCreditsReducer,
+		showCredits: showCreditsReducer,
+		registeredUser: userReducer,
+		currentUser: authReducer,
+		comments: commentReducer,
+	},
 });
 
 export type RootState = ReturnType<typeof store.getState>;

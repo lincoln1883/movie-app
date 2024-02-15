@@ -6,6 +6,8 @@ import MovieModal from "./MovieModal";
 import { Rating, Spinner } from "flowbite-react";
 import MovieCredit from "../credits/movieCredits/MovieCredit";
 import { FaBackspace } from "react-icons/fa";
+import Comments from "../comments/movies/Comments";
+import CommentModal from "../comments/movies/MovieComments";
 
 const MovieDetails = () => {
 	const { id } = useParams();
@@ -75,28 +77,13 @@ const MovieDetails = () => {
 									<span className="text-lg font-bold">Released: </span>
 									{movies.release_date}
 								</p>
-								<div className="flex justify-center items-center">
+								<div className="flex gap-3 items-center w-full">
 									<MovieModal movies={movies} />
+									<CommentModal movies={movies} />
 								</div>
 							</div>
-							<div className="flex flex-col justify-center gap-1 items-start flex-1 px-3">
-								<div className="flex flex-col gap-1 w-full">
-									<form className="w-full">
-										<label htmlFor="review">Review:</label>
-										<textarea
-											name="review"
-											id="review"
-											placeholder="Write a review..."
-											className="w-full h-40 p-2 rounded-lg shadow-md"
-										></textarea>
-										<button
-											type="submit"
-											className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-										>
-											Submit
-										</button>
-									</form>
-								</div>
+							<div className="flex flex-col justify-center items-start flex-1 px-3 my-3">
+								<Comments />
 							</div>
 						</div>
 					</div>

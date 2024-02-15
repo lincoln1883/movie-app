@@ -5,7 +5,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Spinner, Rating } from "flowbite-react";
 import ShowModal from "./ShowModal";
 import ShowCredit from "../credits/showCredits/ShowCredit";
-import { FaBackspace, FaThumbsUp } from "react-icons/fa";
+import { FaBackspace } from "react-icons/fa";
+import ShowCommentsModal from "../comments/shows/ShowCommentsModal";
+import Comments from "../comments/shows/Comments";
 
 const ShowDetails = () => {
 	const { id } = useParams();
@@ -36,13 +38,13 @@ const ShowDetails = () => {
 
 	return (
 		<div className="m-5 sm:mx-12 mt-5">
-      <div className="h-10 flex shadow-md">
-        <FaBackspace
-          className="text-blue-500 text-2xl mx-1 self-center"
-          onClick={goBack}
-        />
-        <span className="self-center">Go Back</span>
-      </div>
+			<div className="h-10 flex shadow-md">
+				<FaBackspace
+					className="text-blue-500 text-2xl mx-1 self-center"
+					onClick={goBack}
+				/>
+				<span className="self-center">Go Back</span>
+			</div>
 			<div className="flex min-h-screen w-100">
 				{loading ? (
 					<Spinner aria-label="Default status example" />
@@ -77,27 +79,11 @@ const ShowDetails = () => {
 								</p>
 								<div className="flex justify-center gap-4 items-center">
 									<ShowModal show={show} />
-                  <FaThumbsUp className="text-2xl text-blue-500" />
+									<ShowCommentsModal shows={show} />
 								</div>
 							</div>
 							<div className="flex flex-col justify-center gap-1 items-start flex-1 px-3">
-								<div className="flex flex-col gap-1 w-full">
-									<form className="w-full">
-										<label htmlFor="review">Review:</label>
-										<textarea
-											name="review"
-											id="review"
-											placeholder="Write a review..."
-											className="w-full h-40 p-2 rounded-lg shadow-md"
-										></textarea>
-										<button
-											type="submit"
-											className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-										>
-											Submit
-										</button>
-									</form>
-								</div>
+								<Comments />
 							</div>
 						</div>
 					</div>
