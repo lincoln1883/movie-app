@@ -30,12 +30,24 @@ app.use(passport_1.default.initialize());
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });
+// Users routes
 app.use("/api", userRoutes_1.signUp);
+app.use("/api", userRoutes_1.updateUser);
+app.use("/api", userRoutes_1.removeUser);
+app.use("/api", userRoutes_1.readUser);
+app.use("/api", userRoutes_1.readUsers);
+// auth routes
 app.use("/api/auth", loginRoute_1.login);
+// Movie comments routes
 app.use("/api", movieComments_1.postMovieComment);
 app.use("/api", movieComments_1.getMovieComments);
+app.use("/api", movieComments_1.putMovieComment);
+app.use("/api", movieComments_1.removeMovieComment);
+// Show comments routes
 app.use("/api", showComments_1.postShowComment);
 app.use("/api", showComments_1.getShowComments);
+app.use("/api", showComments_1.putShowComment);
+app.use("/api", showComments_1.removeShowComment);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
