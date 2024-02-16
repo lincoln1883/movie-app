@@ -21,12 +21,15 @@ const UserSchema = new mongoose_1.default.Schema({
     },
     profilePicture: {
         type: String,
-        default: "",
+        default: "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
     },
-    createdAt: {
-        type: Date,
-        default: new Date(),
+    likedComments: {
+        type: [String],
+        default: [],
+        ref: "Comment",
     },
+}, {
+    timestamps: true,
 });
 const User = mongoose_1.default.model("User", UserSchema);
 exports.default = User;
