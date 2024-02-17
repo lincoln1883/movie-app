@@ -61,8 +61,8 @@ const MovieCommentsModal = ({ movies }: Props) => {
 							<input type="hidden" name="movieId" value={movie} />
 							<input type="hidden" name="userId" value={user._id} />
 							<textarea
-								name="comment"
-								id="comment"
+								name="content"
+								id="content"
 								placeholder="Write a comment..."
 								value={content.content}
 								className="w-full h-40 p-2 rounded-lg shadow-md"
