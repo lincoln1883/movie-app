@@ -8,8 +8,11 @@ interface Comment {
   _id?: string;
   movieId: string | number;
   userId: string;
-  comment: string;
+  content: string;
   createdAt?: string;
+  updatedAt?: string;
+  likes?: number;
+  dislikes?: number;
 }
 
 interface CommentState {
@@ -33,7 +36,7 @@ export const fetchComments = createAsyncThunk<
 >('comments/fetchComments', async (showId, thunkAPI) => {
   try {
     const response = await axios.get(`${BASE_URL}/comments/${showId}`);
-    return response.data;
+    return response.data.comments;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: unknown | any) {
     return thunkAPI.rejectWithValue(
