@@ -2,12 +2,14 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 const BASE_URL = import.meta.env.VITE_APP_SERVER_URL;
+const token = localStorage.getItem("token") as string;
 
 interface User {
   id: string; 
   username: string;
   email: string;
   password: string;
+	profilePicture: string;
 }
 
 interface UserState {
@@ -36,6 +38,24 @@ export const createUser = createAsyncThunk<User, object, { rejectValue: string }
       return thunkAPI.rejectWithValue(error.response.data.error);
     }
   }
+);
+
+export const fetchUser = createAsyncThunk<User, string, { rejectValue: string }>(
+	'user/fetchUser',
+	async (id, thunkAPI) => {
+		try {
+			const response = await axios.get(`${BASE_URL}/users/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			console.log(response.data);
+			return response.data;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: unknown | any) {
+			return thunkAPI.rejectWithValue(error.response.data.error);
+		}
+	}
 );
 
 const userSlice = createSlice({
