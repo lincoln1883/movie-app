@@ -11,15 +11,15 @@ interface Props {
 interface Comment {
 	movieId: string;
 	userId: string;
-	comment: string;
+	content: string;
 }
 
 const MovieCommentsModal = ({ movies }: Props) => {
 	const [openModal, setOpenModal] = useState(false);
-	const [comment, setComment] = useState<Comment>({
+	const [content, setContent] = useState<Comment>({
 		movieId: "",
 		userId: "",
-		comment: "",
+		content: "",
 	});
 	const user = JSON.parse(localStorage.getItem("currentUser")!) as {
 		_id: string;
@@ -29,15 +29,15 @@ const MovieCommentsModal = ({ movies }: Props) => {
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		dispatch(createComment(comment));
-		setComment({ movieId: "", userId: "", comment: "" });
+		dispatch(createComment(content));
+		setContent({ movieId: "", userId: "", content: "" });
 		setOpenModal(false);
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const { name, value } = e.target;
-		setComment({
-			...comment,
+		setContent({
+			...content,
 			[name]: value,
 			userId: user?._id,
 			movieId: movie,
@@ -64,7 +64,7 @@ const MovieCommentsModal = ({ movies }: Props) => {
 								name="comment"
 								id="comment"
 								placeholder="Write a comment..."
-								value={comment.comment}
+								value={content.content}
 								className="w-full h-40 p-2 rounded-lg shadow-md"
 								onChange={handleChange}
 								required
