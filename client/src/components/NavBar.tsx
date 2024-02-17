@@ -59,7 +59,7 @@ const NavBar = () => {
 								Sign out
 							</Dropdown.Item>
 						</Dropdown>
-						<Navbar.Toggle />
+						<Navbar.Toggle  />
 					</div>
 					<Navbar.Collapse>
 						<Navbar.Link as={Link} to="/" active>
@@ -73,28 +73,8 @@ const NavBar = () => {
 						</Navbar.Link>
 					</Navbar.Collapse>
 				</>
-			) : (
-				<>
-					<Navbar.Toggle />
-					<Navbar.Collapse>
-						<Navbar.Link as={Link} to="/" active>
-							Home
-						</Navbar.Link>
-						<Navbar.Link as={Link} to="/movies">
-							Movies
-						</Navbar.Link>
-						<Navbar.Link as={Link} to="/shows">
-							Shows
-						</Navbar.Link>
-						<Navbar.Link as={Link} to="/signup">
-							Register
-						</Navbar.Link>
-						<Navbar.Link as={Link} to="/login">
-							Login
-						</Navbar.Link>
-					</Navbar.Collapse>
-				</>
-			)}
+			) : null
+			}
 		</Navbar>
 	);
 };

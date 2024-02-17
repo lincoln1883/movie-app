@@ -15,8 +15,8 @@ import About from "./pages/About";
 function App() {
 	return (
 		<Routes>
+			<Route index element={<Home />} />
 			<Route path="/" element={<Layout />}>
-				<Route index element={<Home />} />
 				<Route path="/signup" element={<UserCreate />} />
 				<Route path="/login" element={<AuthLogin />} />
 				<Route element={<ProtectedRoute />}>
