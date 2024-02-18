@@ -8,6 +8,7 @@ import ShowCredit from "../credits/showCredits/ShowCredit";
 import { FaBackspace } from "react-icons/fa";
 import ShowCommentsModal from "../comments/shows/ShowCommentsModal";
 import Comments from "../comments/shows/Comments";
+import { SlLike } from "react-icons/sl";
 
 const ShowDetails = () => {
 	const { id } = useParams();
@@ -78,9 +79,10 @@ const ShowDetails = () => {
 										<span className="text-lg font-bold">First Air Date: </span>
 										{show.first_air_date}
 									</p>
-									<div className="flex justify-center gap-4 items-center">
+									<div className="flex justify-center gap-4 items-center py-2 px-1 ">
 										<ShowModal show={show} />
 										<ShowCommentsModal shows={show} />
+										<SlLike className="w-7 h-7 text-2xl hover:cursor-pointer text-blue-500" />
 									</div>
 								</div>
 							</div>

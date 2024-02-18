@@ -79,7 +79,7 @@ const MovieDetails = () => {
 										<span className="text-lg font-bold">Released: </span>
 										{movies.release_date}
 									</p>
-									<div className="flex gap-4 justify-start items-center w-full p-1">
+									<div className="flex gap-4 justify-start items-center w-full py-2 px-1">
 										<MovieModal movies={movies} />
 										<CommentModal movies={movies} />
 										<SlLike className="w-7 h-7 text-2xl hover:cursor-pointer text-blue-500" />

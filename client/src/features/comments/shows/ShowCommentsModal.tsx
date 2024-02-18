@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useAppDispatch } from "../../../redux/store";
 import { createComment } from "./commentSlice";
 import Show from "../../shows/Show";
+import { TfiCommentAlt } from "react-icons/tfi";
 
 interface Props {
 	shows: Show;
@@ -46,7 +47,10 @@ const ShowCommentsModal = ({ shows }: Props) => {
 
 	return (
 		<>
-			<Button onClick={() => setOpenModal(true)}>Comment</Button>
+			<TfiCommentAlt
+				className="w-7 h-7 hover:cursor-pointer text-blue-500 text-2xl"
+				onClick={() => setOpenModal(true)}
+			/>
 			<Modal
 				dismissible
 				show={openModal}
