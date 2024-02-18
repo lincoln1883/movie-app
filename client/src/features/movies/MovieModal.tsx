@@ -1,6 +1,7 @@
-import { Button, Modal } from "flowbite-react";
+import { Modal } from "flowbite-react";
 import { useState } from "react";
 import Movie from "./Movie";
+import { TfiVideoClapper } from "react-icons/tfi";
 
 interface Trailer {
   id: string;
@@ -51,25 +52,27 @@ const MovieModal = ({ movies }: Props) => {
   };
 
   return (
-    <>
-      <Button onClick={handleWatchTrailer}>Watch trailer</Button>
-      <Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
-        <Modal.Header className="p-2 font-normal">{movies.title}</Modal.Header>
-        <Modal.Body className="w-full h-full p-0 sm:p-4">
-          {!trailers && <p className="text-center">No trailer available</p>}
-          {trailers && (
-            <iframe
-              className="w-full h-96"
-              key={trailers.id}
-              src={`https://www.youtube.com/embed/${trailers.key}`}
-              title={trailers.name}
-              //="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            />
-          )}
-        </Modal.Body>
-      </Modal>
-    </>
-  );
+		<>
+			<TfiVideoClapper
+				className="w-7 h-7 hover:cursor-pointer text-blue-500 text-2xl"
+				onClick={handleWatchTrailer}
+			/>
+			<Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
+				<Modal.Header className="p-2 font-normal">{movies.title}</Modal.Header>
+				<Modal.Body className="w-full h-full p-0 sm:p-4">
+					{!trailers && <p className="text-center">No trailer available</p>}
+					{trailers && (
+						<iframe
+							className="w-full h-96"
+							key={trailers.id}
+							src={`https://www.youtube.com/embed/${trailers.key}`}
+							title={trailers.name}
+						/>
+					)}
+				</Modal.Body>
+			</Modal>
+		</>
+	);
 };
 
 export default MovieModal;

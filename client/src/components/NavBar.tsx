@@ -21,7 +21,7 @@ const NavBar = () => {
 			rounded
 			className="bg-gradient-to-r from-green-300 to-blue-200 h-30 py-5"
 		>
-			<Navbar.Brand as={Link} href="#">
+			<Navbar.Brand as={Link} to="/">
 				<span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
 					Pipoca Flics
 				</span>
@@ -35,7 +35,7 @@ const NavBar = () => {
 							label={
 								<Avatar
 									alt="User settings"
-									img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+									img={`${user?.profilePicture}` || "https://flowbite.com/docs/images/people/profile-picture-5.jpg"}
 									rounded
 								/>
 							}
@@ -62,7 +62,7 @@ const NavBar = () => {
 						<Navbar.Toggle  />
 					</div>
 					<Navbar.Collapse>
-						<Navbar.Link as={Link} to="/" active>
+						<Navbar.Link as={Link} to="/home" active>
 							Home
 						</Navbar.Link>
 						<Navbar.Link as={Link} to="/movies">

@@ -33,7 +33,7 @@ const AuthLogin: React.FC = () => {
       setButtonDisabled(false);
     }
     if (success === "success") {
-      navigate("/movies");
+      navigate("/home");
     }
   }, [navigate, dispatch, userInfo, success]);
 

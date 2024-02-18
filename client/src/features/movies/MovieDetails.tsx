@@ -8,6 +8,7 @@ import MovieCredit from "../credits/movieCredits/MovieCredit";
 import { FaBackspace } from "react-icons/fa";
 import Comments from "../comments/movies/Comments";
 import CommentModal from "../comments/movies/MovieComments";
+import { SlLike } from "react-icons/sl";
 
 const MovieDetails = () => {
 	const { id } = useParams();
@@ -78,9 +79,10 @@ const MovieDetails = () => {
 										<span className="text-lg font-bold">Released: </span>
 										{movies.release_date}
 									</p>
-									<div className="flex gap-3 items-center w-full">
+									<div className="flex gap-4 justify-start items-center w-full p-1">
 										<MovieModal movies={movies} />
 										<CommentModal movies={movies} />
+										<SlLike className="w-7 h-7 text-2xl hover:cursor-pointer text-blue-500" />
 									</div>
 								</div>
 							</div>
