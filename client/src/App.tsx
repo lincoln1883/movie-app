@@ -3,7 +3,6 @@ import { Route, Routes } from "react-router-dom";
 import MovieList from "./features/movies/MovieList";
 import MovieDetails from "./features/movies/MovieDetails";
 import Layout from "./components/Layout";
-//import Home from "./components/Home";
 import ShowDetails from "./features/shows/ShowDetails";
 import ShowList from "./features/shows/ShowList";
 import NotFound from "./components/NotFound";
@@ -13,6 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import About from "./pages/About";
 import SplashPage from "./pages/SplashPage";
 import HomePage from "./pages/HomePage";
+import Feed from "./pages/Feed";
 
 function App() {
 	return (
@@ -23,6 +23,7 @@ function App() {
 				<Route path="/login" element={<AuthLogin />} />
 				<Route element={<ProtectedRoute />}>
 					<Route path="/home" element={<HomePage />} />
+					<Route path="/feed" element={<Feed />} />
 					<Route path="/movies" element={<MovieList />} />
 					<Route path="/movies/:id" element={<MovieDetails />} />
 					<Route path="/shows" element={<ShowList />} />

@@ -7,6 +7,7 @@ import showCreditsReducer from "../features/credits/showCredits/showCreditSlice"
 import userReducer from "../features/users/userSlice";
 import authReducer from "../features/auth/authSlice";
 import commentReducer from "../features/comments/movies/commentSlice";
+import postReducer from "../features/posts/postSlice";
 
 const store = configureStore({
 	reducer: {
@@ -17,6 +18,7 @@ const store = configureStore({
 		registeredUser: userReducer,
 		currentUser: authReducer,
 		comments: commentReducer,
+		posts: postReducer,
 	},
 });
 

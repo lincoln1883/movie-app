@@ -9,7 +9,7 @@ const Layout = () => {
 			<header>
 				<NavBar />
 			</header>
-			<main className="min-h-screen w-full p-0 m-0 flex flex-col">
+			<main className="min-h-screen w-full p-0 m-0 flex flex-col bg-gray-100">
 				<div className="flex justify-center items-center">
 					<TokenExpirationChecker />
 					<Outlet />

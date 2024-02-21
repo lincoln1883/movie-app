@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body{
+  overflow-y: scroll;
+  overflow-x: hidden;
+  background-color: #f3f4f6;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.6;
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}

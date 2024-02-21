@@ -9,6 +9,7 @@ import { FaBackspace } from "react-icons/fa";
 import Comments from "../comments/movies/Comments";
 import CommentModal from "../comments/movies/MovieComments";
 import { SlLike } from "react-icons/sl";
+import PostForm from "../posts/PostForm";
 
 const MovieDetails = () => {
 	const { id } = useParams();
@@ -20,9 +21,9 @@ const MovieDetails = () => {
 	}, [dispatch, id]);
 
 	const loading = useAppSelector((state) => state.movies.status === "loading");
-	const movies = useAppSelector((state) => state.movies.movie);
+	const movie = useAppSelector((state) => state.movies.movie);
 
-	if (!movies) {
+	if (!movie) {
 		return <h1>No movie found</h1>;
 	}
 
@@ -30,7 +31,7 @@ const MovieDetails = () => {
 		Navigate(-1);
 	};
 
-	const ratingOutOf5 = movies.vote_average / 2;
+	const ratingOutOf5 = movie.vote_average / 2;
 	const numberOfStars = Math.round(ratingOutOf5);
 
 	const starComponents = Array.from({ length: numberOfStars }, (_, index) => (
@@ -39,7 +40,7 @@ const MovieDetails = () => {
 
 	return (
 		<div className="sm:mx-12 sm:m-2">
-			<div className="h-10 flex shadow-md p-1">
+			<div className="h-10 flex shadow-md p-1 bg-white">
 				<FaBackspace
 					className="text-blue-500 text-2xl mx-1 self-center"
 					onClick={goBack}
@@ -51,11 +52,11 @@ const MovieDetails = () => {
 					<Spinner aria-label="Default status example" />
 				) : (
 					<div className="flex flex-col">
-						<div className="flex flex-col justify-center items-center w-100 sm:flex-row shadow-md p-3">
+						<div className="flex flex-col justify-center bg-white items-center w-100 sm:flex-row shadow-md p-3">
 							<div className="flex items-center justify-center w-full h-3/4 sm:w-full sm:h-full flex-1 m-1">
 								<img
-									src={`https://image.tmdb.org/t/p/w500${movies.poster_path}`}
-									alt={movies.title}
+									src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+									alt={movie.title}
 									className="w-full h-full sm:w-full sm:h-3/4 rounded-lg"
 								/>
 							</div>
@@ -63,11 +64,11 @@ const MovieDetails = () => {
 								<div className="flex flex-col justify-center gap-1 items-start flex-1 px-3">
 									<h3 className="text-lg px-1">
 										<span className="text-lg font-bold">Title: </span>
-										{movies.title}
+										{movie.title}
 									</h3>
 									<p className="line-clamp-4 sm:text-lg px-1">
 										<span className="text-lg font-bold">Details: </span>
-										{movies.overview || "No details available"}
+										{movie.overview || "No details available"}
 									</p>
 									<div className="flex">
 										<p className="text-lg px-1 w-full">
@@ -77,20 +78,21 @@ const MovieDetails = () => {
 									</div>
 									<p className="text-lg px-1">
 										<span className="text-lg font-bold">Released: </span>
-										{movies.release_date}
+										{movie.release_date}
 									</p>
 									<div className="flex gap-4 justify-start items-center w-full py-2 px-1">
-										<MovieModal movies={movies} />
-										<CommentModal movies={movies} />
+										<MovieModal movies={movie} />
+										<CommentModal movies={movie} />
 										<SlLike className="w-7 h-7 text-2xl hover:cursor-pointer text-blue-500" />
 									</div>
+										<PostForm movie={movie}/>
 								</div>
-							</div>
+							</div>	
 						</div>
 						<div className="flex flex-col justify-center items-start flex-1 px-3 my-3 shadow-md p-3">
 							<Comments />
 						</div>
-					</div>
+					</div> 
 				)}
 			</div>
 			<hr className="border m-4" />

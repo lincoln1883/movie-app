@@ -1,7 +1,6 @@
 import { Spinner } from "flowbite-react";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { GrFavorite } from "react-icons/gr";
 
 interface Show {
 	id: number;
@@ -53,6 +52,7 @@ const PaginateShow = () => {
 				) : (
 					<div className="flex overflow-x-scroll">
 						{shows.map((show: Show) => (
+							<Link to={`/shows/${show.id}`} key={show.id}>
 							<div
 								key={show.id}
 								className="flex-shrink-0 w-40 h-64 mr-4 overflow-hidden rounded-lg shadow-md group relative"
@@ -62,11 +62,8 @@ const PaginateShow = () => {
 									src={`https://image.tmdb.org/t/p/w500${show.poster_path}`}
 									alt={show.title}
 								/>
-								<GrFavorite
-									className="absolute top-2 right-2 text-red-500 text-2xl  hover:cursor-pointer"
-									aria-placeholder="Add to favorites"
-								/>
 							</div>
+						</Link>
 						))}
 					</div>
 				)}
