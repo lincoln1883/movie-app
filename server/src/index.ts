@@ -12,17 +12,19 @@ import {
 } from "./routes/users/userRoutes";
 import { login } from "./routes/auth/loginRoute";
 import {
-	getMovieComments,
-	postMovieComment,
-	putMovieComment,
-	removeMovieComment,
-} from "./routes/comments/movieComments";
+	postComment,
+	getComment,
+	putComment,
+	removeComment,
+} from "./routes/comments/commentRoutes";
 import {
-	postShowComment,
-	getShowComments,
-	putShowComment,
-	removeShowComment,
-} from "./routes/comments/showComments";
+	createPostRoute,
+	readPost,
+	readPosts,
+	removePost,
+	editPost,
+} from "./routes/posts/postRoutes";
+import { postLike, removeLike,readLikes } from "./routes/likes/likeRoutes";
 
 dotenv.config();
 
@@ -56,16 +58,21 @@ app.use("/api", readUser);
 app.use("/api", readUsers);
 // auth routes
 app.use("/api/auth", login);
-// Movie comments routes
-app.use("/api", postMovieComment);
-app.use("/api", getMovieComments);
-app.use("/api", putMovieComment);
-app.use("/api", removeMovieComment);
-// Show comments routes
-app.use("/api", postShowComment);
-app.use("/api", getShowComments);
-app.use("/api", putShowComment);
-app.use("/api", removeShowComment);
+// Posts routes
+app.use("/api", createPostRoute);
+app.use("/api", readPost);
+app.use("/api", readPosts);
+app.use("/api", removePost);
+app.use("/api", editPost);
+// Comments routes
+app.use("/api", postComment);
+app.use("/api", getComment);
+app.use("/api", putComment);
+app.use("/api", removeComment);
+// Likes routes
+app.use("/api", postLike);
+app.use("/api", removeLike);
+app.use("/api", readLikes);
 
 app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);

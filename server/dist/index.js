@@ -10,8 +10,9 @@ const dotenv_1 = __importDefault(require("dotenv"));
 const cors_1 = __importDefault(require("cors"));
 const userRoutes_1 = require("./routes/users/userRoutes");
 const loginRoute_1 = require("./routes/auth/loginRoute");
-const movieComments_1 = require("./routes/comments/movieComments");
-const showComments_1 = require("./routes/comments/showComments");
+const commentRoutes_1 = require("./routes/comments/commentRoutes");
+const postRoutes_1 = require("./routes/posts/postRoutes");
+const likeRoutes_1 = require("./routes/likes/likeRoutes");
 dotenv_1.default.config();
 mongoose_1.default
     .connect(process.env.MONGO_URI)
@@ -38,16 +39,21 @@ app.use("/api", userRoutes_1.readUser);
 app.use("/api", userRoutes_1.readUsers);
 // auth routes
 app.use("/api/auth", loginRoute_1.login);
-// Movie comments routes
-app.use("/api", movieComments_1.postMovieComment);
-app.use("/api", movieComments_1.getMovieComments);
-app.use("/api", movieComments_1.putMovieComment);
-app.use("/api", movieComments_1.removeMovieComment);
-// Show comments routes
-app.use("/api", showComments_1.postShowComment);
-app.use("/api", showComments_1.getShowComments);
-app.use("/api", showComments_1.putShowComment);
-app.use("/api", showComments_1.removeShowComment);
+// Posts routes
+app.use("/api", postRoutes_1.createPostRoute);
+app.use("/api", postRoutes_1.readPost);
+app.use("/api", postRoutes_1.readPosts);
+app.use("/api", postRoutes_1.removePost);
+app.use("/api", postRoutes_1.editPost);
+// Comments routes
+app.use("/api", commentRoutes_1.postComment);
+app.use("/api", commentRoutes_1.getComment);
+app.use("/api", commentRoutes_1.putComment);
+app.use("/api", commentRoutes_1.removeComment);
+// Likes routes
+app.use("/api", likeRoutes_1.postLike);
+app.use("/api", likeRoutes_1.removeLike);
+app.use("/api", likeRoutes_1.readLikes);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

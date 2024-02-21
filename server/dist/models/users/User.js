@@ -23,11 +23,6 @@ const UserSchema = new mongoose_1.default.Schema({
         type: String,
         default: "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
     },
-    likedComments: {
-        type: [String],
-        default: [],
-        ref: "Comment",
-    },
 }, {
     timestamps: true,
 });
