@@ -11,7 +11,7 @@ interface Comment {
 	comment: string;
 	createdAt?: string;
 	updatedAt?: string;
-	likes: number;
+	likes?: number;
 }
 
 interface CommentState {

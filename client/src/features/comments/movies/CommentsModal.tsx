@@ -5,13 +5,14 @@ import { createComment } from "./commentSlice";
 import { FaMessage } from "react-icons/fa6";
 
 interface Props {
-	post: Post;
+	post: string
 }
 
 interface Comment {
 	postId: string;
 	userId: string;
 	comment: string;
+	likes?: number;
 }
 
 const CommentsModal = ({ post }: Props) => {

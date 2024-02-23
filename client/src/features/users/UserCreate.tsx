@@ -19,8 +19,8 @@ const UserCreate = () => {
 	});
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const success = useAppSelector((state) => state.registeredUser.status);
-  const error = useAppSelector((state) => state.registeredUser.error);
+	const success = useAppSelector((state) => state.user.status);
+  const error = useAppSelector((state) => state.user.error);
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
