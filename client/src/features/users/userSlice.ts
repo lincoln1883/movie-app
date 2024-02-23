@@ -1,25 +1,27 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-const BASE_URL = import.meta.env.VITE_APP_SERVER_URL;
+const BASE_URL = import.meta.env.VITE_APP_LOCAL_URL;
 const token = localStorage.getItem("token") as string;
 
 interface User {
-  id: string; 
+  _id?: string; 
   username: string;
   email: string;
   password: string;
-	profilePicture: string;
+	profilePicture?: string;
 }
 
 interface UserState {
   user: User | null;
+	users: User[] | null;
   status: 'idle' | 'loading' | 'failed' | 'success';
   error: string | null;
 }
 
 const initialState: UserState = {
   user: null,
+	users: [],
   status: 'idle',
   error: null,
 };
@@ -58,6 +60,23 @@ export const fetchUser = createAsyncThunk<User, string, { rejectValue: string }>
 	}
 );
 
+export const fetchAllUsers = createAsyncThunk<User[], void, { rejectValue: string }>(
+	'user/fetchAllUsers',
+	async (_, thunkAPI) => {
+		try {
+			const response = await axios.get(`${BASE_URL}/users`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			return response.data;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: unknown | any) {
+			return thunkAPI.rejectWithValue(error.response.data.error);
+		}
+	}
+);
+
 const userSlice = createSlice({
 	name: "user",
 	initialState,
@@ -88,6 +107,19 @@ const userSlice = createSlice({
 				state.user = action.payload;
 			})
 			.addCase(createUser.rejected, (state, action) => {
+				state.status = "failed";
+				state.error = action.payload as string;
+			}).addCase(fetchUser.fulfilled, (state, action) => {
+				state.status = "success";
+				state.user = action.payload;
+			}).addCase(fetchUser.rejected, (state, action) => {
+				state.status = "failed";
+				state.error = action.payload as string;
+			}).addCase(fetchAllUsers.fulfilled, (state, action) => {
+				state.status = "success";
+				state.users = action.payload;
+				state.error = null;
+			}).addCase(fetchAllUsers.rejected, (state, action) => {
 				state.status = "failed";
 				state.error = action.payload as string;
 			});

@@ -14,13 +14,15 @@ interface Post {
 	poster_path: string;
 	rating: number;
 	reviews?: string;
+	createAt?: string;
+	updatedAt?: string;
 }
 
 interface Props {
-	movie:Movie;
+	movie: Movie;
 }
 
-const PostForm = ({movie}: Props) => {
+const PostForm = ({ movie }: Props) => {
 	const [movieDetails, setMovieDetails] = useState<Post>({
 		movieId: "",
 		userId: "",
@@ -78,23 +80,24 @@ const PostForm = ({movie}: Props) => {
 
 	console.log(movieDetails);
 	return (
-			<div className="flex justify-center items-center py-1 w-full">
-				<form className="flex gap-1 items-center flex-1 w-full">
-					<textarea
-						name="reviews"
-						id="reviews"
-						onChange={handleChange}
-						className="sm:w-96 h-10 p-1 rounded-md border-2 flex-1 border-gray-300 focus:outline-none focus:border-blue-500"
-						required
-						placeholder="write a review...."
-					/>
-					<SiMinutemailer
-						onClick={handleSubmit}
-						type="submit"
-						className="h-9 w-9 sm:p-1 py-0 bg-blue-500 text-white rounded-md cursor-pointer"
-					/>
-				</form>
-			</div>
+		<div className="flex justify-center items-center py-1 w-full">
+			<form className="flex gap-1 items-center flex-1 w-full">
+				<textarea
+					name="reviews"
+					id="reviews"
+					onChange={handleChange}
+					className="sm:w-96 h-10 p-1 rounded-md border-2 flex-1 border-gray-300 focus:outline-none focus:border-blue-500"
+					required
+					placeholder="write a review...."
+				/>
+				<SiMinutemailer
+					title="Post Review"
+					onClick={handleSubmit}
+					type="submit"
+					className="h-9 w-9 sm:p-1 p-1 bg-blue-500 text-white rounded-md cursor-pointer"
+				/>
+			</form>
+		</div>
 	);
 };
 

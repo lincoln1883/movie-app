@@ -2,53 +2,52 @@ import { Button, Modal } from "flowbite-react";
 import { useState } from "react";
 import { useAppDispatch } from "../../../redux/store";
 import { createComment } from "./commentSlice";
-import Movie from "../../movies/Movie";
-import { TfiCommentAlt } from "react-icons/tfi";
+import { FaMessage } from "react-icons/fa6";
 
 interface Props {
-	movies: Movie;
+	post: Post;
 }
 
 interface Comment {
-	movieId: string;
+	postId: string;
 	userId: string;
-	content: string;
+	comment: string;
 }
 
-const MovieCommentsModal = ({ movies }: Props) => {
+const CommentsModal = ({ post }: Props) => {
 	const [openModal, setOpenModal] = useState(false);
-	const [content, setContent] = useState<Comment>({
-		movieId: "",
+	const [comment, setComment] = useState<Comment>({
+		postId: "",
 		userId: "",
-		content: "",
+		comment: "",
 	});
 	const user = JSON.parse(localStorage.getItem("currentUser")!) as {
 		_id: string;
 	};
-	const movie = movies.id.toString();
+
 	const dispatch = useAppDispatch();
 
 	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		dispatch(createComment(content));
-		setContent({ movieId: "", userId: "", content: "" });
+		dispatch(createComment(comment));
+		setComment({ postId: "", userId: "", comment: "" });
 		setOpenModal(false);
 	};
 
 	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		const { name, value } = e.target;
-		setContent({
-			...content,
+		setComment({
+			...comment,
 			[name]: value,
 			userId: user?._id,
-			movieId: movie,
+			postId: post,
 		});
 	};
 
 	return (
 		<>
-			<TfiCommentAlt
-				className="w-7 h-7 hover:cursor-pointer text-blue-500 text-2xl"
+			<FaMessage
+				className="hover:cursor-pointer hover:text-blue-500"
 				onClick={() => setOpenModal(true)}
 			/>
 			<Modal
@@ -57,18 +56,17 @@ const MovieCommentsModal = ({ movies }: Props) => {
 				onClose={() => setOpenModal(false)}
 				popup
 			>
-				<Modal.Header>{movies.title}</Modal.Header>
-				<Modal.Body>
-					<div className="text-center">
+				<Modal.Body className="m-0 p-0">
+					<div className="text-center w-full p-6">
 						<form className="w-full" onSubmit={handleSubmit}>
-							<label htmlFor="comment">Comment:</label>
-							<input type="hidden" name="movieId" value={movie} />
+							<label htmlFor="comment" hidden></label>
+							<input type="hidden" name="postId" value={post} />
 							<input type="hidden" name="userId" value={user._id} />
 							<textarea
-								name="content"
-								id="content"
+								name="comment"
+								id="comment"
 								placeholder="Write a comment..."
-								value={content.content}
+								value={comment.comment}
 								className="w-full h-40 p-2 rounded-lg shadow-md"
 								onChange={handleChange}
 								required
@@ -80,7 +78,7 @@ const MovieCommentsModal = ({ movies }: Props) => {
 								>
 									Submit
 								</button>
-								<Button color="gray" onClick={() => setOpenModal(false)}>
+								<Button color="rose" className="hover:bg-red-200" onClick={() => setOpenModal(false)}>
 									No, cancel
 								</Button>
 							</div>
@@ -92,4 +90,4 @@ const MovieCommentsModal = ({ movies }: Props) => {
 	);
 };
 
-export default MovieCommentsModal;
+export default CommentsModal;

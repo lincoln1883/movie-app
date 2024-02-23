@@ -1,5 +1,12 @@
 import { FaRecycle, FaRegThumbsUp } from "react-icons/fa";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaMessage } from "react-icons/fa6";
+import moment from "moment";
+import CommentsModal from "../comments/movies/CommentsModal";
+import { useEffect } from "react";
+import { fetchComments } from "../comments/movies/commentSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import Comments from "../comments/movies/Comments";
 
 interface Props {
 	post: {
@@ -13,13 +20,69 @@ interface Props {
 		rating: number;
 		likes?: string[];
 		comments?: string[];
+		reviews?: string;
+		createdAt?: string;
+	};
+	users: {
+		_id: string;
+		username: string;
+		profilePicture: string;
 	};
 }
 
-const Post = ({ post }: Props) => {
+const Post = ({ post, users }: Props) => {
+	const comments = useAppSelector((state) => state.comments.comments);
+	const dispatch = useAppDispatch();
+	const createdDate = (date: string | undefined) => {
+		return moment(date).fromNow();
+	};
+
+	useEffect(() => {
+	dispatch(fetchComments())
+	}, [post, dispatch]);
+
+	// count the number of comments
+	const commentCount = comments.filter(
+		(comment) => comment.postId === post._id
+	).length;
+
 	return (
 		<div className="flex flex-col rounded-lg bg-white">
 			<div className="flex flex-col shadow-md p-3">
+				<div className="flex justify-between items-center">
+					<div className="flex items-center gap-2">
+						<img
+							src={users?.profilePicture || "https://via.placeholder.com/150"}
+							alt={users?.username}
+							className="w-8 h-8 rounded-full"
+						/>
+						<div className="flex flex-col">
+							<h3 className="text-xs font-bold">{users?.username}</h3>
+							<div className="flex gap-1">
+								<p className="text-xs text-gray-400">Posted:</p>
+								<p className="text-xs text-gray-400">
+									{createdDate(post.createdAt)}
+								</p>
+							</div>
+						</div>
+					</div>
+					<div className="flex items-center gap-2">
+						<button
+							title="message"
+							type="button"
+							className="text-xs text-gray-400 hover:text-indigo-400"
+						>
+							<FaMessage />
+						</button>
+						<button
+							title="Report this post"
+							type="button"
+							className="text-xs text-gray-400 hover:text-indigo-400"
+						>
+							<BsThreeDotsVertical />
+						</button>
+					</div>
+				</div>
 				<div className="flex flex-col justify-center items-center w-100 sm:flex-row">
 					<div className="flex items-center justify-center w-full h-1/4 sm:w-1/4 sm:h-2/4 m-1">
 						<img
@@ -51,21 +114,35 @@ const Post = ({ post }: Props) => {
 						</div>
 					</div>
 				</div>
+				{commentCount <= 1 ? (
+					<div className="flex justify-end items-center gap-1">
+						<p className="text-xs text-gray-400">{commentCount}</p>
+						<p className="text-xs text-gray-400">comment</p>
+					</div>
+				) : (
+					<div className="flex justify-end items-center gap-1">
+						<p className="text-xs text-gray-400">{commentCount}</p>
+						<p className="text-xs text-gray-400">comments</p>
+					</div>
+				)}
+				<hr className="my-2" />
+				<p className="text-xs px-1">{post.reviews}</p>
 				<hr className="my-2" />
 				<div className="flex justify-evenly mt-1">
 					<div className="flex-1 flex items-center justify-center gap-2 hover:cursor-pointer  hover:text-indigo-400 text-indigo-600">
 						<FaRegThumbsUp />
-						<span className="text-sm">Like</span>
+						<span className="text-xs">Like</span>
 					</div>
 					<div className="flex-1 flex items-center justify-center gap-2 hover:cursor-pointer  hover:text-indigo-400 text-indigo-600">
-						<FaMessage />
-						<span className="text-sm">Comment</span>
+						<CommentsModal post={post} />
+						<span className="text-xs">Comment</span>
 					</div>
 					<div className="flex-1 flex items-center justify-center gap-2 hover:cursor-pointer hover:text-indigo-400 text-indigo-600">
 						<FaRecycle />
-						<span className="text-sm">Repost</span>
+						<span className="text-xs">Repost</span>
 					</div>
 				</div>
+				<Comments postId={post._id} />
 			</div>
 		</div>
 	);

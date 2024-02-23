@@ -15,7 +15,7 @@ const store = configureStore({
 		shows: showReducer,
 		movieCredits: movieCreditsReducer,
 		showCredits: showCreditsReducer,
-		registeredUser: userReducer,
+		user: userReducer,
 		currentUser: authReducer,
 		comments: commentReducer,
 		posts: postReducer,

@@ -40,8 +40,8 @@ const MovieCredit = () => {
                 />
               )}
               <div className="p-1">
-                <h3 className="font-semibold">{credit.name.slice(0, 20)}</h3>
-                <p className="font-thin text-sm">
+                <h3 className="text-sm font-semibold">{credit.name.slice(0, 20)}</h3>
+                <p className="font-thin sm:text-sm text-xs">
                   {credit.character.slice(0, 20)}
                 </p>
                 <p className="font-thin text-sm">

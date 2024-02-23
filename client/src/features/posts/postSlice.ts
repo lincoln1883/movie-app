@@ -16,6 +16,8 @@ interface Post {
   reviews?: string;
   likes?: string[];
   comments?: string[];
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface PostState {

@@ -54,6 +54,7 @@ const MovieModal = ({ movies }: Props) => {
   return (
 		<>
 			<TfiVideoClapper
+				title="Movie Trailer"
 				className="w-7 h-7 hover:cursor-pointer text-blue-500 text-2xl"
 				onClick={handleWatchTrailer}
 			/>

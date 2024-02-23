@@ -1,118 +1,88 @@
-import { Avatar, Card } from "flowbite-react";
-import { fetchComments } from "./commentSlice";
-import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { Spinner } from "flowbite-react";
+import { Avatar, Spinner } from "flowbite-react";
+import { useAppSelector } from "../../../redux/store";
 import moment from "moment";
-import axios from "axios";
+import { FaRegThumbsUp } from "react-icons/fa6";
 
-const token = localStorage.getItem("token");
-const url = import.meta.env.VITE_APP_SERVER_URL
+interface Comment {
+	_id?: string;
+	userId: string;
+	postId: string;
+	comment: string;
+	createdAt?: string;
+	likes: number;
+}
+interface Props {
+	postId: string | undefined;
+}
 
-const Comments = () => {
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const [userDataForAllComments, setUserDataForAllComments] = useState<any[]>(
-		[]
-	);
-	const { id } = useParams();
-	const dispatch = useAppDispatch();
+const Comments = ({ postId }: Props) => {
+	const users = useAppSelector((state) => state.user.users);
 	const comments = useAppSelector((state) => state.comments.comments);
-	const status = useAppSelector((state) => state.comments.status);
-	const error = useAppSelector((state) => state.comments.error);
-
-	useEffect(() => {
-		dispatch(fetchComments(id as string));
-	}, [dispatch, id]);
+	const loading = useAppSelector(
+		(state) => state.comments.status === "loading"
+	);
 
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();
 	};
 
-	useEffect(() => {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		const fetchUserForComment = async (comment: any) => {
-			try {
-				const response = await axios.get(
-					`${url}/users/${comment.userId}`,
-					{
-						headers: {
-							Authorization: `Bearer ${token}`,
-						},
-					}
-				);
-				return response.data; // Return the user data
-			} catch (error) {
-				console.error(
-					`Failed to fetch user for comment ${comment._id}:`,
-					error
-				);
-				return null; // Return null if there's an error
-			}
-		};
+	const findAuthor = (userId: string) => {
+		return users!.find((user) => user._id === userId);
+	};
 
-		const fetchUserDataForAllComments = async () => {
-			const userRequests = comments.map((comment) =>
-				fetchUserForComment(comment)
-			);
-			const userDataForAllComments = await Promise.all(userRequests);
-			userDataForAllComments.forEach((user) => delete user.password);
-			setUserDataForAllComments(userDataForAllComments);
-		};
+	// Filter comments for the specific post
+	const postComments = comments.filter((comment) => comment.postId === postId);
 
-		fetchUserDataForAllComments();
-	}, [comments]);
+	//count likes
+	const countLikes = (comment: Comment) => {
+		return comment.likes;
+	};
 
 	return (
-		<div className="flex flex-col gap-1 w-full">
-			{status === "loading" && <Spinner aria-label="Loading" />}
-			{status === "failed" && <div>{error}</div>}
-			<div className="mb-4 flex items-center justify-between">
-				<h5 className="text-xl font-bold leading-none text-gray-900 dark:text-white">
-					{comments.length} comments
-				</h5>
-			</div>
-			<div className="flow-root">
-				<ul className="divide-y divide-gray-200 dark:divide-gray-700 overflow-y-scroll">
-					{comments.map((comment) => {
-						const user = userDataForAllComments.find(
-							(user) => user._id === comment.userId
-						);
-						return (
-							<li key={comment._id} className="py-3 sm:py-4">
-								<Card className="max-w-full">
-									<div className="flex space-x-4">
-										{user?.profilePicture ? (
-											<Avatar img={user.profilePicture} rounded bordered />
-										) : (
-											<Avatar
-												img="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
-												rounded
-												bordered
-											/>
-										)}
-										<div className="min-w-0 flex-1 flex items-center">
-											<p className="truncate text-sm font-medium text-gray-900 dark:text-white self-center capitalize">
-												{user?.username}
-											</p>
-										</div>
-									</div>
-									<div className="flex flex-col">
-										<p className="capitalize text-wrap w-full">
-											{comment.content}
-										</p>
-										<div className="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-											<p className="text-xs">
-												{createdDate(comment.createdAt)}
-											</p>
-										</div>
-									</div>
-									<hr className="border-solid border-white" />
-								</Card>
-							</li>
-						);
-					})}
-				</ul>
+		<div className="flex flex-col gap-1 w-full my-1">
+			<hr className="my-2"/>
+			{loading && <Spinner />}
+			{!postComments.length && (
+				<p className="text-sm text-center">No comments yet</p>
+			)}
+			<div>
+				{postComments.map((comment: Comment) => {
+					const author = findAuthor(comment.userId);
+					return (
+						<div key={comment._id} className="mb-2">
+							<div className="flex items-center gap-2">
+								<Avatar
+									img={author?.profilePicture}
+									alt={author?.username}
+									rounded
+								/>
+								<div className="ps-1">
+									<h4 className="text-sm font-semibold capitalize">
+										{author?.username}
+									</h4>
+									<p className="text-xs text-gray-500">
+										Commented:
+										{createdDate(comment?.createdAt)}
+									</p>
+								</div>
+							</div>
+							<p className="text-sm mt-2">{comment.comment}</p>
+							<div className="flex justify-between items-center gap-2 mt-2 mx-3">
+								<FaRegThumbsUp className="text-gray-500 hover:cursor-pointer active:text-blue-300" />
+								{comment?.likes <= 1 ? (
+									<span className="text-xs text-gray-500">
+										{countLikes(comment)} like
+									</span>
+								) : (
+									<span className="text-xs text-gray-500">
+										{countLikes(comment)} likes
+									</span>
+								)}
+							</div>
+						</div>
+					);
+				})}
+				<hr />
 			</div>
 		</div>
 	);

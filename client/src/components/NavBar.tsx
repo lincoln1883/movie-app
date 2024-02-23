@@ -34,7 +34,7 @@ const NavBar = () => {
 							inline
 							label={
 								<Avatar
-									alt="User settings"
+									alt={user?.username}
 									img={`${user?.profilePicture}` || "https://flowbite.com/docs/images/people/profile-picture-5.jpg"}
 									rounded
 								/>

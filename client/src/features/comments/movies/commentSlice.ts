@@ -1,17 +1,17 @@
 import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const BASE_URL = import.meta.env.VITE_APP_SERVER_URL;
+const BASE_URL = import.meta.env.VITE_APP_LOCAL_URL;
 const token = localStorage.getItem("token") as string;
 
 interface Comment {
 	_id?: string;
-	movieId: string | number;
+	postId: string;
 	userId: string;
-	content: string;
+	comment: string;
 	createdAt?: string;
-	likes?: number;
-	dislikes?: number;
+	updatedAt?: string;
+	likes: number;
 }
 
 interface CommentState {
@@ -30,12 +30,16 @@ const initialState: CommentState = {
 
 export const fetchComments = createAsyncThunk<
 	Comment[],
-	string,
+	void,
 	{ rejectValue: string }
->("comments/fetchComments", async (movieId, thunkAPI) => {
+>("comments/fetchComments", async (_, thunkAPI) => {
 	try {
-		const response = await axios.get(`${BASE_URL}/comments/${movieId}`);
-		console.log(response);
+		const response = await axios.get(`${BASE_URL}/comments`,{
+			headers:{
+				Authorization: `Bearer ${token}`
+			}
+		});
+		console.log(response.data);
 		return response.data.comments;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: unknown | any) {
@@ -51,7 +55,7 @@ export const createComment = createAsyncThunk<
 	{ rejectValue: string }
 >("comments/createComment", async (comment, thunkAPI) => {
 	try {
-		const response = await axios.post(`${BASE_URL}/comments`, comment, {
+		const response = await axios.post(`${BASE_URL}/posts/:postId/comments`, comment, {
 			headers: {
 				Authorization: `Bearer ${token}`,
 			},
@@ -65,6 +69,55 @@ export const createComment = createAsyncThunk<
 		);
 	}
 });
+
+export const editComment = createAsyncThunk<
+	Comment,
+	Comment,
+	{ rejectValue: string }
+>("comments/editComment", async (comment, thunkAPI) => {
+	try {
+		const response = await axios.put(
+			`${BASE_URL}/posts/:postId/comments/${comment._id}`,
+			comment,
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		console.log(response);
+		return response.data;
+	}
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	catch (error: unknown | any) {
+		return thunkAPI.rejectWithValue(
+			error.message || "Failed to edit comment"
+		);
+	}
+});
+
+export const deleteComment = createAsyncThunk<
+	string,
+	string,
+	{ rejectValue: string }
+>("comments/deleteComment", async (id, thunkAPI) => {
+	try {
+		const response = await axios.delete(`${BASE_URL}/posts/:postsId/comments/${id}`, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		console.log(response);
+		return id;
+	}
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	catch (error: unknown | any) {
+		return thunkAPI.rejectWithValue(
+			error.message || "Failed to delete comment"
+		);
+	}
+}
+);
 
 export const commentSlice = createSlice({
 	name: "comment",
@@ -97,6 +150,26 @@ export const commentSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(createComment.rejected, (state, action) => {
+				state.error = action.payload as string;
+			}).addCase(editComment.pending, (state) => {
+				state.status = "loading";
+			}).addCase(editComment.fulfilled, (state, action) => {
+				state.comments = state.comments.map((comment) =>
+					comment._id === action.payload._id ? action.payload : comment
+				);
+				state.status = "success";
+				state.error = null;
+			}).addCase(editComment.rejected, (state, action) => {
+				state.error = action.payload as string;
+			}).addCase(deleteComment.pending, (state) => {
+				state.status = "loading";
+			}).addCase(deleteComment.fulfilled, (state, action) => {
+				state.status = "success";
+				state.comments = state.comments.filter(
+					(comment) => comment._id !== action.payload
+				);
+				state.error = null;
+			}).addCase(deleteComment.rejected, (state, action) => {
 				state.error = action.payload as string;
 			});
 	},
