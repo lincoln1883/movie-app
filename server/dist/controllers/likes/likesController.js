@@ -30,7 +30,7 @@ const createLike = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         const newLike = new Like_1.default({ userId: user === null || user === void 0 ? void 0 : user._id, postId });
         yield newLike.save();
-        post.likes.push(newLike._id.toString());
+        post.likes.push(newLike._id);
         yield post.save();
         return res.status(201).json(newLike);
     }
@@ -53,7 +53,7 @@ const deleteLike = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
             return res.status(400).json({ error: "You have not liked this post" });
         }
         yield Like_1.default.findByIdAndDelete(like._id);
-        post.likes = post.likes.filter((likeId) => likeId.toString() !== like._id.toString());
+        post.likes = post.likes.filter((likeId) => likeId !== like._id);
         yield post.save();
         return res.status(200).json({ message: "Like deleted successfully" });
     }

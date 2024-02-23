@@ -18,7 +18,7 @@ export const createLike = async (req: Request, res: Response) => {
 		}
 		const newLike = new Like({ userId: user?._id, postId });
 		await newLike.save();
-		post.likes.push(newLike._id.toString());
+		post.likes.push(newLike._id);
 		await post.save();
 		return res.status(201).json(newLike);
 	} catch (error: unknown | any) {
@@ -40,7 +40,7 @@ export const deleteLike = async (req: Request, res: Response) => {
 			return res.status(400).json({ error: "You have not liked this post" });
 		}
 		await Like.findByIdAndDelete(like._id);
-		post.likes = post.likes.filter((likeId) => likeId.toString() !== like._id.toString());
+		post.likes = post.likes.filter((likeId) => likeId !== like._id);
 		await post.save();
 		return res.status(200).json({ message: "Like deleted successfully" });
 	} catch (error: unknown | any) {

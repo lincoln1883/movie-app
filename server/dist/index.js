@@ -47,7 +47,8 @@ app.use("/api", postRoutes_1.removePost);
 app.use("/api", postRoutes_1.editPost);
 // Comments routes
 app.use("/api", commentRoutes_1.postComment);
-app.use("/api", commentRoutes_1.getComment);
+app.use("/api", commentRoutes_1.readComment);
+app.use("/api", commentRoutes_1.readAllComments);
 app.use("/api", commentRoutes_1.putComment);
 app.use("/api", commentRoutes_1.removeComment);
 // Likes routes

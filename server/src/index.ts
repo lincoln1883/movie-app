@@ -13,9 +13,10 @@ import {
 import { login } from "./routes/auth/loginRoute";
 import {
 	postComment,
-	getComment,
+	readComment,
 	putComment,
 	removeComment,
+	readAllComments,
 } from "./routes/comments/commentRoutes";
 import {
 	createPostRoute,
@@ -41,6 +42,7 @@ const app = express();
 const port = process.env.PORT;
 
 app.use(cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -66,7 +68,8 @@ app.use("/api", removePost);
 app.use("/api", editPost);
 // Comments routes
 app.use("/api", postComment);
-app.use("/api", getComment);
+app.use("/api", readComment);
+app.use("/api", readAllComments);
 app.use("/api", putComment);
 app.use("/api", removeComment);
 // Likes routes
