@@ -6,13 +6,17 @@ import Post from "../../models/posts/Post";
 export const createComment = async (req: Request, res: Response) => {
 	try {
 		const { postId, userId, comment } = req.body;
-		if (!postId || !userId || !comment || postId === null || userId === null || comment === "") {
+		if (!postId || !userId || !comment || comment === "") {
 			return res.status(401).json({ error: "All fields are required" });
 		};
 		const newComment = new Comment({ postId, userId, comment });
 		await newComment.save();
 		const post = await Post.findById(postId);
-		post?.comments.push(newComment._id.toString());
+		if (!post) {
+			return res.status(404).json({ error: "Post not found" });
+		}
+		post.comments.push(newComment?._id);
+		await post.save();
 		return res.status(201).json(newComment);
 	} catch (error: unknown | any) {
 		res.status(500).json({ error: error.message });
@@ -40,14 +44,27 @@ export const updateComment = async (req: Request, res: Response) => {
 	}
 };
 
+export const getAllComments = async (req: Request, res: Response) => {
+	try {
+		const comments = await Comment.find().exec();
+		if(!comments || comments.length === 0) {
+			return res.status(404).json({ error: "No comments found" });
+		};
+		return res.status(200).json({comments});
+	} catch (error: unknown | any) {
+		res.status(500).json({ error: error.message });
+		throw error as Error;
+	}
+}
+
 export const getComments = async (req: Request, res: Response) => {
 	try {
 		const { postId } = req.params;
-		if(!postId) {
+		if(!postId || postId === "" || postId === "undefined") {
 			return res.status(400).json({ error: "Post ID is required" });
 		};
-		const comments = await Comment.find({ postId }).exec();
-		if(!comments) {
+		const comments = await Comment.find({postId}).populate('Comment[]').exec();
+		if(!comments || comments.length === 0) {
 			return res.status(404).json({ error: "No comments found" });
 		};
 		return res.status(200).json({comments});

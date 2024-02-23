@@ -12,21 +12,25 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteComment = exports.getComments = exports.updateComment = exports.createComment = void 0;
+exports.deleteComment = exports.getComments = exports.getAllComments = exports.updateComment = exports.createComment = void 0;
 const Comments_1 = __importDefault(require("../../models/comments/Comments"));
 const User_1 = __importDefault(require("../../models/users/User"));
 const Post_1 = __importDefault(require("../../models/posts/Post"));
 const createComment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { postId, userId, comment } = req.body;
-        if (!postId || !userId || !comment || postId === null || userId === null || comment === "") {
+        if (!postId || !userId || !comment || comment === "") {
             return res.status(401).json({ error: "All fields are required" });
         }
         ;
         const newComment = new Comments_1.default({ postId, userId, comment });
         yield newComment.save();
         const post = yield Post_1.default.findById(postId);
-        post === null || post === void 0 ? void 0 : post.comments.push(newComment._id.toString());
+        if (!post) {
+            return res.status(404).json({ error: "Post not found" });
+        }
+        post.comments.push(newComment === null || newComment === void 0 ? void 0 : newComment._id);
+        yield post.save();
         return res.status(201).json(newComment);
     }
     catch (error) {
@@ -56,15 +60,30 @@ const updateComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.updateComment = updateComment;
+const getAllComments = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const comments = yield Comments_1.default.find().exec();
+        if (!comments || comments.length === 0) {
+            return res.status(404).json({ error: "No comments found" });
+        }
+        ;
+        return res.status(200).json({ comments });
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+        throw error;
+    }
+});
+exports.getAllComments = getAllComments;
 const getComments = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { postId } = req.params;
-        if (!postId) {
+        if (!postId || postId === "" || postId === "undefined") {
             return res.status(400).json({ error: "Post ID is required" });
         }
         ;
-        const comments = yield Comments_1.default.find({ postId }).exec();
-        if (!comments) {
+        const comments = yield Comments_1.default.find({ postId }).populate('Comment[]').exec();
+        if (!comments || comments.length === 0) {
             return res.status(404).json({ error: "No comments found" });
         }
         ;

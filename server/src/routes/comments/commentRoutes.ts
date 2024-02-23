@@ -1,19 +1,37 @@
 import express from "express";
 import {
-  createComment,
-  getComments,
-  updateComment,
-  deleteComment,
+	createComment,
+  getAllComments,
+	getComments,
+	updateComment,
+	deleteComment,
 } from "../../controllers/comments/commentsController";
 import passport from "../../services/passport";
 
 const router = express.Router();
 
 export const postComment = router.post(
+	"/posts/:postId/comments",
+	passport.authenticate("jwt", { session: false }),
+	createComment
+);
+export const readAllComments = router.get(
   "/comments",
   passport.authenticate("jwt", { session: false }),
-  createComment
+  getAllComments
 );
-export const getComment = router.get("/comments/:postId", getComments);
-export const putComment = router.put("/comments/:_id", passport.authenticate("jwt", { session: false }), updateComment);
-export const removeComment = router.delete("/comments/:_id", passport.authenticate("jwt", { session: false }), deleteComment);
+export const readComment = router.get(
+	"/posts/:postId/comments",
+	passport.authenticate("jwt", { session: false }),
+	getComments
+);
+export const putComment = router.put(
+	"posts/:postId/comments/:_id",
+	passport.authenticate("jwt", { session: false }),
+	updateComment
+);
+export const removeComment = router.delete(
+	"/posts/:postId/comments/:_id",
+	passport.authenticate("jwt", { session: false }),
+	deleteComment
+);
