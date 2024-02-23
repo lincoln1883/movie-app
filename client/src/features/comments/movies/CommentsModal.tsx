@@ -4,8 +4,22 @@ import { useAppDispatch } from "../../../redux/store";
 import { createComment } from "./commentSlice";
 import { FaMessage } from "react-icons/fa6";
 
+interface Post {
+	_id?: string;
+	movieId: string;
+	userId: string;
+	title: string;
+	overview: string;
+	release_date: string;
+	poster_path: string;
+	rating: number;
+	likes?: string[];
+	comments?: string[];
+	reviews?: string;
+	createdAt?: string;
+}
 interface Props {
-	post: string
+	post: Post;
 }
 
 interface Comment {
@@ -41,7 +55,7 @@ const CommentsModal = ({ post }: Props) => {
 			...comment,
 			[name]: value,
 			userId: user?._id,
-			postId: post,
+			postId: post._id as string,
 		});
 	};
 
@@ -61,7 +75,7 @@ const CommentsModal = ({ post }: Props) => {
 					<div className="text-center w-full p-6">
 						<form className="w-full" onSubmit={handleSubmit}>
 							<label htmlFor="comment" hidden></label>
-							<input type="hidden" name="postId" value={post} />
+							<input type="hidden" name="postId" value={post._id} />
 							<input type="hidden" name="userId" value={user._id} />
 							<textarea
 								name="comment"

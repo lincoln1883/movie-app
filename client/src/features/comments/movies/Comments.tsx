@@ -9,7 +9,7 @@ interface Comment {
 	postId: string;
 	comment: string;
 	createdAt?: string;
-	likes: number;
+	likes?: number | undefined;
 }
 interface Props {
 	postId: string | undefined;
@@ -35,7 +35,7 @@ const Comments = ({ postId }: Props) => {
 
 	//count likes
 	const countLikes = (comment: Comment) => {
-		return comment.likes;
+		return comment?.likes;
 	};
 
 	return (
@@ -46,7 +46,7 @@ const Comments = ({ postId }: Props) => {
 				<p className="text-sm text-center">No comments yet</p>
 			)}
 			<div>
-				{postComments.map((comment: Comment) => {
+				{postComments.map((comment) => {
 					const author = findAuthor(comment.userId);
 					return (
 						<div key={comment._id} className="mb-2">
@@ -69,15 +69,9 @@ const Comments = ({ postId }: Props) => {
 							<p className="text-sm mt-2">{comment.comment}</p>
 							<div className="flex justify-between items-center gap-2 mt-2 mx-3">
 								<FaRegThumbsUp className="text-gray-500 hover:cursor-pointer active:text-blue-300" />
-								{comment?.likes <= 1 ? (
-									<span className="text-xs text-gray-500">
-										{countLikes(comment)} like
-									</span>
-								) : (
 									<span className="text-xs text-gray-500">
 										{countLikes(comment)} likes
 									</span>
-								)}
 							</div>
 						</div>
 					);
