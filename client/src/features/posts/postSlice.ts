@@ -61,7 +61,6 @@ export const createPost = createAsyncThunk<Post, Post, { rejectValue: string }>(
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
       return response.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: unknown | any) {
@@ -100,23 +99,6 @@ export const updatePost = createAsyncThunk<Post, Post, { rejectValue: string }>(
     }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     catch (error: unknown | any) {
-      return thunkAPI.rejectWithValue(error.response.data.error);
-    }
-  }
-);
-
-export const likePost = createAsyncThunk<Post, string, { rejectValue: string }>(
-  'posts/likePost',
-  async (id, thunkAPI) => {
-    try {
-      const response = await axios.post(`${BASE_URL}/posts/${id}/like`, {}, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (error: unknown | any) {
       return thunkAPI.rejectWithValue(error.response.data.error);
     }
   }
@@ -185,17 +167,6 @@ export const postSlice = createSlice({
         state.status = "failed";
         state.error = action.payload as string;
       })
-      .addCase(likePost.pending, (state) => {
-        state.status = "loading";
-      })
-      .addCase(likePost.fulfilled, (state, action) => {
-        state.status = "success";
-        state.post = action.payload;
-        state.error = null;
-      })
-      .addCase(likePost.rejected, (state) => {
-        state.status = "failed";
-      });
   }
 });
 

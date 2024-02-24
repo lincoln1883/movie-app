@@ -39,7 +39,6 @@ export const fetchComments = createAsyncThunk<
 				Authorization: `Bearer ${token}`
 			}
 		});
-		console.log(response.data);
 		return response.data.comments;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: unknown | any) {
@@ -60,7 +59,6 @@ export const createComment = createAsyncThunk<
 				Authorization: `Bearer ${token}`,
 			},
 		});
-		console.log(response);
 		return response.data;
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: unknown | any) {
@@ -85,7 +83,6 @@ export const editComment = createAsyncThunk<
 				},
 			}
 		);
-		console.log(response);
 		return response.data;
 	}
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -107,8 +104,7 @@ export const deleteComment = createAsyncThunk<
 				Authorization: `Bearer ${token}`,
 			},
 		});
-		console.log(response);
-		return id;
+		return response.data;
 	}
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	catch (error: unknown | any) {
@@ -125,6 +121,22 @@ export const commentSlice = createSlice({
 	reducers: {
 		addComment: (state, action: PayloadAction<Comment>) => {
 			state.comments.push(action.payload);
+		},
+		addLike: (state, action: PayloadAction<string>) => {
+			const comment = state.comments.find(
+				(comment) => comment._id === action.payload
+			);
+			if (comment) {
+				comment.likes = comment.likes! + 1;
+			}
+		},
+		removeLike: (state, action: PayloadAction<string>) => {
+			const comment = state.comments.find(
+				(comment) => comment._id === action.payload
+			);
+			if (comment) {
+				comment.likes = comment.likes! - 1;
+			}
 		},
 	},
 	extraReducers: (builder) => {
@@ -175,6 +187,6 @@ export const commentSlice = createSlice({
 	},
 });
 
-export const { addComment } = commentSlice.actions;
+export const { addComment,addLike,removeLike } = commentSlice.actions;
 
 export default commentSlice.reducer;
