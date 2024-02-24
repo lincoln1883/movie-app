@@ -56,6 +56,7 @@ const ShowModal = ({ show }: Props) => {
 			<TfiVideoClapper
 				className="w-7 h-7 hover:cursor-pointer text-blue-500 text-2xl"
 				onClick={handleWatchTrailer}
+        title="Watch trailer"
 			/>
 			<Modal dismissible show={openModal} onClose={() => setOpenModal(false)}>
 				<Modal.Header className="p-2 font-normal">{show.name}</Modal.Header>
