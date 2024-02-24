@@ -2,7 +2,8 @@ import { Avatar, Spinner } from "flowbite-react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import moment from "moment";
 import { FaRegThumbsDown, FaRegThumbsUp } from "react-icons/fa6";
-import { addLike } from "./commentSlice";
+import { addLike, fetchComments } from "./commentSlice";
+import { useEffect } from "react";
 
 interface Comment {
 	_id?: string;
@@ -22,8 +23,13 @@ const Comments = ({ postId }: Props) => {
 	const loading = useAppSelector(
 		(state) => state.comments.status === "loading"
 	);
-
+	
 	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(fetchComments());
+	}, [dispatch]);
+	
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();
 	};

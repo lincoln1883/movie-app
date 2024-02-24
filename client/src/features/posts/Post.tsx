@@ -4,11 +4,11 @@ import { FaMessage } from "react-icons/fa6";
 import moment from "moment";
 import CommentsModal from "../comments/movies/CommentsModal";
 import { useEffect } from "react";
-import { fetchComments } from "../comments/movies/commentSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import Comments from "../comments/movies/Comments";
 import CreateLike from "../likes/CreateLike";
 import { getLikes } from "../likes/likeSlice";
+import { fetchPosts } from "./postSlice";
 
 interface Props {
 	post: {
@@ -45,7 +45,10 @@ const Post = ({ post, users }: Props) => {
 	};
 
 	useEffect(() => {
-		dispatch(fetchComments());
+		dispatch(fetchPosts())
+	}, [dispatch])
+
+	useEffect(() => {
 		dispatch(getLikes());
 	}, [post, dispatch]);
 
@@ -125,30 +128,36 @@ const Post = ({ post, users }: Props) => {
 						</div>
 					</div>
 				</div>
-				{likeCount === undefined || null ? (
-					"no likes"
-				) : likeCount <= 1 ? (
-					<div className="flex justify-end items-center gap-1">
-						<p className="text-xs text-gray-400">{likeCount}</p>
-						<p className="text-xs text-gray-400">like</p>
+				<div className="flex justify-end gap-1">
+					<div>
+						{likeCount === undefined || null ? (
+							"no likes"
+						) : likeCount <= 1 ? (
+							<div className="flex justify-end items-center gap-0.5">
+								<p className="text-xs text-gray-400">{likeCount}</p>
+								<p className="text-xs text-gray-400">like</p>
+							</div>
+						) : (
+							<div className="flex justify-end items-center gap-0.5">
+								<p className="text-xs text-gray-400">{likeCount}</p>
+								<p className="text-xs text-gray-400">likes</p>
+							</div>
+						)}
 					</div>
-				) : (
-					<div className="flex justify-end items-center gap-1">
-						<p className="text-xs text-gray-400">{likeCount}</p>
-						<p className="text-xs text-gray-400">likes</p>
+					<div>
+						{commentCount <= 1 ? (
+							<div className="flex justify-end items-center gap-0.5">
+								<p className="text-xs text-gray-400">{commentCount}</p>
+								<p className="text-xs text-gray-400">comment</p>
+							</div>
+						) : (
+							<div className="flex justify-end items-center gap-0.5">
+								<p className="text-xs text-gray-400">{commentCount}</p>
+								<p className="text-xs text-gray-400">comments</p>
+							</div>
+						)}
 					</div>
-				)}
-				{commentCount <= 1 ? (
-					<div className="flex justify-end items-center gap-1">
-						<p className="text-xs text-gray-400">{commentCount}</p>
-						<p className="text-xs text-gray-400">comment</p>
-					</div>
-				) : (
-					<div className="flex justify-end items-center gap-1">
-						<p className="text-xs text-gray-400">{commentCount}</p>
-						<p className="text-xs text-gray-400">comments</p>
-					</div>
-				)}
+				</div>
 				<hr className="my-2" />
 				<p className="text-xs px-1">{post.reviews}</p>
 				<hr className="my-2" />

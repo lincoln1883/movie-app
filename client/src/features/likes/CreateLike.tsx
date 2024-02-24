@@ -1,4 +1,4 @@
-import { FormEvent } from "react";
+import { FormEvent, useEffect } from "react";
 import { createLike, disLike, getLikes } from "./likeSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { FaRegThumbsUp } from "react-icons/fa6";
@@ -29,6 +29,10 @@ interface Props {
 const CreateLike = ({ post, users }: Props) => {
 	const likes = useAppSelector((state) => state.likes.likes);
 	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		dispatch(getLikes());
+	}, [dispatch]);
 
 	const handleLike = (e: FormEvent) => {
 		e.preventDefault();
