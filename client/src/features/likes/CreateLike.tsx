@@ -19,15 +19,12 @@ interface Props {
 		reviews?: string;
 		createdAt?: string;
 	};
-	users: {
-		_id: string;
-		username: string;
-		profilePicture: string;
-	};
 }
 
-const CreateLike = ({ post, users }: Props) => {
+const CreateLike = ({ post }: Props) => {
 	const likes = useAppSelector((state) => state.likes.likes);
+	const me = JSON.parse(localStorage.getItem("currentUser") as string);
+
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -36,36 +33,49 @@ const CreateLike = ({ post, users }: Props) => {
 
 	const handleLike = (e: FormEvent) => {
 		e.preventDefault();
-		dispatch(createLike({ userId: users._id as string, postId: post._id as string }));
-    dispatch(getLikes());
+		dispatch(
+			createLike({ userId: me._id as string, postId: post._id as string })
+		);
+		dispatch(getLikes());
 	};
 
-	const userPtId = users?._id as string;
 	const postPtId = post?._id as string;
-	
-  const isLiked = () => {
-		const liked =
+
+	const isLiked = () => {
+		return (
 			Array.isArray(likes) &&
-			likes.some((like) => like.userId === userPtId) &&
-			likes.some((like) => like.postId === postPtId);
-		return liked;
+			likes.some((like) => like.userId === me._id && like.postId === postPtId)
+		);
 	};
 
-  const handleDeleteLike = () => {
-    const likeId = likes?.find((like) => like.userId === userPtId && like.postId === postPtId)?._id;
-    dispatch(disLike({ userId: users._id as string, postId: post._id as string , _id: likeId as string}));
-    dispatch(getLikes());
-  }
+	const handleDeleteLike = () => {
+		const likeId = likes?.find(
+			(like) => like.userId === me._id && like.postId === postPtId
+		)?._id;
+		dispatch(
+			disLike({
+				userId: me._id as string,
+				postId: post._id as string,
+				_id: likeId as string,
+			})
+		);
+		dispatch(getLikes());
+	};
 
 	return (
 		<>
 			{isLiked() ? (
-					<button type="submit" className="text-xs" title="DisLike" onClick={handleDeleteLike}>
-						<FaRegThumbsDown />
-					</button>
+				<button
+					type="submit"
+					className="text-xs"
+					title="DisLike"
+					onClick={handleDeleteLike}
+				>
+					<FaRegThumbsDown />
+				</button>
 			) : (
 				<form onSubmit={handleLike}>
-					<input type="hidden" name="userId" value={users?._id} />
+					<input type="hidden" name="userId" value={me._id} />
 					<input type="hidden" name="postId" value={post?._id} />
 					<button type="submit" className="text-xs" title="Like">
 						<FaRegThumbsUp />

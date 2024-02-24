@@ -46,11 +46,13 @@ const Post = ({ post, users }: Props) => {
 
 	useEffect(() => {
 		dispatch(fetchPosts())
+		dispatch(getLikes());
+		dispatch(fetchPosts());
 	}, [dispatch])
 
-	useEffect(() => {
-		dispatch(getLikes());
-	}, [post, dispatch]);
+	// useEffect(() => {
+	// 	dispatch(getLikes());
+	// }, [post, dispatch]);
 
 	// count the number of comments
 	const commentCount = comments.filter(
@@ -163,7 +165,7 @@ const Post = ({ post, users }: Props) => {
 				<hr className="my-2" />
 				<div className="flex justify-evenly mt-1">
 					<div className="flex-1 flex items-center justify-center gap-2 hover:cursor-pointer  hover:text-indigo-400 text-indigo-600">
-						<CreateLike post={post} users={users} />
+						<CreateLike post={post} />
 						<span className="text-xs">Like</span>
 					</div>
 					<div className="flex-1 flex items-center justify-center gap-2 hover:cursor-pointer  hover:text-indigo-400 text-indigo-600">

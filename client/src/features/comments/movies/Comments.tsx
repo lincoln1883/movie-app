@@ -46,6 +46,7 @@ const Comments = ({ postId }: Props) => {
 		return comment?.likes;
 	};
 
+	// i want to ristrict the user to like a comment once
 	const upLike = () => {
 		const comment = postComments[0];
 		dispatch(addLike(comment._id!));
