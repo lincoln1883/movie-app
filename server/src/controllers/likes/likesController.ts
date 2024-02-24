@@ -3,7 +3,6 @@ import Post from "../../models/posts/Post";
 import User from "../../models/users/User";
 import Like from "../../models/likes/Like";
 
-
 export const createLike = async (req: Request, res: Response) => {
 	try {
 		const { postId, userId } = req.body;
@@ -29,20 +28,21 @@ export const createLike = async (req: Request, res: Response) => {
 
 export const deleteLike = async (req: Request, res: Response) => {
 	try {
-		const { postId } = req.params;
-		const user = await User.findById(req.user);
+		const {likeId} = req.params;
+		const { postId, userId } = req.body;
+		const user = await User.findById(userId);
 		const post = await Post.findById(postId);
 		if (!post) {
 			return res.status(404).json({ error: "Post not found" });
 		}
-		const like = await Like.findOne({ userId: user?._id, postId });
+		const like = await Like.findById({ _id: likeId, userId: user?._id, postId: post._id});
 		if (!like) {
-			return res.status(400).json({ error: "You have not liked this post" });
+			return res.status(404).json({ error: "Like not found" });
 		}
-		await Like.findByIdAndDelete(like._id);
-		post.likes = post.likes.filter((likeId) => likeId !== like._id);
+		await like.deleteOne();
+		post.likes = post.likes.filter((likeId) => likeId.toString() !== like._id.toString());
 		await post.save();
-		return res.status(200).json({ message: "Like deleted successfully" });
+		return res.status(200).json({ message: "Like deleted" });
 	} catch (error: unknown | any) {
 		res.status(500).json({ error: error.message });
 		throw error as Error;
@@ -57,6 +57,16 @@ export const getLikes = async (req: Request, res: Response) => {
 			return res.status(404).json({ error: "Post not found" });
 		}
 		return res.status(200).json(post.likes);
+	} catch (error: unknown | any) {
+		res.status(500).json({ error: error.message });
+		throw error as Error;
+	}
+};
+
+export const getAllLikes = async (req: Request, res: Response) => {
+	try {
+		const likes = await Like.find();
+		return res.status(200).json(likes);
 	} catch (error: unknown | any) {
 		res.status(500).json({ error: error.message });
 		throw error as Error;

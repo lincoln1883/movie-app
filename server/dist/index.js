@@ -55,6 +55,7 @@ app.use("/api", commentRoutes_1.removeComment);
 app.use("/api", likeRoutes_1.postLike);
 app.use("/api", likeRoutes_1.removeLike);
 app.use("/api", likeRoutes_1.readLikes);
+app.use("/api", likeRoutes_1.readAllLikes);
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });

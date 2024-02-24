@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getLikes = exports.deleteLike = exports.createLike = void 0;
+exports.getAllLikes = exports.getLikes = exports.deleteLike = exports.createLike = void 0;
 const Post_1 = __importDefault(require("../../models/posts/Post"));
 const User_1 = __importDefault(require("../../models/users/User"));
 const Like_1 = __importDefault(require("../../models/likes/Like"));
@@ -42,20 +42,21 @@ const createLike = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createLike = createLike;
 const deleteLike = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { postId } = req.params;
-        const user = yield User_1.default.findById(req.user);
+        const { likeId } = req.params;
+        const { postId, userId } = req.body;
+        const user = yield User_1.default.findById(userId);
         const post = yield Post_1.default.findById(postId);
         if (!post) {
             return res.status(404).json({ error: "Post not found" });
         }
-        const like = yield Like_1.default.findOne({ userId: user === null || user === void 0 ? void 0 : user._id, postId });
+        const like = yield Like_1.default.findById({ _id: likeId, userId: user === null || user === void 0 ? void 0 : user._id, postId: post._id });
         if (!like) {
-            return res.status(400).json({ error: "You have not liked this post" });
+            return res.status(404).json({ error: "Like not found" });
         }
-        yield Like_1.default.findByIdAndDelete(like._id);
-        post.likes = post.likes.filter((likeId) => likeId !== like._id);
+        yield like.deleteOne();
+        post.likes = post.likes.filter((likeId) => likeId.toString() !== like._id.toString());
         yield post.save();
-        return res.status(200).json({ message: "Like deleted successfully" });
+        return res.status(200).json({ message: "Like deleted" });
     }
     catch (error) {
         res.status(500).json({ error: error.message });
@@ -78,3 +79,14 @@ const getLikes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getLikes = getLikes;
+const getAllLikes = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const likes = yield Like_1.default.find();
+        return res.status(200).json(likes);
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+        throw error;
+    }
+});
+exports.getAllLikes = getAllLikes;

@@ -25,7 +25,7 @@ import {
 	removePost,
 	editPost,
 } from "./routes/posts/postRoutes";
-import { postLike, removeLike,readLikes } from "./routes/likes/likeRoutes";
+import { postLike, removeLike,readLikes, readAllLikes } from "./routes/likes/likeRoutes";
 
 dotenv.config();
 
@@ -76,6 +76,7 @@ app.use("/api", removeComment);
 app.use("/api", postLike);
 app.use("/api", removeLike);
 app.use("/api", readLikes);
+app.use("/api", readAllLikes);
 
 app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
