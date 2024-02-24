@@ -1,7 +1,8 @@
 import { Avatar, Spinner } from "flowbite-react";
-import { useAppSelector } from "../../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import moment from "moment";
-import { FaRegThumbsUp } from "react-icons/fa6";
+import { FaRegThumbsDown, FaRegThumbsUp } from "react-icons/fa6";
+import { addLike } from "./commentSlice";
 
 interface Comment {
 	_id?: string;
@@ -22,6 +23,7 @@ const Comments = ({ postId }: Props) => {
 		(state) => state.comments.status === "loading"
 	);
 
+	const dispatch = useAppDispatch();
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();
 	};
@@ -38,9 +40,19 @@ const Comments = ({ postId }: Props) => {
 		return comment?.likes;
 	};
 
+	const upLike = () => {
+		const comment = postComments[0];
+		dispatch(addLike(comment._id!));
+	};
+
+	const downLike = () => {
+		const comment = postComments[0];
+		dispatch(addLike(comment._id!));
+	};
+
 	return (
 		<div className="flex flex-col gap-1 w-full my-1">
-			<hr className="my-2"/>
+			<hr className="my-2" />
 			{loading && <Spinner />}
 			{!postComments.length && (
 				<p className="text-sm text-center">No comments yet</p>
@@ -68,10 +80,30 @@ const Comments = ({ postId }: Props) => {
 							</div>
 							<p className="text-sm mt-2">{comment.comment}</p>
 							<div className="flex justify-between items-center gap-2 mt-2 mx-3">
-								<FaRegThumbsUp className="text-gray-500 hover:cursor-pointer active:text-blue-300" />
-									<span className="text-xs text-gray-500">
-										{countLikes(comment)} likes
-									</span>
+								<div className="flex items-center gap-1">
+									<button
+										type="submit"
+										title="like"
+										onClick={upLike}
+										className="text-xs text-gray-500 hover:cursor-pointer active:text-blue-300"
+									>
+										<FaRegThumbsUp className="text-gray-500 hover:cursor-pointer active:text-blue-300" />
+									</button>
+									<button
+										type="submit"
+										title="like"
+										onClick={downLike}
+										className="text-xs text-gray-500 hover:cursor-pointer active:text-blue-300"
+									>
+										<FaRegThumbsDown
+											type="submit"
+											className="text-gray-500 hover:cursor-pointer active:text-blue-300"
+										/>
+									</button>
+								</div>
+								<span className="text-xs text-gray-500">
+									{countLikes(comment)} likes
+								</span>
 							</div>
 						</div>
 					);

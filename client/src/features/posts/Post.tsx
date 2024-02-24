@@ -1,4 +1,4 @@
-import { FaRecycle, FaRegThumbsUp } from "react-icons/fa";
+import { FaRecycle } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaMessage } from "react-icons/fa6";
 import moment from "moment";
@@ -7,10 +7,12 @@ import { useEffect } from "react";
 import { fetchComments } from "../comments/movies/commentSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import Comments from "../comments/movies/Comments";
+import CreateLike from "../likes/CreateLike";
+import { getLikes } from "../likes/likeSlice";
 
 interface Props {
 	post: {
-		_id?: string;
+		_id?: string | undefined;
 		movieId: string;
 		userId: string;
 		title: string;
@@ -30,21 +32,30 @@ interface Props {
 	};
 }
 
+type Post = {
+	_id: string | undefined;
+};
+
 const Post = ({ post, users }: Props) => {
 	const comments = useAppSelector((state) => state.comments.comments);
+	const likes = useAppSelector((state) => state.likes.likes);
 	const dispatch = useAppDispatch();
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();
 	};
 
 	useEffect(() => {
-	dispatch(fetchComments())
+		dispatch(fetchComments());
+		dispatch(getLikes());
 	}, [post, dispatch]);
 
 	// count the number of comments
 	const commentCount = comments.filter(
 		(comment) => comment.postId === post._id
 	).length;
+
+	// count the number of likes
+	const likeCount = likes.filter((like) => like.postId === post._id).length;
 
 	return (
 		<div className="flex flex-col rounded-lg bg-white">
@@ -114,6 +125,19 @@ const Post = ({ post, users }: Props) => {
 						</div>
 					</div>
 				</div>
+				{likeCount === undefined || null ? (
+					"no likes"
+				) : likeCount <= 1 ? (
+					<div className="flex justify-end items-center gap-1">
+						<p className="text-xs text-gray-400">{likeCount}</p>
+						<p className="text-xs text-gray-400">like</p>
+					</div>
+				) : (
+					<div className="flex justify-end items-center gap-1">
+						<p className="text-xs text-gray-400">{likeCount}</p>
+						<p className="text-xs text-gray-400">likes</p>
+					</div>
+				)}
 				{commentCount <= 1 ? (
 					<div className="flex justify-end items-center gap-1">
 						<p className="text-xs text-gray-400">{commentCount}</p>
@@ -130,7 +154,7 @@ const Post = ({ post, users }: Props) => {
 				<hr className="my-2" />
 				<div className="flex justify-evenly mt-1">
 					<div className="flex-1 flex items-center justify-center gap-2 hover:cursor-pointer  hover:text-indigo-400 text-indigo-600">
-						<FaRegThumbsUp />
+						<CreateLike post={post} users={users} />
 						<span className="text-xs">Like</span>
 					</div>
 					<div className="flex-1 flex items-center justify-center gap-2 hover:cursor-pointer  hover:text-indigo-400 text-indigo-600">

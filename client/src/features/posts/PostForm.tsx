@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
-import { useAppDispatch } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { createPost } from "./postSlice";
 import { useNavigate } from "react-router-dom";
 import { SiMinutemailer } from "react-icons/si";
@@ -34,6 +34,7 @@ const PostForm = ({ movie }: Props) => {
 		rating: 0,
 	});
 
+	const error = useAppSelector((state) => state.posts.error);
 	const user = JSON.parse(localStorage.getItem("currentUser")!) as {
 		_id: string;
 	};
@@ -56,7 +57,7 @@ const PostForm = ({ movie }: Props) => {
 		};
 
 		handleFetchMovieDetails();
-	}, [dispatch, movie, user._id, navigate]);
+	}, [movie, user._id]);
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
@@ -71,6 +72,7 @@ const PostForm = ({ movie }: Props) => {
 			rating: 0,
 			reviews: "",
 		});
+		navigate("/feed");
 	};
 
 	const handleChange = (e: FormEvent) => {
@@ -88,7 +90,9 @@ const PostForm = ({ movie }: Props) => {
 					onChange={handleChange}
 					className="sm:w-96 h-10 p-1 rounded-md border-2 flex-1 border-gray-300 focus:outline-none focus:border-blue-500"
 					required
-					placeholder="write a review...."
+					minLength={10}
+					maxLength={500}
+					placeholder="Write a review...."
 				/>
 				<SiMinutemailer
 					title="Post Review"
@@ -97,6 +101,7 @@ const PostForm = ({ movie }: Props) => {
 					className="h-9 w-9 sm:p-1 p-1 bg-blue-500 text-white rounded-md cursor-pointer"
 				/>
 			</form>
+			{error && <div className="text-red-200 text-center">{error}</div>}
 		</div>
 	);
 };

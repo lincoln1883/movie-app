@@ -55,7 +55,7 @@ const CommentsModal = ({ post }: Props) => {
 			...comment,
 			[name]: value,
 			userId: user?._id,
-			postId: post._id as string,
+			postId: post?._id as string,
 		});
 	};
 
@@ -75,8 +75,8 @@ const CommentsModal = ({ post }: Props) => {
 					<div className="text-center w-full p-6">
 						<form className="w-full" onSubmit={handleSubmit}>
 							<label htmlFor="comment" hidden></label>
-							<input type="hidden" name="postId" value={post._id} />
-							<input type="hidden" name="userId" value={user._id} />
+							<input type="hidden" name="postId" value={post?._id} />
+							<input type="hidden" name="userId" value={user?._id} />
 							<textarea
 								name="comment"
 								id="comment"

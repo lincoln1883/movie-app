@@ -8,6 +8,7 @@ import userReducer from "../features/users/userSlice";
 import authReducer from "../features/auth/authSlice";
 import commentReducer from "../features/comments/movies/commentSlice";
 import postReducer from "../features/posts/postSlice";
+import likeReducer from "../features/likes/likeSlice";
 
 const store = configureStore({
 	reducer: {
@@ -19,6 +20,7 @@ const store = configureStore({
 		currentUser: authReducer,
 		comments: commentReducer,
 		posts: postReducer,
+		likes: likeReducer,
 	},
 });
 

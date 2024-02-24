@@ -42,8 +42,6 @@ const PostList = () => {
 		return users?.find((user) => user._id === userId) as User;
 	};
 
-	console.log(posts);
-
 	return (
 		<>
 			{status === "loading" && <Spinner aria-label="Default status example" />}
