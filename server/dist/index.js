@@ -51,6 +51,8 @@ app.use("/api", commentRoutes_1.readComment);
 app.use("/api", commentRoutes_1.readAllComments);
 app.use("/api", commentRoutes_1.putComment);
 app.use("/api", commentRoutes_1.removeComment);
+app.use("/api", commentRoutes_1.dislike);
+app.use("/api", commentRoutes_1.like);
 // Likes routes
 app.use("/api", likeRoutes_1.postLike);
 app.use("/api", likeRoutes_1.removeLike);

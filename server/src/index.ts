@@ -17,6 +17,8 @@ import {
 	putComment,
 	removeComment,
 	readAllComments,
+	dislike,
+	like,
 } from "./routes/comments/commentRoutes";
 import {
 	createPostRoute,
@@ -72,6 +74,8 @@ app.use("/api", readComment);
 app.use("/api", readAllComments);
 app.use("/api", putComment);
 app.use("/api", removeComment);
+app.use("/api", dislike);
+app.use("/api", like);
 // Likes routes
 app.use("/api", postLike);
 app.use("/api", removeLike);

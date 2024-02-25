@@ -94,44 +94,41 @@ export const deleteComment = async (req: Request, res: Response) => {
 	}
 };
 
-// export const likeComment = async (req: Request, res: Response) => {
-// 	try {
-// 		const { _id } = req.params;
-// 		const user = await User.findById(req.user);
-// 		const comment = await Comment.findById(_id);
-// 		if(user?._id.toString() === comment?.userId) {
-// 			return res.status(401).json({ error: "You cannot like your own comment." });
-// 		}
-// 		if (!comment) {
-// 			return res.status(404).json({ error: "Comment not found" });
-// 		};
-// 		comment.likes += 1;
-// 		await comment.save();
-// 		return res.status(200).json(comment);
-// 	}
-// 	catch (error: unknown | any) {
-// 		res.status(500).json({ error: error.message });
-// 		throw error as Error;
-// 	}
-// };
+export const likeComment = async (req: Request, res: Response) => {
+	try {
+		const { commentId } = req.params;
+		const comment = await Comment.findById(commentId);
+		if (!comment) {
+			return res.status(404).json({ error: "Comment not found" });
+		};
+		comment.likes += 1;
+		await comment.save();
+		return res.status(200).json(comment);
+	}
+	catch (error: unknown | any) {
+		res.status(500).json({ error: error.message });
+		throw error as Error;
+	}
+};
 
-// export const dislikeComment = async (req: Request, res: Response) => {
-// 	try {
-// 		const { _id } = req.params;
-// 		const user = await User.findById(req.user);
-// 		const comment = await Comment.findById(_id);
-// 		if(user?._id.toString() !== comment?.userId) {
-// 			return res.status(400).json({ error: "You did not like this comment." });
-// 		}
-// 		if (!comment) {
-// 			return res.status(404).json({ error: "Comment not found" });
-// 		};
-// 		comment.likes -= 1;
-// 		await comment.save();
-// 		return res.status(200).json(comment);
-// 	}
-// 	catch (error: unknown | any) {
-// 		res.status(500).json({ error: error.message });
-// 		throw error as Error;
-// 	}
-// };
+export const dislikeComment = async (req: Request, res: Response) => {
+	try {
+		const { commentId } = req.params;
+		const comment = await Comment.findById(commentId);
+		if (!comment) {
+			return res.status(404).json({ error: "Comment not found" });
+		};
+		if (comment.likes > 0) {
+				comment.likes -= 1;
+		};
+		if (comment.likes === 0) {
+			return res.status(400).json({ error: "Comment has no likes to delete" });
+		}
+		await comment.save();
+		return res.status(200).json(comment);
+	}
+	catch (error: unknown | any) {
+		res.status(500).json({ error: error.message });
+		throw error as Error;
+	}
+};

@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.deleteComment = exports.getComments = exports.getAllComments = exports.updateComment = exports.createComment = void 0;
+exports.dislikeComment = exports.likeComment = exports.deleteComment = exports.getComments = exports.getAllComments = exports.updateComment = exports.createComment = void 0;
 const Comments_1 = __importDefault(require("../../models/comments/Comments"));
 const User_1 = __importDefault(require("../../models/users/User"));
 const Post_1 = __importDefault(require("../../models/posts/Post"));
@@ -117,43 +117,45 @@ const deleteComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
     }
 });
 exports.deleteComment = deleteComment;
-// export const likeComment = async (req: Request, res: Response) => {
-// 	try {
-// 		const { _id } = req.params;
-// 		const user = await User.findById(req.user);
-// 		const comment = await Comment.findById(_id);
-// 		if(user?._id.toString() === comment?.userId) {
-// 			return res.status(401).json({ error: "You cannot like your own comment." });
-// 		}
-// 		if (!comment) {
-// 			return res.status(404).json({ error: "Comment not found" });
-// 		};
-// 		comment.likes += 1;
-// 		await comment.save();
-// 		return res.status(200).json(comment);
-// 	}
-// 	catch (error: unknown | any) {
-// 		res.status(500).json({ error: error.message });
-// 		throw error as Error;
-// 	}
-// };
-// export const dislikeComment = async (req: Request, res: Response) => {
-// 	try {
-// 		const { _id } = req.params;
-// 		const user = await User.findById(req.user);
-// 		const comment = await Comment.findById(_id);
-// 		if(user?._id.toString() !== comment?.userId) {
-// 			return res.status(400).json({ error: "You did not like this comment." });
-// 		}
-// 		if (!comment) {
-// 			return res.status(404).json({ error: "Comment not found" });
-// 		};
-// 		comment.likes -= 1;
-// 		await comment.save();
-// 		return res.status(200).json(comment);
-// 	}
-// 	catch (error: unknown | any) {
-// 		res.status(500).json({ error: error.message });
-// 		throw error as Error;
-// 	}
-// };
+const likeComment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { commentId } = req.params;
+        const comment = yield Comments_1.default.findById(commentId);
+        if (!comment) {
+            return res.status(404).json({ error: "Comment not found" });
+        }
+        ;
+        comment.likes += 1;
+        yield comment.save();
+        return res.status(200).json(comment);
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+        throw error;
+    }
+});
+exports.likeComment = likeComment;
+const dislikeComment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { commentId } = req.params;
+        const comment = yield Comments_1.default.findById(commentId);
+        if (!comment) {
+            return res.status(404).json({ error: "Comment not found" });
+        }
+        ;
+        if (comment.likes > 0) {
+            comment.likes -= 1;
+        }
+        ;
+        if (comment.likes === 0) {
+            return res.status(400).json({ error: "Comment has no likes to delete" });
+        }
+        yield comment.save();
+        return res.status(200).json(comment);
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+        throw error;
+    }
+});
+exports.dislikeComment = dislikeComment;

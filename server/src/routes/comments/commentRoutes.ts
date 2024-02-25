@@ -5,6 +5,8 @@ import {
 	getComments,
 	updateComment,
 	deleteComment,
+	dislikeComment,
+	likeComment,
 } from "../../controllers/comments/commentsController";
 import passport from "../../services/passport";
 
@@ -34,4 +36,15 @@ export const removeComment = router.delete(
 	"/posts/:postId/comments/:_id",
 	passport.authenticate("jwt", { session: false }),
 	deleteComment
+);
+export const dislike = router.put(
+	"/comments/:commentId/dislikes",
+	passport.authenticate("jwt", { session: false }),
+	dislikeComment
+);
+
+export const like = router.put(
+	"/comments/:commentId/likes",
+	passport.authenticate("jwt", { session: false }),
+	likeComment
 );
