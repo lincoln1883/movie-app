@@ -49,6 +49,9 @@ const NavBar = () => {
 								</span>
 							</Dropdown.Header>
 							<Dropdown.Item>
+								<Link to={'/profile'}>Profile</Link>
+							</Dropdown.Item>
+							<Dropdown.Item>
 								<Link to={'/feed'}>Feed</Link>
 								</Dropdown.Item>
 							<Dropdown.Divider />

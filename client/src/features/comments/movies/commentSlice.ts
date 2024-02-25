@@ -112,8 +112,56 @@ export const deleteComment = createAsyncThunk<
 			error.message || "Failed to delete comment"
 		);
 	}
-}
-);
+});
+
+export const likeComment = createAsyncThunk<
+	void,
+	string,
+	{ rejectValue: string }
+>("comments/likeComment", async (id, thunkAPI) => {
+	try {
+		const response = await axios.put(
+			`${BASE_URL}/comments/${id}/likes`,{like: 1},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		console.log(response.data);
+		return response.data;
+	}
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	catch (error: unknown | any) {
+		return thunkAPI.rejectWithValue(
+			error.message || "Failed to like comment"
+		);
+	}
+});
+
+export const unlikeComment = createAsyncThunk<
+	void,
+	string,
+	{ rejectValue: string }
+>("comments/unlikeComment", async (id, thunkAPI) => {
+	try {
+		const response = await axios.put(
+			`${BASE_URL}/comments/${id}/dislikes`,{like: 1},
+			{
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			}
+		);
+		return response.data;
+	}
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	catch (error: unknown | any) {
+		return thunkAPI.rejectWithValue(
+			error.message || "Failed to unlike comment"
+		);
+	}
+});
 
 export const commentSlice = createSlice({
 	name: "comment",

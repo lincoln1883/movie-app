@@ -6,13 +6,14 @@ import Layout from "./components/Layout";
 import ShowDetails from "./features/shows/ShowDetails";
 import ShowList from "./features/shows/ShowList";
 import NotFound from "./components/NotFound";
-import UserCreate from "./features/users/UserCreate";
+import UserCreate from "./features/users/UserSignUp";
 import AuthLogin from "./features/auth/AuthLogin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import About from "./pages/About";
 import SplashPage from "./pages/SplashPage";
 import HomePage from "./pages/HomePage";
 import Feed from "./pages/Feed";
+import ProfilePage from "./pages/ProfilePage";
 
 function App() {
 	return (
@@ -24,6 +25,7 @@ function App() {
 				<Route element={<ProtectedRoute />}>
 					<Route path="/home" element={<HomePage />} />
 					<Route path="/feed" element={<Feed />} />
+					<Route path="/profile" element={<ProfilePage />} />
 					<Route path="/movies" element={<MovieList />} />
 					<Route path="/movies/:id" element={<MovieDetails />} />
 					<Route path="/shows" element={<ShowList />} />

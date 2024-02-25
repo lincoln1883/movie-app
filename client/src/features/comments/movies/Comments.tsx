@@ -2,7 +2,7 @@ import { Avatar, Spinner } from "flowbite-react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import moment from "moment";
 import { FaRegThumbsDown, FaRegThumbsUp } from "react-icons/fa6";
-import { addLike, fetchComments } from "./commentSlice";
+import { fetchComments, likeComment, unlikeComment } from "./commentSlice";
 import { useEffect } from "react";
 
 interface Comment {
@@ -49,12 +49,12 @@ const Comments = ({ postId }: Props) => {
 	// i want to ristrict the user to like a comment once
 	const upLike = () => {
 		const comment = postComments[0];
-		dispatch(addLike(comment._id!));
+		dispatch(likeComment(comment._id!.toString()));
 	};
 
 	const downLike = () => {
 		const comment = postComments[0];
-		dispatch(addLike(comment._id!));
+		dispatch(unlikeComment(comment._id!.toString()));
 	};
 
 	return (
@@ -87,12 +87,12 @@ const Comments = ({ postId }: Props) => {
 							</div>
 							<p className="text-sm mt-2">{comment.comment}</p>
 							<div className="flex justify-between items-center gap-2 mt-2 mx-3">
-								<div className="flex items-center gap-1">
+								<div className="flex items-center gap-1.5">
 									<button
 										type="submit"
 										title="like"
 										onClick={upLike}
-										className="text-xs text-gray-500 hover:cursor-pointer active:text-blue-300"
+										className="text-md text-gray-500 hover:cursor-pointer active:text-blue-300"
 									>
 										<FaRegThumbsUp className="text-gray-500 hover:cursor-pointer active:text-blue-300" />
 									</button>
@@ -100,7 +100,7 @@ const Comments = ({ postId }: Props) => {
 										type="submit"
 										title="like"
 										onClick={downLike}
-										className="text-xs text-gray-500 hover:cursor-pointer active:text-blue-300"
+										className="text-md text-gray-500 hover:cursor-pointer active:text-blue-300"
 									>
 										<FaRegThumbsDown
 											type="submit"

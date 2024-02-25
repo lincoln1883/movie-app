@@ -10,7 +10,7 @@ interface User {
 	password: string;
 }
 
-const UserCreate = () => {
+const UserSignUp = () => {
 	const [buttonDisabled, setButtonDisabled] = useState(true);
 	const [userInfo, setUserInfo] = useState<User>({
 		username: "",
@@ -114,4 +114,4 @@ const UserCreate = () => {
 	);
 };
 
-export default UserCreate;
+export default UserSignUp;
