@@ -57,6 +57,7 @@ const User = () => {
 					profilePicture: data.secure_url,
 				};
 				dispatch(editUser(updatedUser));
+				localStorage.setItem("currentUser", JSON.stringify(updatedUser));
 			} else {
 				dispatch(editUser(getUserData()));
 			}
@@ -88,7 +89,7 @@ const User = () => {
 		const file = event.target.files?.[0];
 		if (file) {
 			setFile(file);
-			console.log(file);
+			userData && setUserData({ ...userData, profilePicture: URL.createObjectURL(file) });
 		}
 	};
 
