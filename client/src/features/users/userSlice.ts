@@ -1,15 +1,19 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { url } from "../../utils/environment";
 
-const BASE_URL = import.meta.env.VITE_APP_SERVER_URL;
+const BASE_URL = url;
 const token = localStorage.getItem("token") as string;
 
 interface User {
 	_id?: string;
 	username: string;
+	firstName?: string;
+	lastName?: string;
 	email: string;
-	password: string;
+	password?: string;
 	profilePicture?: string;
+	bio?: string;
 }
 
 interface UserState {
@@ -80,6 +84,25 @@ export const fetchAllUsers = createAsyncThunk<
 	}
 });
 
+export const editUser = createAsyncThunk<
+	User,
+	User,
+	{ rejectValue: string }
+>("user/editUser", async (user, thunkAPI) => {
+	try {
+		const response = await axios.put(`${BASE_URL}/users/${user._id}`,user, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		return response.data;
+	}
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	catch (error: unknown | any) {
+		return thunkAPI.rejectWithValue(error.response.data.error);
+	}
+});
+
 const userSlice = createSlice({
 	name: "user",
 	initialState,
@@ -127,6 +150,14 @@ const userSlice = createSlice({
 				state.error = null;
 			})
 			.addCase(fetchAllUsers.rejected, (state, action) => {
+				state.status = "failed";
+				state.error = action.payload as string;
+			})
+			.addCase(editUser.fulfilled, (state, action) => {
+				state.status = "success";
+				state.user = action.payload;
+			})
+			.addCase(editUser.rejected, (state, action) => {
 				state.status = "failed";
 				state.error = action.payload as string;
 			});

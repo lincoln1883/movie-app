@@ -1,9 +1,230 @@
+import { Label, TextInput, Textarea } from "flowbite-react";
+import { useEffect, useState } from "react";
+import { useAppDispatch } from "../../redux/store";
+import { editUser } from "./userSlice";
+
+interface User {
+	_id: string;
+	username: string;
+	firstName: string;
+	lastName: string;
+	email: string;
+	profilePicture: string;
+	bio: string;
+	createdAt?: string;
+	password?: string;
+	updatedAt?: string;
+}
 
 const User = () => {
+	const [userData, setUserData] = useState<User | null>(null);
+	const [file, setFile] = useState<File | null>(null);
+	const [editMode, setEditMode] = useState(false); // State variable to toggle edit mode
+
+	const dispatch = useAppDispatch();
+
+	useEffect(() => {
+		const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
+		setUserData(user);
+	}, []);
+
+	const handleEditProfile = () => {
+		setEditMode(true); // Enable edit mode
+	};
+
+	const handleCancelEdit = () => {
+		setEditMode(false); // Disable edit mode
+	};
+
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+		try {
+			if (file) {
+				const formData = new FormData();
+				formData.append("file", file);
+				formData.append("upload_preset", "shango"); // Change to your Cloudinary preset name
+
+				const response = await fetch(
+					"https://api.cloudinary.com/v1_1/dvmwg6zrg/image/upload",
+					{
+						method: "POST",
+						body: formData,
+					}
+				);
+				const data = await response.json();
+				const updatedUser = {
+					...getUserData(),
+					profilePicture: data.secure_url,
+				};
+				dispatch(editUser(updatedUser));
+			} else {
+				dispatch(editUser(getUserData()));
+			}
+			setEditMode(false); // Disable edit mode after submission
+		} catch (error) {
+			console.log(error);
+		}
+	};
+
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = event.target;
+		setUserData((prevUser) => ({
+			...prevUser!,
+			[name]: value,
+		}));
+	};
+
+	const handleTextareaChange = (
+		event: React.ChangeEvent<HTMLTextAreaElement>
+	) => {
+		const { name, value } = event.target;
+		setUserData((prevUser) => ({
+			...prevUser!,
+			[name]: value,
+		}));
+	};
+
+	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const file = event.target.files?.[0];
+		if (file) {
+			setFile(file);
+			console.log(file);
+		}
+	};
+
+	const getUserData = (): User => {
+		if (!userData) throw new Error("User not defined");
+		const { _id, username, firstName, lastName, email, bio, profilePicture } =
+			userData;
+		return { _id, username, firstName, lastName, email, bio, profilePicture };
+	};
+
 	return (
 		<div>
-			<div>user</div>
-			<p>here will be the area the user details is updated</p>
+			{userData && (
+				<div>
+					{!editMode ? (
+						<div className="flex flex-col justify-center items-center">
+							<img
+								className="rounded-full object-cover w-20 h-20"
+								src={userData.profilePicture}
+								alt={userData.username}
+							/>
+							<h5 className="font-semibold text-pretty">{userData.username}</h5>
+							<p className="font-extralight text-pretty">{userData.email}</p>
+							<button
+								className="bg-blue-600 text-white px-2 rounded hover:cursor-pointer hover:bg-blue-400"
+								onClick={handleEditProfile}
+							>
+								Edit Profile
+							</button>
+						</div>
+					) : (
+						<div className="flex max-w-full flex-col gap-4">
+							<form
+								onSubmit={handleSubmit}
+								className="w-full"
+								encType="multipart/form-data"
+							>
+								<div>
+									<div className="mb-2 block">
+										<Label htmlFor="username" value="Username" />
+									</div>
+									<TextInput
+										id="username"
+										placeholder="Your username"
+										type="text"
+										name="username"
+										value={userData.username}
+										onChange={handleChange}
+									/>
+								</div>
+								<div>
+									<div className="mb-2 block">
+										<Label htmlFor="firstName" value="FirstName" />
+									</div>
+									<TextInput
+										id="firstName"
+										placeholder="Your first name"
+										type="text"
+										name="firstName"
+										value={userData.firstName}
+										onChange={handleChange}
+									/>
+								</div>
+								<div>
+									<div className="mb-2 block">
+										<Label htmlFor="lastName" value="LastName" />
+									</div>
+									<TextInput
+										id="lastName"
+										placeholder="Your last name"
+										type="text"
+										name="lastName"
+										value={userData.lastName}
+										onChange={handleChange}
+									/>
+								</div>
+								<div>
+									<div className="mb-2 block">
+										<Label htmlFor="bio" value="Bio" />
+									</div>
+									<Textarea
+										id="bio"
+										placeholder="Write a short bio about yourself."
+										name="bio"
+										value={userData.bio}
+										onChange={handleTextareaChange}
+									/>
+								</div>
+								<div>
+									<div className="mb-2 block">
+										<Label htmlFor="email" value="Email" />
+									</div>
+									<TextInput
+										type="email"
+										name="email"
+										value={userData.email}
+										onChange={handleChange}
+										id="email"
+										placeholder="Your email"
+									/>
+								</div>
+								<div id="fileUpload" className="max-w-full mt-2 flex flex-col">
+									<label htmlFor="image" className="block">
+										Images
+										<input
+											className="w-full border border-gray-300 rounded bg-white text-gray-800"
+											onChange={handleFileChange}
+											type="file"
+											name="image"
+											accept=".png, .jpg, .jpeg"
+											id="image"
+											placeholder="Upload Image"
+										/>
+										<p className="text-xs mt-2">JPEG, PNG or JPG</p>
+									</label>
+								</div>
+								<div className="flex gap-1 justify-evenly mt-2">
+									<button
+										type="submit"
+										className="bg-blue-600 text-white p-2 rounded w-full"
+									>
+										Save
+									</button>
+									<button
+										type="button"
+										className="bg-slate-400 p-2 rounded w-full"
+										onClick={handleCancelEdit}
+									>
+										Cancel
+									</button>
+								</div>
+							</form>
+						</div>
+					)}
+				</div>
+			)}
 		</div>
 	);
 };

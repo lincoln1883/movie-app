@@ -25,7 +25,7 @@ const Profile = () => {
 				/>
 				<div className="flex justify-center">
 					<img
-						alt=""
+						alt={user.username}
 						src={user?.profilePicture || "https://via.placeholder.com/150"}
 						className="rounded-full -mt-6 border-4 object-center object-cover border-white mr-2 h-16 w-16"
 					/>
@@ -35,10 +35,7 @@ const Profile = () => {
 						<Link className="underline" to="/profile">{user?.username}</Link>
 					</div>
 					<div className="text-sm font-light text-center my-2">
-						Lorem ipsum dolor sit amet consectetur adipisicing elit. Ut eum cum
-						sequi nobis, dignissimos quod incidunt consectetur veniam quam
-						pariatur nihil possimus quo rerum voluptate doloribus necessitatibus
-						animi aut dicta non. Reiciendis, molestiae earum.
+						{user.bio || "No bio available"}
 					</div>
 				</div>
 			</div>
