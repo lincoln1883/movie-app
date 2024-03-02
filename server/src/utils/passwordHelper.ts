@@ -5,6 +5,9 @@ type User = {
 	email: string;
 	password: string;
 	profilePicture: string;
+	bio: string;
+	firstName: string;
+	lastName: string;
 	createdAt: Date;
 };
 

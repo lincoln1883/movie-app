@@ -10,6 +10,14 @@ const UserSchema = new mongoose_1.default.Schema({
         required: true,
         unique: true,
     },
+    firstName: {
+        type: String,
+        default: "",
+    },
+    lastName: {
+        type: String,
+        default: "",
+    },
     password: {
         type: String,
         required: true,
@@ -18,6 +26,10 @@ const UserSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
         unique: true,
+    },
+    bio: {
+        type: String,
+        default: "",
     },
     profilePicture: {
         type: String,

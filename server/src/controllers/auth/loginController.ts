@@ -15,6 +15,9 @@ type UserType = {
 	email: string;
 	profilePicture: string;
 	createdAt: Date;
+	bio: string;
+	firstName: string;
+	lastName: string;
 };
 
 const loginUser = async (req: Request, res: Response) => {

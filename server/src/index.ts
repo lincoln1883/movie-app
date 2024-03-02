@@ -31,15 +31,6 @@ import { postLike, removeLike,readLikes, readAllLikes } from "./routes/likes/lik
 
 dotenv.config();
 
-mongoose
-	.connect(process.env.MONGO_URI as string)
-	.then(() => {
-		console.log("MongoDb is connected");
-	})
-	.catch((err) => {
-		console.log(err);
-	});
-
 const app = express();
 const port = process.env.PORT;
 
@@ -82,6 +73,15 @@ app.use("/api", removeLike);
 app.use("/api", readLikes);
 app.use("/api", readAllLikes);
 
-app.listen(port, () => {
+mongoose
+	.connect(process.env.MONGO_URI as string)
+	.then(() => {
+		console.log("MongoDb is connected");
+	})
+	.catch((err) => {
+		console.log(err);
+	});
+	
+	app.listen(port, () => {
 	console.log(`Server is running on port ${port}`);
 });

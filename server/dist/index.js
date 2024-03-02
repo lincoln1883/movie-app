@@ -14,14 +14,6 @@ const commentRoutes_1 = require("./routes/comments/commentRoutes");
 const postRoutes_1 = require("./routes/posts/postRoutes");
 const likeRoutes_1 = require("./routes/likes/likeRoutes");
 dotenv_1.default.config();
-mongoose_1.default
-    .connect(process.env.MONGO_URI)
-    .then(() => {
-    console.log("MongoDb is connected");
-})
-    .catch((err) => {
-    console.log(err);
-});
 const app = (0, express_1.default)();
 const port = process.env.PORT;
 app.use((0, cors_1.default)());
@@ -58,6 +50,14 @@ app.use("/api", likeRoutes_1.postLike);
 app.use("/api", likeRoutes_1.removeLike);
 app.use("/api", likeRoutes_1.readLikes);
 app.use("/api", likeRoutes_1.readAllLikes);
+mongoose_1.default
+    .connect(process.env.MONGO_URI)
+    .then(() => {
+    console.log("MongoDb is connected");
+})
+    .catch((err) => {
+    console.log(err);
+});
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
