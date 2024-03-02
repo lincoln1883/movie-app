@@ -19,7 +19,7 @@ const NavBar = () => {
 		<Navbar
 			fluid
 			rounded
-			className="bg-gradient-to-r from-green-300 to-blue-200 h-30 py-5"
+			className="bg-gradient-to-r from-green-300 to-blue-200 h-30 py-5 w-full fixed top-0 z-10"
 		>
 			<Navbar.Brand as={Link} to="/">
 				<span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">

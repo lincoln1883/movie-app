@@ -39,6 +39,7 @@ type Post = {
 const Post = ({ post, users }: Props) => {
 	const comments = useAppSelector((state) => state.comments.comments);
 	const likes = useAppSelector((state) => state.likes.likes);
+
 	const dispatch = useAppDispatch();
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();
@@ -49,10 +50,6 @@ const Post = ({ post, users }: Props) => {
 		dispatch(getLikes());
 		dispatch(fetchPosts());
 	}, [dispatch])
-
-	// useEffect(() => {
-	// 	dispatch(getLikes());
-	// }, [post, dispatch]);
 
 	// count the number of comments
 	const commentCount = comments.filter(
