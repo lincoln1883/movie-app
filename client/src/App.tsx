@@ -14,8 +14,17 @@ import SplashPage from "./pages/SplashPage";
 import HomePage from "./pages/HomePage";
 import Feed from "./pages/Feed";
 import ProfilePage from "./pages/ProfilePage";
+import{ getTokenExpiration} from "./utils/tokenExpiration";
 
 function App() {
+if(localStorage.getItem("token")){
+	const token = localStorage.getItem("token")!;
+	const expiration = getTokenExpiration(token);
+	if(expiration && Date.now() >= expiration){
+		localStorage.removeItem("token");
+		localStorage.removeItem("currentUser");
+	}
+}
 	return (
 		<Routes>
 			<Route index element={<SplashPage />} />

@@ -1,7 +1,6 @@
 import { Outlet } from "react-router-dom";
 import NavBar from "./NavBar";
 import AppFooter from "./Footer";
-import TokenExpirationChecker from "./CheckTokenExpiration";
 
 const Layout = () => {
 	return (
@@ -9,9 +8,8 @@ const Layout = () => {
 			<header>
 				<NavBar />
 			</header>
-			<main className="min-h-screen w-full p-0 m-0 flex flex-col bg-gray-100">
+			<main className="min-h-screen w-full p-0 mt-24 flex flex-col bg-gray-100">
 				<div className="flex justify-center items-center">
-					<TokenExpirationChecker />
 					<Outlet />
 				</div>
 			</main>
