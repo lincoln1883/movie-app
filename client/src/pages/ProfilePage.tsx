@@ -1,19 +1,65 @@
 import { useNavigate } from "react-router-dom";
 import User from "../features/users/User";
+import { useAppDispatch, useAppSelector } from "../redux/store";
+import { useEffect } from "react";
+import { fetchPosts } from "../features/posts/postSlice";
 
 const ProfilePage = () => {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+	const user = JSON.parse(localStorage.getItem("currentUser") as string);
+	const userId = user?._id as string;
+	const posts = useAppSelector((state) => state.posts.posts);
+
+	useEffect(() => {
+		dispatch(fetchPosts());
+	}, [dispatch]);
+
+	// filter posts by user id
+	const userPosts = posts.filter((post) => post.userId === userId);
+
+	// construct a timeline of posts by user in chronological order (newest first) if there are any
+	const timeline = userPosts.sort((a, b) => {
+		if (!a.createdAt || !b.createdAt) return 0;
+		const dateA = new Date(a.createdAt);
+		const dateB = new Date(b.createdAt);
+		return dateB.getTime() - dateA.getTime();
+	});
+
+
 	return (
-		<div>
-			<h1>ProfilePage</h1>
-			<button
-				type="button"
-				className="bg-cyan-50"
-				onClick={() => navigate("/feed")}
-			>
-				Go to Feed
-			</button>
-			<User/>
+		<div className="flex flex-col gap-2 mx-3 w-full mb-6">
+			<div className="flex">
+				<button
+					type="button"
+					className="bg-blue-500 text-white rounded-md hover:bg-blue-300 p-1"
+					onClick={() => navigate("/feed")}
+				>
+					Go to Feed
+				</button>
+			</div>
+			<div className="grid grid-cols-1 gap-1 sm:grid-cols-6 lg:grid-cols-6">
+				<div className="col-span-1 sm:col-start-1 sm:col-span-3 lg:col-start-3 lg:col-span-3 mb-2">
+					<h1 className="text-center">Profile</h1>
+					<User />
+				</div>
+				<div className="sm:col-start-4 sm:col-span-3 lg:col-start-4 px-2">
+					<h1 className="text-center">Recent activities</h1>
+					<div className="flex flex-col justify-center">
+						{timeline.length === 0 && (
+							<p className="text-center">No recent activities to display</p>
+						)}
+						{timeline.map((post) => (
+							<div key={post._id} className="flex justify-between">
+								<p>{post.title}</p>
+								<div className="flex gap-1">
+									<button type="button">Delete</button>
+								</div>
+							</div>
+						))}
+					</div>
+				</div>
+			</div>
 		</div>
 	);
 };
