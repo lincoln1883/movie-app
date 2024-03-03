@@ -5,7 +5,7 @@ const Jumbotron = () => {
 	// render a gif and a welcome message
 
 	return (
-		<div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56 bg-white">
+		<div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56 bg-white h-screen">
 			<img
 				src={gif}
 				alt="Movie gif"

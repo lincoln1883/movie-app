@@ -46,70 +46,72 @@ const UserSignUp = () => {
 	}, [navigate, userInfo, success]);
 
 	return (
-		<div className="flex flex-col justify-start my-10 sm:justify-center items-center w-80 h-full mx-2 sm:min-h-full sm:min-w-full">
+		<div className="flex flex-col m-auto justify-center items-center h-screen">
 			<h1 className="text-2xl font-semibold mb-4">Sign Up</h1>
-			<form
-				className="flex w-full max-w-md flex-col gap-4"
-				onSubmit={handleSubmit}
-			>
-				<div>
-					<div className="mb-2 block">
-						<Label htmlFor="username" value="Username" />
+			<div className="shadow-lg self-center w-11/12 sm:w-2/3 md:w-2/4 rounded-lg bg-white">
+				<form
+					className="flex w-full flex-col gap-4 p-5"
+					onSubmit={handleSubmit}
+				>
+					<div>
+						<div className="mb-2 block">
+							<Label htmlFor="username" value="Username" />
+						</div>
+						<TextInput
+							id="username"
+							type="text"
+							name="username"
+							placeholder="Your username"
+							required
+							onChange={handleChange}
+						/>
 					</div>
-					<TextInput
-						id="username"
-						type="text"
-						name="username"
-						placeholder="Your username"
-						required
-						onChange={handleChange}
-					/>
-				</div>
-				<div>
-					<div className="mb-2 block">
-						<Label htmlFor="email" value="Email" />
+					<div>
+						<div className="mb-2 block">
+							<Label htmlFor="email" value="Email" />
+						</div>
+						<TextInput
+							id="email"
+							type="email"
+							name="email"
+							placeholder="Your email"
+							required
+							onChange={handleChange}
+						/>
 					</div>
-					<TextInput
-						id="email"
-						type="email"
-						name="email"
-						placeholder="Your email"
-						required
-						onChange={handleChange}
-					/>
-				</div>
-				<div>
-					<div className="mb-2 block">
-						<Label htmlFor="password" value="Password" />
+					<div>
+						<div className="mb-2 block">
+							<Label htmlFor="password" value="Password" />
+						</div>
+						<TextInput
+							id="password"
+							type="password"
+							name="password"
+							placeholder="Your password"
+							required
+							onChange={handleChange}
+						/>
 					</div>
-					<TextInput
-						id="password"
-						type="password"
-						name="password"
-						placeholder="Your password"
-						required
-						onChange={handleChange}
-					/>
+					<div className="flex items-center gap-2">
+						<Checkbox id="remember" />
+						<Label htmlFor="remember">Remember me</Label>
+					</div>
+					{buttonDisabled ? (
+						<Button type="submit" disabled={buttonDisabled}>
+							Submit
+						</Button>
+					) : (
+						<Button type="submit">Submit</Button>
+					)}
+				</form>
+				<div className="flex gap-2 text-sm ps-5 mb-5">
+					<span>Have an account?</span>
+					<Link to="/login" className="text-blue-500">
+						Sign In
+					</Link>
 				</div>
-				<div className="flex items-center gap-2">
-					<Checkbox id="remember" />
-					<Label htmlFor="remember">Remember me</Label>
-				</div>
-				{buttonDisabled ? (
-					<Button type="submit" disabled={buttonDisabled}>
-						Submit
-					</Button>
-				) : (
-					<Button type="submit">Submit</Button>
-				)}
-			</form>
-			<div className="flex gap-2 text-sm mt-5">
-				<span>Have an account?</span>
-				<Link to="/login" className="text-blue-500">
-					Sign In
-				</Link>
+				{error && <p className="text-red-500">{error}</p>}
 			</div>
-      {error && <p className="text-red-500">{error}</p>}
 		</div>
 	);
 };
