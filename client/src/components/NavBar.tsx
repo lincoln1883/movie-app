@@ -68,11 +68,11 @@ const NavBar = () => {
 						<Navbar.Link as={Link} to="/home" active>
 							Home
 						</Navbar.Link>
-						<Navbar.Link as={Link} to="/movies">
-							Movies
+						<Navbar.Link as={Link} to="/feed">
+							Feed
 						</Navbar.Link>
-						<Navbar.Link as={Link} to="/shows">
-							Shows
+						<Navbar.Link as={Link} to="/profile">
+							Profile
 						</Navbar.Link>
 					</Navbar.Collapse>
 				</>

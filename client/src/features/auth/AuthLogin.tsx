@@ -32,7 +32,7 @@ const AuthLogin: React.FC = () => {
       setButtonDisabled(false);
     }
     if (success === "success") {
-      navigate("/feed");
+      navigate("/profile");
     }
   }, [navigate, dispatch, userInfo, success]);
 

@@ -5,8 +5,8 @@ import { useEffect } from "react";
 import MovieModal from "./MovieModal";
 import { Rating, Spinner } from "flowbite-react";
 import MovieCredit from "../credits/movieCredits/MovieCredit";
-import { FaBackspace } from "react-icons/fa";
 import PostForm from "../posts/PostForm";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const MovieDetails = () => {
 	const { id } = useParams();
@@ -38,9 +38,9 @@ const MovieDetails = () => {
 	return (
 		<div className="sm:mx-12 sm:m-2">
 			<div className="h-10 flex p-1">
-				<FaBackspace
-				title="Go Back"
-					className="text-blue-500 text-2xl mx-1 self-center hover:text-blue-700 cursor-pointer"
+				<IoMdArrowRoundBack
+					title="Go Back"
+					className="text-lg mx-1 self-center hover:text-blue-700 cursor-pointer"
 					onClick={goBack}
 				/>
 				<span className="self-center">Go Back</span>
@@ -82,11 +82,11 @@ const MovieDetails = () => {
 										<MovieModal movies={movie} />
 										<span className="sm:text-sm font-bold">Watch Trailer</span>
 									</div>
-										<PostForm movie={movie}/>
+									<PostForm movie={movie} />
 								</div>
-							</div>	
+							</div>
 						</div>
-					</div> 
+					</div>
 				)}
 			</div>
 			<div className="shadow-md p-2 bg-white">

@@ -5,7 +5,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { Spinner, Rating } from "flowbite-react";
 import ShowModal from "./ShowModal";
 import ShowCredit from "../credits/showCredits/ShowCredit";
-import { FaBackspace } from "react-icons/fa";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const ShowDetails = () => {
 	const { id } = useParams();
@@ -37,8 +37,8 @@ const ShowDetails = () => {
 	return (
 		<div className="sm:mx-12 sm:m-2">
 			<div className="h-10 flex shadow-md p-1">
-				<FaBackspace
-					className="text-blue-500 text-2xl mx-1 self-center"
+				<IoMdArrowRoundBack
+					className="text-lg mx-1 self-center"
 					onClick={goBack}
 				/>
 				<span className="self-center">Go Back</span>

@@ -2,6 +2,7 @@ import { Label, TextInput, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { useAppDispatch } from "../../redux/store";
 import { editUser } from "./userSlice";
+import { BsPencil } from "react-icons/bs";
 
 interface User {
 	_id: string;
@@ -89,7 +90,8 @@ const User = () => {
 		const file = event.target.files?.[0];
 		if (file) {
 			setFile(file);
-			userData && setUserData({ ...userData, profilePicture: URL.createObjectURL(file) });
+			userData &&
+				setUserData({ ...userData, profilePicture: URL.createObjectURL(file) });
 		}
 	};
 
@@ -105,20 +107,36 @@ const User = () => {
 			{userData && (
 				<div>
 					{!editMode ? (
-						<div className="flex flex-col justify-center items-center">
-							<img
-								className="rounded-full object-cover w-20 h-20"
-								src={userData.profilePicture}
-								alt={userData.username}
-							/>
-							<h5 className="font-semibold text-pretty">{userData.username}</h5>
-							<p className="font-extralight text-pretty">{userData.email}</p>
-							<button
-								className="bg-blue-600 text-white px-2 rounded hover:cursor-pointer hover:bg-blue-400"
-								onClick={handleEditProfile}
-							>
-								Edit Profile
-							</button>
+						<div className="flex sm:w-10/12 h-full items-center justify-center sm:mx-auto shadow-lg rounded-lg p-3 bg-white">
+							<div className="flex flex-col justify-center items-center mt-2 gap-1 w-11/12 ">
+								<img
+									className="rounded-full object-cover w-20 h-20"
+									src={userData.profilePicture}
+									alt={userData.username}
+								/>
+								<h5 className="font-extralight text-pretty">
+									<span className="font-semibold text-sm">Username: </span>
+									{userData.username}
+								</h5>
+								<p className="font-extralight text-pretty">
+									<span className="font-semibold text-sm">Email: </span>
+									{userData.email}
+								</p>
+								<p className="font-extralight text-pretty">
+									<span className="font-semibold text-sm">Full Name: </span>
+									{userData.firstName} {userData.lastName}
+								</p>
+								<p className="font-extralight text-pretty">
+									<span className="font-semibold text-sm">Bio: </span>
+									{userData.bio}
+								</p>
+							</div>
+							<div className="self-start flex-1 text-center justify-center h-5">
+								<BsPencil
+									className="mx-auto hover:cursor-pointer"
+									onClick={handleEditProfile}
+								/>
+							</div>
 						</div>
 					) : (
 						<div className="flex max-w-full flex-col gap-4">
