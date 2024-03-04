@@ -2,7 +2,7 @@ import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../redux/store";
 import { FormEvent, useEffect, useState } from "react";
-import { createUser,clearError } from "./userSlice";
+import { createUser,clearError } from "./userSlice"; 
 
 interface User {
 	username: string;
@@ -12,6 +12,10 @@ interface User {
 
 const UserSignUp = () => {
 	const [buttonDisabled, setButtonDisabled] = useState(true);
+	const [errors, setErrors] = useState({
+		email: "",
+		password: "",
+	});
 	const [userInfo, setUserInfo] = useState<User>({
 		username: "",
 		email: "",
@@ -31,9 +35,27 @@ const UserSignUp = () => {
 	};
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleChange = (e: any | KeyboardEvent) => {
-    setButtonDisabled(false);
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setButtonDisabled(false);
 		setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+
+		const validations: { [key: string]: (value: string) => string } = {
+			email: (val: string) => {
+				const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				return emailRegex.test(val) ? "" : "Invalid email address";
+			},
+			password: (val: string) => {
+				const pasRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
+				return pasRegex.test(val)
+					? ""
+					: "Password > 6 characters, 1(A-Z letter & number).";
+			},
+		};
+
+		if (validations[name]) {
+			setErrors({ ...errors, [name]: validations[name](value) });
+		}
 	};
 
 	useEffect(() => {
@@ -47,8 +69,8 @@ const UserSignUp = () => {
 
 	return (
 		<div className="flex flex-col m-auto justify-center items-center h-screen">
-			<h1 className="text-2xl font-semibold mb-4">Sign Up</h1>
 			<div className="shadow-lg self-center w-11/12 sm:w-2/3 md:w-2/4 rounded-lg bg-white">
+				<h1 className="text-2xl font-semibold mt-4 text-center">Sign Up</h1>
 				<form
 					className="flex w-full flex-col gap-4 p-5"
 					onSubmit={handleSubmit}
@@ -78,6 +100,9 @@ const UserSignUp = () => {
 							required
 							onChange={handleChange}
 						/>
+						{errors.email && (
+							<p className="text-red-500 text-xs mt-1">{errors.email}</p>
+						)}
 					</div>
 					<div>
 						<div className="mb-2 block">
@@ -91,20 +116,28 @@ const UserSignUp = () => {
 							required
 							onChange={handleChange}
 						/>
+						{errors.password && (
+							<p className="text-red-500 text-xs mt-1">{errors.password}</p>
+						)}
 					</div>
 					<div className="flex items-center gap-2">
 						<Checkbox id="remember" />
 						<Label htmlFor="remember">Remember me</Label>
 					</div>
 					{buttonDisabled ? (
-						<Button type="submit" disabled={buttonDisabled}>
+						<Button
+							type="submit"
+							disabled={buttonDisabled}
+							outline
+							gradientDuoTone="cyanToBlue"
+						>
 							Submit
 						</Button>
 					) : (
 						<Button type="submit">Submit</Button>
 					)}
 				</form>
-				<div className="flex gap-2 text-sm ps-5 mb-5">
+				<div className="flex justify-center gap-2 text-xs sm:text-sm mb-5">
 					<span>Have an account?</span>
 					<Link to="/login" className="text-blue-500">
 						Sign In

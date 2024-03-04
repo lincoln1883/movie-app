@@ -11,6 +11,7 @@ interface User {
 
 const AuthLogin: React.FC = () => {
 	const [buttonDisabled, setButtonDisabled] = useState(true);
+	const [errors, setErrors] = useState({ email: "", password: "" });
 	const [userInfo, setUserInfo] = useState<User>({
 		email: "",
 		password: "",
@@ -37,15 +38,33 @@ const AuthLogin: React.FC = () => {
 	}, [navigate, dispatch, userInfo, success]);
 
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const handleChange = (e: any | KeyboardEvent) => {
+	const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
 		setButtonDisabled(false);
 		setUserInfo({ ...userInfo, [e.target.name]: e.target.value });
+
+		const validations: { [key: string]: (value: string) => string } = {
+			email: (val: string) => {
+				const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				return emailRegex.test(val) ? "" : "Invalid email address";
+			},
+			password: (val: string) => {
+				const pasRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
+				return pasRegex.test(val)
+					? ""
+					: "Password > 6 characters, 1(A-Z letter & number).";
+			},
+		};
+
+		if (validations[name]) {
+			setErrors({ ...errors, [name]: validations[name](value) });
+		}
 	};
 
 	return (
 		<div className="flex flex-col m-auto justify-center items-center h-screen">
-			<h1 className="text-2xl font-semibold mb-4">Login</h1>
 			<div className="shadow-lg self-center w-11/12 sm:w-2/3 md:w-2/4 rounded-lg bg-white">
+				<h1 className="text-2xl font-semibold mt-4 text-center">Login</h1>
 				<form
 					className="flex max-w-full flex-col gap-4 p-5"
 					onSubmit={handleSubmit}
@@ -62,6 +81,9 @@ const AuthLogin: React.FC = () => {
 							required
 							onChange={handleChange}
 						/>
+						{errors.email && (
+							<p className="text-red-500 text-xs mt-1">{errors.email}</p>
+						)}
 					</div>
 					<div className="w-full">
 						<div className="mb-2 block">
@@ -75,16 +97,25 @@ const AuthLogin: React.FC = () => {
 							required
 							onChange={handleChange}
 						/>
+						{errors.password && (
+							<p className="text-red-500 text-xs mt-1">{errors.password}</p>
+						)}
 					</div>
 					<div className="flex items-center gap-2">
 						<Checkbox id="remember" />
 						<Label htmlFor="remember">Remember me</Label>
 					</div>
-					<Button type="submit" disabled={buttonDisabled} className="w-full">
+					<Button
+						type="submit"
+						disabled={buttonDisabled}
+						className="w-full font-semibold"
+						outline
+						gradientDuoTone="cyanToBlue"
+					>
 						Login
 					</Button>
 				</form>
-				<div className="flex gap-2 text-sm mb-5 ps-5">
+				<div className="flex justify-center gap-2 text-xs sm:text-smm mb-5">
 					<span>Don't have an account?</span>
 					<Link to="/signup" className="text-blue-500">
 						Sign Up
