@@ -14,36 +14,31 @@ import SplashPage from "./pages/SplashPage";
 import HomePage from "./pages/HomePage";
 import Feed from "./pages/Feed";
 import ProfilePage from "./pages/ProfilePage";
-import { getTokenExpiration } from "./utils/tokenExpiration";
+import CheckTokenExpiration from "./components/CheckTokenExpiration";
 
 function App() {
-	if (localStorage.getItem("token")) {
-		const token = localStorage.getItem("token")!;
-		const expiration = getTokenExpiration(token);
-		if (expiration && Date.now() >= expiration) {
-			localStorage.removeItem("token");
-			localStorage.removeItem("currentUser");
-		}
-	}
 	return (
-		<Routes>
-			<Route index element={<SplashPage />} />
-			<Route path="/signup" element={<UserCreate />} />
-			<Route path="/login" element={<AuthLogin />} />
-			<Route element={<ProtectedRoute />}>
-				<Route path="/" element={<Layout />}>
-					<Route path="/home" element={<HomePage />} />
-					<Route path="/feed" element={<Feed />} />
-					<Route path="/profile" element={<ProfilePage />} />
-					<Route path="/movies" element={<MovieList />} />
-					<Route path="/movies/:id" element={<MovieDetails />} />
-					<Route path="/shows" element={<ShowList />} />
-					<Route path="/shows/:id" element={<ShowDetails />} />
+		<>
+			<CheckTokenExpiration />
+			<Routes>
+				<Route index element={<SplashPage />} />
+				<Route path="/signup" element={<UserCreate />} />
+				<Route path="/login" element={<AuthLogin />} />
+				<Route element={<ProtectedRoute />}>
+					<Route path="/" element={<Layout />}>
+						<Route path="/home" element={<HomePage />} />
+						<Route path="/feed" element={<Feed />} />
+						<Route path="/profile" element={<ProfilePage />} />
+						<Route path="/movies" element={<MovieList />} />
+						<Route path="/movies/:id" element={<MovieDetails />} />
+						<Route path="/shows" element={<ShowList />} />
+						<Route path="/shows/:id" element={<ShowDetails />} />
+					</Route>
+					<Route path="/about" element={<About />} />
+					<Route path="*" element={<NotFound />} />
 				</Route>
-				<Route path="/about" element={<About />} />
-				<Route path="*" element={<NotFound />} />
-			</Route>
-		</Routes>
+			</Routes>
+		</>
 	);
 }
 

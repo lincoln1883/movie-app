@@ -108,9 +108,9 @@ const User = () => {
 				<div>
 					{!editMode ? (
 						<div className="flex sm:w-10/12 h-full items-center justify-center sm:mx-auto shadow-lg rounded-lg p-3 bg-white">
-							<div className="flex flex-col justify-center items-center mt-2 gap-1 w-11/12 ">
+							<div className="flex flex-col justify-center items-center mt-2 gap-1 w-11/12 py-5">
 								<img
-									className="rounded-full object-cover w-20 h-20"
+									className="rounded-full object-cover w-32 h-32"
 									src={userData.profilePicture}
 									alt={userData.username}
 								/>

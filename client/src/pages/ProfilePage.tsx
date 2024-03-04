@@ -34,12 +34,11 @@ const ProfilePage = () => {
 				<IoMdArrowRoundBack onClick={() => navigate("/feed")} title="Go to Feed" className="hover:cursor-pointer text-lg" />
 				<span className="text-sm">Go back</span>
 			</div>
-			<div className="grid grid-cols-1 gap-1 sm:grid-cols-6 lg:grid-cols-6">
-				<div className="col-span-1 sm:col-start-1 sm:col-span-3 lg:col-start-3 lg:col-span-3 mb-2">
-					<h1 className="text-center">Profile</h1>
+			<div className="grid grid-cols-1 gap-1 sm:grid-cols-6 lg:grid-cols-8">
+				<div className="col-span-1 sm:col-start-1 sm:col-span-3 lg:col-start-2 lg:col-span-3 mb-2">
 					<User />
 				</div>
-				<div className="sm:col-start-4 sm:col-span-3 lg:col-start-4 px-2">
+				<div className="sm:col-start-4 sm:col-span-3 lg:col-start-5 px-2">
 					<h1 className="text-center">Recent activities</h1>
 					<div className="flex flex-col justify-center">
 						{timeline.length === 0 && (

@@ -15,11 +15,11 @@ const Feed = () => {
 					</p>
 				</Link>
 			</div>
-			<div className="grid grid-cols-1 gap-1 sm:grid-cols-6 lg:grid-cols-8">
+			<div className="grid grid-cols-1 gap-1 sm:grid-cols-5 lg:grid-cols-7">
 				<div className="sm:col-start-1 sm:col-span-2 lg:col-start-2">
 					<Profile />
 				</div>
-				<div className="sm:col-start-3 sm:col-span-4 lg:col-start-4">
+				<div className="sm:col-start-3 sm:col-span-3 lg:col-start-4 lg:col-span-3">
 					<PostList />
 				</div>
 			</div>

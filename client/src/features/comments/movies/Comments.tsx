@@ -69,8 +69,9 @@ const Comments = ({ postId }: Props) => {
 					const author = findAuthor(comment.userId);
 					return (
 						<div key={comment._id} className="mb-2">
-							<div className="flex items-center gap-2">
+							<div className="flex items-center gap-2 px-1">
 								<Avatar
+								size={"sm"}
 									img={author?.profilePicture}
 									alt={author?.username}
 									rounded
@@ -85,8 +86,8 @@ const Comments = ({ postId }: Props) => {
 									</p>
 								</div>
 							</div>
-							<p className="text-sm mt-2">{comment.comment}</p>
-							<div className="flex justify-between items-center gap-2 mt-2 mx-3">
+							<p className="text-sm px-1 mt-2">{comment.comment}</p>
+							<div className="flex justify-between items-center gap-2 mt-2 mx-3 px-1">
 								<div className="flex items-center gap-1.5">
 									<button
 										type="submit"
