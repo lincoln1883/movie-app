@@ -5,7 +5,7 @@ const Jumbotron = () => {
 	// render a gif and a welcome message
 
 	return (
-		<div className="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56 bg-white h-screen">
+		<div className="flex flex-col justify-center items-center m-auto w-full bg-white h-screen px-3">
 			<img
 				src={gif}
 				alt="Movie gif"
@@ -18,7 +18,7 @@ const Jumbotron = () => {
 			<p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48">
 				Explore the latest movies and TV shows Post reviews comment and like.
 			</p>
-			<div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
+			<div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 w-full">
 				<Link
 					to={"/login"}
 					className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"

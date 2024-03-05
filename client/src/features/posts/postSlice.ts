@@ -44,7 +44,6 @@ export const fetchPosts = createAsyncThunk<Post[], void, { rejectValue: string }
           Authorization: `Bearer ${token}`,
         },
       });
-      console.log(response.data);
       return response.data;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: unknown | any) {

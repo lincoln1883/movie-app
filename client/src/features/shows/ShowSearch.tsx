@@ -36,31 +36,29 @@ const ShowSearch = () => {
   };
 
   return (
-    <div className="flex justify-center items-center my-5">
-      <div className="flex">
-        <form
-          className="flex justify-center items-center"
-          onSubmit={handleSubmit}
-        >
-          <input
-            type="text"
-            placeholder="Search..."
-            required
-            className="border-2 border-gray-300 bg-white h-10 px-5 pr-16 rounded-lg text-sm focus:outline-none"
-            onChange={handleChange}
-            value={searchTerm}
-          />
-          <button
-            aria-label="search button"
-            type="submit"
-            className="hover:bg-blue-200:text-white text-blue-500 py-1 px-1 cursor-pointer font-bold rounded"
-          >
-            <FaSearch className="sm:w-8 h-8" />
-          </button>
-        </form>
-      </div>
-    </div>
-  );
+		<div className="flex justify-center items-center m-auto w-full mb-3">
+			<form
+				className="flex justify-center w-4/5 sm:w-2/4 items-center border-2 mx-5 sm:mx-auto border-gray-300 px-0.5 bg-white h-10 rounded-lg text-sm"
+				onSubmit={handleSubmit}
+			>
+				<input
+					type="text"
+					placeholder="Search..."
+					required
+					className="bg-white px-1 text-sm outline-none border-none w-80 flex-1 focus:outline-none"
+					onChange={handleChange}
+					value={searchTerm}
+				/>
+				<button
+					aria-label="search button"
+					type="submit"
+					className="hover:bg-blue-200:text-white text-blue-500 py-1 px-1 cursor-pointer font-bold rounded"
+				>
+					<FaSearch className="w-6 h-6" />
+				</button>
+			</form>
+		</div>
+	);
 };
 
 export default ShowSearch;

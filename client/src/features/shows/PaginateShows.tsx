@@ -43,7 +43,7 @@ const PaginateShow = () => {
 			<div className="flex justify-between p-2">
 				<h4 className="text-lg font-semibold sm:font-bold">Popular TV Shows</h4>
 				<Link to={"/shows"} className="text-sm sm:text-lg underline mb-2">
-					Shows more
+					Show more
 				</Link>
 			</div>
 			<div className="flex flex-col items-start overflow-x-auto">

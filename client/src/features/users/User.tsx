@@ -1,8 +1,9 @@
-import { Label, TextInput, Textarea } from "flowbite-react";
+import { Button, Label, TextInput, Textarea } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { useAppDispatch } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { editUser } from "./userSlice";
 import { BsPencil } from "react-icons/bs";
+import moment from "moment";
 
 interface User {
 	_id: string;
@@ -23,6 +24,9 @@ const User = () => {
 	const [editMode, setEditMode] = useState(false); // State variable to toggle edit mode
 
 	const dispatch = useAppDispatch();
+	const loading = useAppSelector(
+		(state) => state.currentUser.status === "loading"
+	);
 
 	useEffect(() => {
 		const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
@@ -53,15 +57,13 @@ const User = () => {
 					}
 				);
 				const data = await response.json();
-				const updatedUser = {
-					...getUserData(),
+				setUserData((prevUser) => ({
+					...prevUser!,
 					profilePicture: data.secure_url,
-				};
-				dispatch(editUser(updatedUser));
-				localStorage.setItem("currentUser", JSON.stringify(updatedUser));
-			} else {
-				dispatch(editUser(getUserData()));
+				}));
 			}
+			dispatch(editUser(userData!));
+			localStorage.setItem("currentUser", JSON.stringify(userData));
 			setEditMode(false); // Disable edit mode after submission
 		} catch (error) {
 			console.log(error);
@@ -95,13 +97,6 @@ const User = () => {
 		}
 	};
 
-	const getUserData = (): User => {
-		if (!userData) throw new Error("User not defined");
-		const { _id, username, firstName, lastName, email, bio, profilePicture } =
-			userData;
-		return { _id, username, firstName, lastName, email, bio, profilePicture };
-	};
-
 	return (
 		<div>
 			{userData && (
@@ -110,10 +105,12 @@ const User = () => {
 						<div className="flex sm:w-10/12 h-full items-center justify-center sm:mx-auto shadow-lg rounded-lg p-3 bg-white">
 							<div className="flex flex-col justify-center items-center mt-2 gap-1 w-11/12 py-5">
 								<img
-									className="rounded-full object-cover w-32 h-32"
+									className="rounded-full object-cover w-40 h-40"
 									src={userData.profilePicture}
 									alt={userData.username}
 								/>
+								<div className="text-left">
+
 								<h5 className="font-extralight text-pretty">
 									<span className="font-semibold text-sm">Username: </span>
 									{userData.username}
@@ -130,6 +127,19 @@ const User = () => {
 									<span className="font-semibold text-sm">Bio: </span>
 									{userData.bio}
 								</p>
+								{userData.createdAt && (
+									<p className="font-extralight text-pretty">
+										<span className="font-semibold text-sm">Joined: </span>
+										{moment(userData.createdAt).format("MMMM Do, YYYY")}
+									</p>
+								)}
+								{userData.updatedAt && (
+									<p className="font-extralight text-pretty">
+										<span className="font-semibold text-sm">Updated: </span>
+										{moment(userData.updatedAt).fromNow()}
+									</p>
+								)}
+								</div>
 							</div>
 							<div className="self-start flex-1 text-center justify-center h-5">
 								<BsPencil
@@ -224,20 +234,24 @@ const User = () => {
 										<p className="text-xs mt-2">JPEG, PNG or JPG</p>
 									</label>
 								</div>
-								<div className="flex gap-1 justify-evenly mt-2">
-									<button
+								<div className="flex gap-1 justify-center mt-2">
+									<Button
 										type="submit"
-										className="bg-blue-600 text-white p-2 rounded w-full"
+										className="w-full"
+										outline
+										gradientDuoTone="greenToBlue"
 									>
-										Save
-									</button>
-									<button
+										{loading ? "Loading..." : "Save"}
+									</Button>
+									<Button
 										type="button"
-										className="bg-slate-400 p-2 rounded w-full"
+										outline
+										className="w-full"
+										gradientDuoTone="redToYellow"
 										onClick={handleCancelEdit}
 									>
 										Cancel
-									</button>
+									</Button>
 								</div>
 							</form>
 						</div>

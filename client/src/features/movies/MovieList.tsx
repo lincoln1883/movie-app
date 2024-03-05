@@ -21,7 +21,7 @@ const MovieList = () => {
   };
 
   return (
-    <div>
+    <div className="w-full">
       <MovieSearch />
       <h1 className="text-center text-3xl font-semibold mb-2 capitalize">
         Popular movies

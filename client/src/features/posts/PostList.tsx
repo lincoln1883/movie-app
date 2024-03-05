@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { fetchPosts } from "./postSlice";
-import { fetchAllUsers } from "../users/userSlice";
+import { fetchAllUsers, fetchUser } from "../users/userSlice";
 import Post from "./Post";
 import { Spinner } from "flowbite-react";
 import { fetchComments } from "../comments/movies/commentSlice";
@@ -18,6 +18,7 @@ const PostList = () => {
 	const status = useAppSelector((state) => state.posts.status);
 	const error = useAppSelector((state) => state.posts.error);
 	const users = useAppSelector((state) => state.user.users);
+	const correntUser = useAppSelector((state) => state.currentUser.currentUser);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -34,9 +35,10 @@ const PostList = () => {
 
 	useEffect(() => {
 		if (users?.length === 0) {
+			dispatch(fetchUser(correntUser!.id));
 			dispatch(fetchAllUsers());
 		}
-	}, [users, dispatch]);
+	}, [users, dispatch, correntUser]);
 
 	const findUser = (userId: string) => {
 		return users?.find((user) => user._id === userId) as User;
@@ -46,7 +48,7 @@ const PostList = () => {
 		<>
 			{status === "loading" && <Spinner aria-label="Default status example" />}
 			{status === "failed" && <div>{error}</div>}
-			<div>
+			<div className="flex flex-col gap-1">
 				{posts.map((post) => {
 					const author = findUser(post.userId);
 					return <Post key={post._id} post={post} users={author} />;

@@ -20,6 +20,7 @@ const AuthLogin: React.FC = () => {
 	const navigate = useNavigate();
 	const error = useAppSelector((state) => state.currentUser.error);
 	const success = useAppSelector((state) => state.currentUser.status);
+	const loading = useAppSelector((state) => state.currentUser.status === "loading");
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();
@@ -112,7 +113,7 @@ const AuthLogin: React.FC = () => {
 						outline
 						gradientDuoTone="cyanToBlue"
 					>
-						Login
+						{loading ? "Loading..." : "Login"}
 					</Button>
 				</form>
 				<div className="flex justify-center gap-2 text-xs sm:text-smm mb-5">

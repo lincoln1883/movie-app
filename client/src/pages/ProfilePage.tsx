@@ -27,12 +27,14 @@ const ProfilePage = () => {
 		return dateB.getTime() - dateA.getTime();
 	});
 
+	// count the number of posts by user
+	const postCount = userPosts.length;
 
 	return (
 		<div className="flex flex-col gap-2 mx-3 w-full mb-6 bg-slate-100">
 			<div className="flex gap-1">
 				<IoMdArrowRoundBack onClick={() => navigate("/feed")} title="Go to Feed" className="hover:cursor-pointer text-lg" />
-				<span className="text-sm">Go back</span>
+				<span className="text-sm">Go to feed</span>
 			</div>
 			<div className="grid grid-cols-1 gap-1 sm:grid-cols-6 lg:grid-cols-8">
 				<div className="col-span-1 sm:col-start-1 sm:col-span-3 lg:col-start-2 lg:col-span-3 mb-2">
@@ -42,7 +44,10 @@ const ProfilePage = () => {
 					<h1 className="text-center">Recent activities</h1>
 					<div className="flex flex-col justify-center">
 						{timeline.length === 0 && (
-							<p className="text-center">No recent activities to display</p>
+							<p className="text-center">No recent post to display</p>
+						)}
+						{timeline.length > 0 && (
+							<p className="text-center">You have {postCount} posts</p>
 						)}
 						{timeline.map((post) => (
 							<div key={post._id} className="flex justify-between">
