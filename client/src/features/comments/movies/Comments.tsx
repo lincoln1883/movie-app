@@ -27,8 +27,10 @@ const Comments = ({ postId }: Props) => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		dispatch(fetchComments());
-	}, [dispatch]);
+		if (comments.length === 0) {
+			dispatch(fetchComments());
+		}
+	}, [dispatch, comments]);
 	
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();

@@ -48,7 +48,6 @@ const Post = ({ post, users }: Props) => {
 	useEffect(() => {
 		dispatch(fetchPosts())
 		dispatch(getLikes());
-		dispatch(fetchPosts());
 	}, [dispatch])
 
 	// count the number of comments
@@ -133,12 +132,12 @@ const Post = ({ post, users }: Props) => {
 							"no likes"
 						) : likeCount <= 1 ? (
 							<div className="flex justify-end items-center gap-0.5">
-								<p className="text-xs text-gray-400">{likeCount}</p>
+								<p className="text-xs text-gray-400">{post.likes?.length}</p>
 								<p className="text-xs text-gray-400">like</p>
 							</div>
 						) : (
 							<div className="flex justify-end items-center gap-0.5">
-								<p className="text-xs text-gray-400">{likeCount}</p>
+								<p className="text-xs text-gray-400">{post.likes?.length}</p>
 								<p className="text-xs text-gray-400">likes</p>
 							</div>
 						)}
@@ -146,12 +145,12 @@ const Post = ({ post, users }: Props) => {
 					<div>
 						{commentCount <= 1 ? (
 							<div className="flex justify-end items-center gap-0.5">
-								<p className="text-xs text-gray-400">{commentCount}</p>
+								<p className="text-xs text-gray-400">{post.comments?.length}</p>
 								<p className="text-xs text-gray-400">comment</p>
 							</div>
 						) : (
 							<div className="flex justify-end items-center gap-0.5">
-								<p className="text-xs text-gray-400">{commentCount}</p>
+								<p className="text-xs text-gray-400">{post.comments?.length}</p>
 								<p className="text-xs text-gray-400">comments</p>
 							</div>
 						)}

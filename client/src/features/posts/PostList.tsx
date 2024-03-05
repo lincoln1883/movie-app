@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { fetchPosts } from "./postSlice";
-import { fetchAllUsers, fetchUser } from "../users/userSlice";
+import { fetchAllUsers } from "../users/userSlice";
 import Post from "./Post";
 import { Spinner } from "flowbite-react";
 import { fetchComments } from "../comments/movies/commentSlice";
@@ -18,7 +18,6 @@ const PostList = () => {
 	const status = useAppSelector((state) => state.posts.status);
 	const error = useAppSelector((state) => state.posts.error);
 	const users = useAppSelector((state) => state.user.users);
-	const correntUser = useAppSelector((state) => state.currentUser.currentUser);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -35,10 +34,9 @@ const PostList = () => {
 
 	useEffect(() => {
 		if (users?.length === 0) {
-			dispatch(fetchUser(correntUser!.id));
 			dispatch(fetchAllUsers());
 		}
-	}, [users, dispatch, correntUser]);
+	}, [users, dispatch]);
 
 	const findUser = (userId: string) => {
 		return users?.find((user) => user._id === userId) as User;
