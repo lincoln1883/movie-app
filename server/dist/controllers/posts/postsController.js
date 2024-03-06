@@ -14,7 +14,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.deletePost = exports.updatePost = exports.getPost = exports.getPosts = exports.createPost = void 0;
 const Post_1 = __importDefault(require("../../models/posts/Post"));
-const User_1 = __importDefault(require("../../models/users/User"));
+const Comments_1 = __importDefault(require("../../models/comments/Comments"));
+const Like_1 = __importDefault(require("../../models/likes/Like"));
 const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { title, movieId, overview, poster_path, release_date, rating, reviews, } = req.body;
@@ -48,10 +49,15 @@ const createPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
 exports.createPost = createPost;
 const getPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const posts = yield Post_1.default.find()
-            .populate("comments")
-            .sort({ createdAt: -1 })
-            .exec();
+        const posts = yield Post_1.default.find();
+        posts.forEach((post) => __awaiter(void 0, void 0, void 0, function* () {
+            const comments = yield Comments_1.default.find({ postId: post._id });
+            const likes = yield Like_1.default.find({ postId: post._id });
+            yield Post_1.default.findByIdAndUpdate(post._id, {
+                comments: comments,
+                likes: likes,
+            });
+        }));
         if (!posts) {
             return res.status(404).json({ error: "No posts found" });
         }
@@ -109,12 +115,6 @@ const deletePost = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         const post = yield Post_1.default.findById(id);
         if (!post) {
             return res.status(404).json({ error: "Post not found" });
-        }
-        const user = yield User_1.default.findById(req.user);
-        if ((post === null || post === void 0 ? void 0 : post.userId) !== (user === null || user === void 0 ? void 0 : user._id)) {
-            return res
-                .status(401)
-                .json({ error: "You are not authorized to delete this post" });
         }
         yield Post_1.default.findByIdAndDelete(id);
         return res.status(200).json({ message: "Post deleted successfully" });

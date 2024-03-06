@@ -1,4 +1,4 @@
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Button, Checkbox, Label, Spinner, TextInput } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../redux/store";
 import { FormEvent, useEffect, useState } from "react";
@@ -15,6 +15,7 @@ const UserSignUp = () => {
 	const [errors, setErrors] = useState({
 		email: "",
 		password: "",
+		username: "",
 	});
 	const [userInfo, setUserInfo] = useState<User>({
 		username: "",
@@ -23,7 +24,8 @@ const UserSignUp = () => {
 	});
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const success = useAppSelector((state) => state.user.status);
+	const success = useAppSelector((state) => state.user.status === 'success');
+	const loading = useAppSelector((state) => state.user.status === 'loading');
   const error = useAppSelector((state) => state.user.error);
 
 	const handleSubmit = (e: FormEvent) => {
@@ -50,7 +52,11 @@ const UserSignUp = () => {
 				return pasRegex.test(val)
 					? ""
 					: "Password > 6 characters, 1(A-Z letter & number).";
-			},
+				},
+			username: (val: string) => {
+					const userRegex = /^[a-zA-Z0-9]{3,30}$/;
+					return userRegex.test(val) ? "" : "Invalid username";
+				}
 		};
 
 		if (validations[name]) {
@@ -62,7 +68,7 @@ const UserSignUp = () => {
 		if (userInfo.username && userInfo.email && userInfo.password) {
 			setButtonDisabled(false);
 		}
-		if(success === 'success'){
+		if(success){
 			navigate('/login');
 		}
 	}, [navigate, userInfo, success]);
@@ -87,6 +93,9 @@ const UserSignUp = () => {
 							required
 							onChange={handleChange}
 						/>
+						{errors.username && (
+							<p className="text-red-500 text-xs mt-1">{errors.username}</p>
+						)}
 					</div>
 					<div>
 						<div className="mb-2 block">
@@ -131,7 +140,7 @@ const UserSignUp = () => {
 							outline
 							gradientDuoTone="cyanToBlue"
 						>
-							Submit
+							{loading ? <Spinner /> : 'Submit'}
 						</Button>
 					) : (
 						<Button type="submit">Submit</Button>

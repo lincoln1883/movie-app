@@ -39,6 +39,7 @@ export const fetchPosts = createAsyncThunk<Post[], void, { rejectValue: string }
   'posts/fetchPosts',
   async (_, thunkAPI) => {
     try {
+      const token = (await localStorage.getItem("token")) as string;
       const response = await axios.get(`${BASE_URL}/posts`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -69,7 +70,7 @@ export const createPost = createAsyncThunk<Post, Post, { rejectValue: string }>(
   }
 );
 
-export const deletePost = createAsyncThunk<string, string, { rejectValue: string }>(
+export const deletePost = createAsyncThunk<void, string, { rejectValue: string }>(
   'posts/deletePost',
   async (id, thunkAPI) => {
     try {

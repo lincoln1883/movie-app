@@ -46,6 +46,7 @@ export const getLikes = createAsyncThunk<Like[], void, { rejectValue: string }>(
   "likes/getLikes",
   async (_, thunkAPI) => {
     try {
+      const token = (await localStorage.getItem("token")) as string;
       const response = await axios.get(`${BASE_URL}/likes`, {
         headers: {
           Authorization: `Bearer ${token}`,

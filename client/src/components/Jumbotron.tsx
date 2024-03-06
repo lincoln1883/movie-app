@@ -2,8 +2,6 @@ import { Link } from "react-router-dom";
 import gif from "../assets/animation-icon-png-16.jpg";
 
 const Jumbotron = () => {
-	// render a gif and a welcome message
-
 	return (
 		<div className="flex flex-col justify-center items-center m-auto w-full bg-white h-screen px-3">
 			<img
@@ -12,16 +10,20 @@ const Jumbotron = () => {
 				title="Powered by Icons8.com"
 				className="w-32 h-32 mx-auto mb-8 rounded-lg"
 			/>
-			<h1 className="mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl">
+			<h1
+				className="mb-4 text-4xl text-purple-500 font-extrabold tracking-tight leading-none md:text-5xl lg:text-6xl"
+			>
 				Pipoca Flics
 			</h1>
-			<p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48">
-				Explore the latest movies and TV shows Post reviews comment and like.
+			<div className="mx-3 w-11/12 overflow-hidden">
+			<p className="mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 lg:px-48 text-nowrap  animate-marquee">
+				Explore the latest movies and tv shows, post a review, comment on and like posts and comments made by other users.
 			</p>
-			<div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 w-full">
+			</div>
+			<div className="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0 w-full gap-2">
 				<Link
 					to={"/login"}
-					className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+					className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-violet-500 hover:text-white rounded-lg border hover:border-none hover:bg-violet-500 border-violet-800 focus:ring-violet-300 dark:focus:ring-blue-900"
 				>
 					Get started
 					<svg
@@ -42,7 +44,7 @@ const Jumbotron = () => {
 				</Link>
 				<Link
 					to={"/about"}
-					className="inline-flex justify-center hover:text-gray-900 items-center py-3 px-5 sm:ms-4 text-base font-medium text-center rounded-lg border bg-slate-300 border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400"
+					className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white hover:text-violet-500 rounded-lg border bg-violet-300 border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400"
 				>
 					Learn more
 				</Link>

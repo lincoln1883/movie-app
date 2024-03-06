@@ -19,10 +19,10 @@ const NavBar = () => {
 		<Navbar
 			fluid
 			rounded
-			className="bg-gradient-to-r from-green-300 to-blue-200 h-30 py-5 w-full fixed top-0 z-10"
+			className="bg-gradient-to-r to-violet-400 from-purple-200 h-30 py-5 w-full fixed top-0 z-10"
 		>
 			<Navbar.Brand as={Link} to="/">
-				<span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">
+				<span className="self-center whitespace-nowrap text-xl font-semibold">
 					Pipoca Flics
 				</span>
 			</Navbar.Brand>
@@ -35,7 +35,10 @@ const NavBar = () => {
 							label={
 								<Avatar
 									alt={user?.username}
-									img={`${user?.profilePicture}` || "https://flowbite.com/docs/images/people/profile-picture-5.jpg"}
+									img={
+										`${user?.profilePicture}` ||
+										"https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+									}
 									rounded
 								/>
 							}
@@ -49,12 +52,14 @@ const NavBar = () => {
 								</span>
 							</Dropdown.Header>
 							<Dropdown.Item>
-								<Link to={'/profile'}>Profile</Link>
+								<Link to={"/profile"}>Profile</Link>
 							</Dropdown.Item>
 							<Dropdown.Item>
-								<Link to={'/feed'}>Feed</Link>
-								</Dropdown.Item>
-							<Dropdown.Divider />
+								<Link to={"/feed"}>Feed</Link>
+							</Dropdown.Item>
+							<Dropdown.Item>
+								<Link to={"/home"}>Home</Link>
+							</Dropdown.Item>
 							<Dropdown.Item
 								className="hover:cursor-pointer"
 								onClick={handleLogout}
@@ -62,9 +67,9 @@ const NavBar = () => {
 								Sign out
 							</Dropdown.Item>
 						</Dropdown>
-						<Navbar.Toggle  />
+						{/* <Navbar.Toggle  /> */}
 					</div>
-					<Navbar.Collapse>
+					{/* <Navbar.Collapse>
 						<Navbar.Link as={Link} to="/home" active>
 							Home
 						</Navbar.Link>
@@ -74,10 +79,9 @@ const NavBar = () => {
 						<Navbar.Link as={Link} to="/profile">
 							Profile
 						</Navbar.Link>
-					</Navbar.Collapse>
+						</Navbar.Collapse> */}
 				</>
-			) : null
-			}
+			) : null}
 		</Navbar>
 	);
 };

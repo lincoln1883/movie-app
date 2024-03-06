@@ -1,4 +1,4 @@
-import { Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Button, Checkbox, Label, TextInput,Spinner } from "flowbite-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppSelector, useAppDispatch } from "../../redux/store";
 import { FormEvent, useEffect, useState } from "react";
@@ -19,7 +19,7 @@ const AuthLogin: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const error = useAppSelector((state) => state.currentUser.error);
-	const success = useAppSelector((state) => state.currentUser.status);
+	const success = useAppSelector((state) => state.currentUser.status === "success");
 	const loading = useAppSelector((state) => state.currentUser.status === "loading");
 
 	const handleSubmit = (e: FormEvent) => {
@@ -33,7 +33,7 @@ const AuthLogin: React.FC = () => {
 		if (userInfo.email && userInfo.password) {
 			setButtonDisabled(false);
 		}
-		if (success === "success") {
+		if (success) {
 			navigate("/profile");
 		}
 	}, [navigate, dispatch, userInfo, success]);
@@ -113,7 +113,7 @@ const AuthLogin: React.FC = () => {
 						outline
 						gradientDuoTone="cyanToBlue"
 					>
-						{loading ? "Loading..." : "Login"}
+						{loading ? <Spinner /> : "Login"}
 					</Button>
 				</form>
 				<div className="flex justify-center gap-2 text-xs sm:text-smm mb-5">

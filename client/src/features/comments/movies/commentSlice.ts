@@ -35,6 +35,7 @@ export const fetchComments = createAsyncThunk<
 	{ rejectValue: string }
 >("comments/fetchComments", async (_, thunkAPI) => {
 	try {
+		const token = (await localStorage.getItem("token")) as string;
 		const response = await axios.get(`${BASE_URL}/comments`,{
 			headers:{
 				Authorization: `Bearer ${token}`

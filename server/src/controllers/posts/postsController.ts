@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import Post from "../../models/posts/Post";
 import User from "../../models/users/User";
+import Comment from "../../models/comments/Comments";
+import Like from "../../models/likes/Like";
 
 export const createPost = async (req: Request, res: Response) => {
 	try {
@@ -44,10 +46,15 @@ export const createPost = async (req: Request, res: Response) => {
 
 export const getPosts = async (req: Request, res: Response) => {
 	try {
-		const posts = await Post.find()
-			.populate("comments")
-			.sort({ createdAt: -1 })
-			.exec();
+		const posts = await Post.find();
+		posts.forEach(async (post) => {
+			const comments = await Comment.find({ postId: post._id });
+			const likes = await Like.find({ postId: post._id });
+			await Post.findByIdAndUpdate(post._id, {
+				comments: comments,
+				likes: likes,
+			});
+		});
 		if (!posts) {
 			return res.status(404).json({ error: "No posts found" });
 		}
@@ -113,12 +120,6 @@ export const deletePost = async (req: Request, res: Response) => {
 		const post = await Post.findById(id);
 		if (!post) {
 			return res.status(404).json({ error: "Post not found" });
-		}
-		const user = await User.findById(req.user);
-		if (post?.userId !== user?._id) {
-			return res
-				.status(401)
-				.json({ error: "You are not authorized to delete this post" });
 		}
 		await Post.findByIdAndDelete(id);
 		return res.status(200).json({ message: "Post deleted successfully" });

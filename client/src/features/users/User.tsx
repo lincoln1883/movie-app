@@ -19,6 +19,11 @@ interface User {
 }
 
 const User = () => {
+	const [errors, setErrors] = useState({
+		email: "",
+		password: "",
+		username: "",
+	});
 	const [userData, setUserData] = useState<User | null>(null);
 	const [file, setFile] = useState<File | null>(null);
 	const [editMode, setEditMode] = useState(false); // State variable to toggle edit mode
@@ -76,6 +81,26 @@ const User = () => {
 			...prevUser!,
 			[name]: value,
 		}));
+		const validations: { [key: string]: (value: string) => string } = {
+			email: (val: string) => {
+				const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+				return emailRegex.test(val) ? "" : "Invalid email address";
+			},
+			password: (val: string) => {
+				const pasRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{6,})/;
+				return pasRegex.test(val)
+					? ""
+					: "Password > 6 characters, 1(A-Z letter & number).";
+			},
+			username: (val: string) => {
+				const userRegex = /^[a-zA-Z0-9]{3,30}$/;
+				return userRegex.test(val) ? "" : "Invalid username";
+			},
+		};
+
+		if (validations[name]) {
+			setErrors({ ...errors, [name]: validations[name](value) });
+		}
 	};
 
 	const handleTextareaChange = (
@@ -110,35 +135,34 @@ const User = () => {
 									alt={userData.username}
 								/>
 								<div className="text-left">
-
-								<h5 className="font-extralight text-pretty">
-									<span className="font-semibold text-sm">Username: </span>
-									{userData.username}
-								</h5>
-								<p className="font-extralight text-pretty">
-									<span className="font-semibold text-sm">Email: </span>
-									{userData.email}
-								</p>
-								<p className="font-extralight text-pretty">
-									<span className="font-semibold text-sm">Full Name: </span>
-									{userData.firstName} {userData.lastName}
-								</p>
-								<p className="font-extralight text-pretty">
-									<span className="font-semibold text-sm">Bio: </span>
-									{userData.bio}
-								</p>
-								{userData.createdAt && (
+									<h5 className="font-extralight text-pretty">
+										<span className="font-semibold text-sm">Username: </span>
+										{userData.username}
+									</h5>
 									<p className="font-extralight text-pretty">
-										<span className="font-semibold text-sm">Joined: </span>
-										{moment(userData.createdAt).format("MMMM Do, YYYY")}
+										<span className="font-semibold text-sm">Email: </span>
+										{userData.email}
 									</p>
-								)}
-								{userData.updatedAt && (
 									<p className="font-extralight text-pretty">
-										<span className="font-semibold text-sm">Updated: </span>
-										{moment(userData.updatedAt).fromNow()}
+										<span className="font-semibold text-sm">Full Name: </span>
+										{userData.firstName} {userData.lastName}
 									</p>
-								)}
+									<p className="font-extralight text-pretty">
+										<span className="font-semibold text-sm">Bio: </span>
+										{userData.bio}
+									</p>
+									{userData.createdAt && (
+										<p className="font-extralight text-pretty">
+											<span className="font-semibold text-sm">Joined: </span>
+											{moment(userData.createdAt).format("MMMM Do, YYYY")}
+										</p>
+									)}
+									{userData.updatedAt && (
+										<p className="font-extralight text-pretty">
+											<span className="font-semibold text-sm">Updated: </span>
+											{moment(userData.updatedAt).fromNow()}
+										</p>
+									)}
 								</div>
 							</div>
 							<div className="self-start flex-1 text-center justify-center h-5">
@@ -167,6 +191,9 @@ const User = () => {
 										value={userData.username}
 										onChange={handleChange}
 									/>
+									{errors.username && (
+										<p className="text-red-500 text-xs">{errors.username}</p>
+									)}
 								</div>
 								<div>
 									<div className="mb-2 block">
@@ -218,6 +245,9 @@ const User = () => {
 										id="email"
 										placeholder="Your email"
 									/>
+									{errors.email && (
+										<p className="text-red-500 text-xs">{errors.email}</p>
+									)}
 								</div>
 								<div id="fileUpload" className="max-w-full mt-2 flex flex-col">
 									<label htmlFor="image" className="block">

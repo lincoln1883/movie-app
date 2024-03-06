@@ -23,5 +23,4 @@ export const verifyPassword = (password: string) => {
 		return false;
 	}
 	return true;
-}
-
+};

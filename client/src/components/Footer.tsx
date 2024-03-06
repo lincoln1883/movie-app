@@ -9,10 +9,13 @@ import {
 
 const AppFooter = () => {
 	return (
-		<Footer container className="bg-gradient-to-r from-green-300 to-blue-200">
-			<div className="w-full">
+		<Footer
+			container
+			className="bg-gradient-to-r to-violet-400 from-purple-200"
+		>
+			<div className="w-ful">
 				<div className="w-full h-full hidden justify-between sm:flex sm:justify-between md:flex md:grid-cols-1">
-					<div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6">
+					<div className="grid grid-cols-2 gap-8 sm:mt-4 sm:grid-cols-3 sm:gap-6 text-white">
 						<div>
 							<Footer.Title title="about" />
 							<Footer.LinkGroup col>

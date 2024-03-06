@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from "../redux/store";
 import { useEffect } from "react";
 import { fetchPosts } from "../features/posts/postSlice";
 import { IoMdArrowRoundBack } from "react-icons/io";
+ import Timeline from "../features/users/activities/Timeline";
 
 const ProfilePage = () => {
 	const navigate = useNavigate();
@@ -33,30 +34,31 @@ const ProfilePage = () => {
 	return (
 		<div className="flex flex-col gap-2 mx-3 w-full mb-6 bg-slate-100">
 			<div className="flex gap-1">
-				<IoMdArrowRoundBack onClick={() => navigate("/feed")} title="Go to Feed" className="hover:cursor-pointer text-lg" />
+				<IoMdArrowRoundBack
+					onClick={() => navigate("/feed")}
+					title="Go to Feed"
+					className="hover:cursor-pointer text-lg"
+				/>
 				<span className="text-sm">Go to feed</span>
 			</div>
 			<div className="grid grid-cols-1 gap-1 sm:grid-cols-6 lg:grid-cols-8">
 				<div className="col-span-1 sm:col-start-1 sm:col-span-3 lg:col-start-2 lg:col-span-3 mb-2">
 					<User />
 				</div>
-				<div className="sm:col-start-4 sm:col-span-3 lg:col-start-5 px-2">
+				<div className="sm:col-start-4 sm:col-span-3 lg:col-start-5 px-2 overflow-y-scroll">
 					<h1 className="text-center">Recent activities</h1>
-					<div className="flex flex-col justify-center">
+					<div className="flex flex-col justify-center gap-1">
 						{timeline.length === 0 && (
 							<p className="text-center">No recent post to display</p>
 						)}
 						{timeline.length > 0 && (
 							<p className="text-center">You have {postCount} posts</p>
 						)}
-						{timeline.map((post) => (
-							<div key={post._id} className="flex justify-between">
-								<p>{post.title}</p>
-								<div className="flex gap-1">
-									<button type="button">Delete</button>
-								</div>
-							</div>
-						))}
+						<div className="flex flex-col">
+							{timeline.map((post) => (
+								<Timeline key={post._id} post={post} />
+							))}
+						</div>
 					</div>
 				</div>
 			</div>

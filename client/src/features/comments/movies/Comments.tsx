@@ -19,6 +19,7 @@ interface Props {
 
 const Comments = ({ postId }: Props) => {
 	const users = useAppSelector((state) => state.user.users);
+	const postState = useAppSelector((state) => state.posts.status === "success");
 	const comments = useAppSelector((state) => state.comments.comments);
 	const loading = useAppSelector(
 		(state) => state.comments.status === "loading"
@@ -27,10 +28,10 @@ const Comments = ({ postId }: Props) => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		if (comments.length === 0) {
+		if (postState) {
 			dispatch(fetchComments());
 		}
-	}, [dispatch, comments]);
+	}, [dispatch, postState]);
 	
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();
@@ -71,7 +72,7 @@ const Comments = ({ postId }: Props) => {
 					const author = findAuthor(comment.userId);
 					return (
 						<div key={comment._id} className="mb-2">
-							<div className="flex items-center gap-2 px-1">
+							<div className="flex items-center gap-1 px-1">
 								<Avatar
 								size={"sm"}
 									img={author?.profilePicture}
@@ -79,7 +80,7 @@ const Comments = ({ postId }: Props) => {
 									rounded
 								/>
 								<div className="ps-1">
-									<h4 className="text-sm font-semibold capitalize">
+									<h4 className="text-xs font-semibold capitalize">
 										{author?.username}
 									</h4>
 									<p className="text-xs text-gray-500">

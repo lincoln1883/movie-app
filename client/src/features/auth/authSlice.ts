@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { fetchPosts } from "../posts/postSlice";
 
 const BASE_URL = import.meta.env.VITE_APP_SERVER_URL;
 
@@ -32,6 +33,7 @@ export const loginUser = createAsyncThunk<Auth, object, { rejectValue: string }>
       thunkAPI.dispatch(loginSuccess(response.data.user));
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("currentUser", JSON.stringify(response.data.userObject));
+      thunkAPI.dispatch(fetchPosts());
       return response.data.userObject;
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (error: unknown | any) {
