@@ -1,7 +1,8 @@
 import { Card } from "flowbite-react";
 import { BsTrash } from "react-icons/bs";
 import { useAppDispatch } from "../../../redux/store";
-import { deletePost } from "../../posts/postSlice";
+import { deletePost, fetchPosts } from "../../posts/postSlice";
+import { useEffect } from "react";
 
 interface Post {
 	_id?: string;
@@ -19,10 +20,14 @@ interface Props {
 }
 
 const Timeline = ({ post }: Props) => {
-  const dispatch = useAppDispatch();
-
+	const dispatch = useAppDispatch();
+	
+	useEffect(() => {
+		dispatch(fetchPosts());
+	}, [dispatch]);
+	
   const handleDelete = () => {
-    dispatch(deletePost(post._id as string));
+		dispatch(deletePost(post._id as string));
   }
 
 	return (

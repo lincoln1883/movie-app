@@ -62,7 +62,7 @@ const CommentsModal = ({ post }: Props) => {
 	return (
 		<>
 			<FaMessage
-				className="hover:cursor-pointer hover:text-blue-500"
+				className="hover:cursor-pointer hover:text-indigo-400 text-indigo-600 "
 				onClick={() => setOpenModal(true)}
 			/>
 			<Modal
@@ -93,7 +93,11 @@ const CommentsModal = ({ post }: Props) => {
 								>
 									Submit
 								</button>
-								<Button color="rose" className="hover:bg-red-200" onClick={() => setOpenModal(false)}>
+								<Button
+									color="rose"
+									className="hover:bg-red-200"
+									onClick={() => setOpenModal(false)}
+								>
 									No, cancel
 								</Button>
 							</div>

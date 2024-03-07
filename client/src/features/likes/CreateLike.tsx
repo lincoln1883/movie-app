@@ -67,7 +67,7 @@ const CreateLike = ({ post }: Props) => {
 			{isLiked() ? (
 				<button
 					type="submit"
-					className="text-xs"
+					className="text-xs hover:cursor-pointer  hover:text-indigo-400 text-indigo-600 "
 					title="DisLike"
 					onClick={handleDeleteLike}
 				>
@@ -77,7 +77,11 @@ const CreateLike = ({ post }: Props) => {
 				<form onSubmit={handleLike}>
 					<input type="hidden" name="userId" value={me._id} />
 					<input type="hidden" name="postId" value={post?._id} />
-					<button type="submit" className="text-xs" title="Like">
+					<button
+						type="submit"
+						className="text-xs hover:cursor-pointer  hover:text-indigo-400 text-indigo-600 "
+						title="Like"
+					>
 						<FaRegThumbsUp />
 					</button>
 				</form>

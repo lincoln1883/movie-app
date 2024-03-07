@@ -46,9 +46,9 @@ const Post = ({ post, users }: Props) => {
 	};
 
 	useEffect(() => {
-		dispatch(fetchPosts())
+		dispatch(fetchPosts());
 		dispatch(getLikes());
-	}, [dispatch])
+	}, [dispatch]);
 
 	// count the number of comments
 	const commentCount = comments.filter(
@@ -160,11 +160,11 @@ const Post = ({ post, users }: Props) => {
 				<p className="text-xs px-4">{post.reviews}</p>
 				<hr className="my-2" />
 				<div className="flex justify-evenly mt-1">
-					<div className="flex-1 flex items-center justify-center gap-2 hover:cursor-pointer  hover:text-indigo-400 text-indigo-600">
+					<div className="flex-1 flex items-center justify-center gap-2 text-indigo-600">
 						<CreateLike post={post} />
 						<span className="text-xs">Like</span>
 					</div>
-					<div className="flex-1 flex items-center justify-center gap-2 hover:cursor-pointer  hover:text-indigo-400 text-indigo-600">
+					<div className="flex-1 flex items-center justify-center gap-2 text-indigo-600">
 						<CommentsModal post={post} />
 						<span className="text-xs">Comment</span>
 					</div>
@@ -173,7 +173,7 @@ const Post = ({ post, users }: Props) => {
 						<span className="text-xs">Repost</span>
 					</div>
 				</div>
-				<Comments postId={post._id} />
+					<Comments postId={post._id} />
 			</div>
 		</div>
 	);

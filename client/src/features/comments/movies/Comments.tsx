@@ -24,7 +24,7 @@ const Comments = ({ postId }: Props) => {
 	const loading = useAppSelector(
 		(state) => state.comments.status === "loading"
 	);
-	
+
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
@@ -32,7 +32,7 @@ const Comments = ({ postId }: Props) => {
 			dispatch(fetchComments());
 		}
 	}, [dispatch, postState]);
-	
+
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();
 	};
@@ -62,24 +62,24 @@ const Comments = ({ postId }: Props) => {
 
 	return (
 		<div className="flex flex-col gap-1 w-full my-1">
-			<hr className="my-2" />
 			{loading && <Spinner />}
 			{!postComments.length && (
-				<p className="text-sm text-center">Be the first to comment</p>
+				<p className="text-sm mt-2 text-center">Be the first to comment</p>
 			)}
-			<div>
+			<div className="bg-slate-100 m-1">
 				{postComments.map((comment) => {
 					const author = findAuthor(comment.userId);
 					return (
-						<div key={comment._id} className="mb-2">
-							<div className="flex items-center gap-1 px-1">
-								<Avatar
+						<div key={comment._id} className="m-1 rounded-md bg-white flex gap-1 px-1">
+							<Avatar
+								className="self-start border border-solid border-black w-10 h-10 rounded-full mt-1"
 								size={"sm"}
-									img={author?.profilePicture}
-									alt={author?.username}
-									rounded
-								/>
-								<div className="ps-1">
+								img={author?.profilePicture}
+								alt={author?.username}
+								rounded
+							/>
+							<div className="flex flex-col justify-start items-center flex-1 p-1">
+								<div className="ps-1 w-full">
 									<h4 className="text-xs font-semibold capitalize">
 										{author?.username}
 									</h4>
@@ -88,38 +88,40 @@ const Comments = ({ postId }: Props) => {
 										{createdDate(comment?.createdAt)}
 									</p>
 								</div>
-							</div>
-							<p className="text-xs ps-11 mt-2">{comment.comment}</p>
-							<div className="flex justify-between items-center gap-2 mt-2 mx-3 px-1">
-								<div className="flex items-center gap-1.5">
-									<button
-										type="submit"
-										title="like"
-										onClick={upLike}
-										className="text-md text-gray-500 hover:cursor-pointer active:text-blue-300"
-									>
-										<FaRegThumbsUp className="text-gray-500 hover:cursor-pointer active:text-blue-300" />
-									</button>
-									<button
-										type="submit"
-										title="like"
-										onClick={downLike}
-										className="text-md text-gray-500 hover:cursor-pointer active:text-blue-300"
-									>
-										<FaRegThumbsDown
+								<p className="text-xs mt-2 w-full">{comment.comment}</p>
+								<hr className="border border-solid m-1 border-gray-200 w-full" />
+								<div className="flex justify-between items-center w-full gap-2 px-1">
+									<div className="flex items-center gap-2 w-full">
+										<button
 											type="submit"
-											className="text-gray-500 hover:cursor-pointer active:text-blue-300"
-										/>
-									</button>
+											title="like"
+											onClick={upLike}
+											className="text-md text-gray-500 hover:cursor-pointer active:text-blue-300"
+										>
+											<FaRegThumbsUp className="text-gray-500 hover:cursor-pointer active:text-blue-300" />
+										</button>
+										<button
+											type="submit"
+											title="dislike"
+											onClick={downLike}
+											className="text-md text-gray-500 hover:cursor-pointer active:text-blue-300"
+										>
+											<FaRegThumbsDown
+												type="submit"
+												className="text-gray-500 hover:cursor-pointer active:text-blue-300"
+											/>
+										</button>
+									</div>
+									<div className="flex">
+										<span className="text-xs text-gray-500 w-12">
+											{countLikes(comment)} likes
+										</span>
+									</div>
 								</div>
-								<span className="text-xs text-gray-500">
-									{countLikes(comment)} likes
-								</span>
 							</div>
 						</div>
 					);
 				})}
-				<hr />
 			</div>
 		</div>
 	);
