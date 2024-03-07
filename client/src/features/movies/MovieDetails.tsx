@@ -36,35 +36,35 @@ const MovieDetails = () => {
 	));
 
 	return (
-		<div className="sm:mx-12 sm:m-2">
-			<div className="h-10 flex p-1">
+		<div className="sm:mx-12 sm:m-2 lg:mx-40 mx-2">
+			<div className="h-10 flex gap-1">
 				<IoMdArrowRoundBack
 					title="Go Back"
-					className="text-lg mx-1 self-center hover:text-blue-700 cursor-pointer"
+					className="text-lg self-center hover:text-blue-700 cursor-pointer"
 					onClick={goBack}
 				/>
 				<span className="self-center">Go Back</span>
 			</div>
-			<div className="flex min-h-screen w-100">
+			<div className="flex w-100">
 				{loading ? (
 					<Spinner aria-label="Default status example" />
 				) : (
-					<div className="flex flex-col text-xs">
-						<div className="flex flex-col justify-center bg-white items-center w-100 sm:flex-row shadow-md p-3">
-							<div className="flex items-center justify-center w-full h-3/4 sm:w-full sm:h-full flex-1 m-1">
+					<div className="flex flex-col text-xs flex-1">
+						<div className="flex flex-col justify-center bg-white items-center w-100 sm:flex-row shadow-md sm:h-96 rounded-lg">
+							<div className="flex items-center justify-center w-full h-3/4 sm:w-full sm:h-full flex-1">
 								<img
 									src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
 									alt={movie.title}
-									className="w-full h-full sm:w-full sm:h-3/4 rounded-lg"
+									className="w-full h-64 sm:w-full sm:h-full rounded-t-lg rounded-b-none sm:rounded-none sm:rounded-l-lg"
 								/>
 							</div>
 							<div className="flex flex-col w-full sm:w-1/2 gap-2">
-								<div className="flex flex-col justify-center gap-1 items-start flex-1 px-3">
+								<div className="flex flex-col justify-center gap-1 items-start flex-1">
 									<h3 className="sm:text-lg px-1">
 										<span className="sm:text-lg font-bold">Title: </span>
 										{movie.title}
 									</h3>
-									<p className="line-clamp-4 sm:text-lg px-1">
+									<p className="line-clamp-5 sm:text-lg px-1">
 										<span className="sm:text-lg font-bold">Details: </span>
 										{movie.overview || "No details available"}
 									</p>
@@ -89,7 +89,7 @@ const MovieDetails = () => {
 					</div>
 				)}
 			</div>
-			<div className="shadow-md p-2 bg-white">
+			<div className="shadow-md p-2 bg-white rounded-lg">
 				<MovieCredit />
 			</div>
 		</div>

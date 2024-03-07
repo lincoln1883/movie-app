@@ -96,11 +96,11 @@ const Post = ({ post, users }: Props) => {
 					</div>
 				</div>
 				<div className="flex flex-col justify-center items-center w-100 sm:flex-row">
-					<div className="flex items-center justify-center w-full h-1/4 sm:w-1/4 sm:h-2/4 m-1">
+					<div className="flex items-center justify-center w-full h-80 sm:w-1/4 sm:h-2/4 m-1">
 						<img
 							src={`https://image.tmdb.org/t/p/w500${post.poster_path}`}
 							alt={post.title}
-							className="w-full h-1/3 sm:w-4/6 sm:h-5/6 flex-1 object-contain"
+							className="w-full h-full sm:w-4/6 sm:h-5/6 flex-1"
 						/>
 					</div>
 					<div className="flex flex-col w-full sm:w-1/2 gap-2 flex-1">

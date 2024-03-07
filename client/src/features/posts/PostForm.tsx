@@ -81,7 +81,7 @@ const PostForm = ({ movie }: Props) => {
 	};
 
 	return (
-		<div className="flex justify-center items-center py-1 w-full">
+		<div className="flex justify-center items-center p-1 w-full">
 			<form className="flex gap-1 items-center flex-1 w-full">
 				<textarea
 					name="reviews"
