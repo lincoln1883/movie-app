@@ -36,7 +36,7 @@ const MovieDetails = () => {
 	));
 
 	return (
-		<div className="sm:mx-12 sm:m-2 lg:mx-40 mx-2">
+		<div className="sm:mx-12 lg:mx-40 mx-2">
 			<div className="h-10 flex gap-1">
 				<IoMdArrowRoundBack
 					title="Go Back"
@@ -50,7 +50,7 @@ const MovieDetails = () => {
 					<Spinner aria-label="Default status example" />
 				) : (
 					<div className="flex flex-col text-xs flex-1">
-						<div className="flex flex-col justify-center bg-white items-center w-100 sm:flex-row shadow-md sm:h-96 rounded-lg">
+						<div className="flex flex-col justify-center bg-white items-center w-100 sm:flex-row shadow-md sm:h-96 rounded-lg gap-1">
 							<div className="flex items-center justify-center w-full h-3/4 sm:w-full sm:h-full flex-1">
 								<img
 									src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
