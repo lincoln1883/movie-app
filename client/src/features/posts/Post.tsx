@@ -157,7 +157,7 @@ const Post = ({ post, users }: Props) => {
 					</div>
 				</div>
 				<hr className="my-2" />
-				<p className="text-xs px-1">{post.reviews}</p>
+				<p className="text-xs px-4">{post.reviews}</p>
 				<hr className="my-2" />
 				<div className="flex justify-evenly mt-1">
 					<div className="flex-1 flex items-center justify-center gap-2 hover:cursor-pointer  hover:text-indigo-400 text-indigo-600">

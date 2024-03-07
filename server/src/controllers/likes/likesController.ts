@@ -42,7 +42,7 @@ export const deleteLike = async (req: Request, res: Response) => {
 		await like.deleteOne();
 		post.likes = post.likes.filter((likeId) => likeId.toString() !== like._id.toString());
 		await post.save();
-		return res.status(200).json({ message: "Like deleted" });
+		return res.status(200).json({ message: "Like deleted", like });
 	} catch (error: unknown | any) {
 		res.status(500).json({ error: error.message });
 		throw error as Error;

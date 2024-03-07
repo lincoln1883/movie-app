@@ -65,7 +65,7 @@ const Comments = ({ postId }: Props) => {
 			<hr className="my-2" />
 			{loading && <Spinner />}
 			{!postComments.length && (
-				<p className="text-sm text-center">No comments yet</p>
+				<p className="text-sm text-center">Be the first to comment</p>
 			)}
 			<div>
 				{postComments.map((comment) => {
@@ -89,7 +89,7 @@ const Comments = ({ postId }: Props) => {
 									</p>
 								</div>
 							</div>
-							<p className="text-sm px-1 mt-2">{comment.comment}</p>
+							<p className="text-xs ps-11 mt-2">{comment.comment}</p>
 							<div className="flex justify-between items-center gap-2 mt-2 mx-3 px-1">
 								<div className="flex items-center gap-1.5">
 									<button

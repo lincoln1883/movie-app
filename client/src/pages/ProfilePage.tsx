@@ -4,7 +4,7 @@ import { useAppDispatch, useAppSelector } from "../redux/store";
 import { useEffect } from "react";
 import { fetchPosts } from "../features/posts/postSlice";
 import { IoMdArrowRoundBack } from "react-icons/io";
- import Timeline from "../features/users/activities/Timeline";
+import Timeline from "../features/users/activities/Timeline";
 
 const ProfilePage = () => {
 	const navigate = useNavigate();
@@ -28,9 +28,6 @@ const ProfilePage = () => {
 		return dateB.getTime() - dateA.getTime();
 	});
 
-	// count the number of posts by user
-	const postCount = userPosts.length;
-
 	return (
 		<div className="flex flex-col gap-2 mx-3 w-full mb-6 bg-slate-100">
 			<div className="flex gap-1">
@@ -45,16 +42,13 @@ const ProfilePage = () => {
 				<div className="col-span-1 sm:col-start-1 sm:col-span-3 lg:col-start-2 lg:col-span-3 mb-2">
 					<User />
 				</div>
-				<div className="sm:col-start-4 sm:col-span-3 lg:col-start-5 px-2 overflow-y-scroll">
+				<div className="sm:col-start-4 sm:col-span-3 lg:col-start-5 overflow-y-scroll">
 					<h1 className="text-center">Recent activities</h1>
 					<div className="flex flex-col justify-center gap-1">
 						{timeline.length === 0 && (
-							<p className="text-center">No recent post to display</p>
+							<p className="text-center">You have not created any posts.</p>
 						)}
-						{timeline.length > 0 && (
-							<p className="text-center">You have {postCount} posts</p>
-						)}
-						<div className="flex flex-col">
+						<div className="flex flex-col gap-1">
 							{timeline.map((post) => (
 								<Timeline key={post._id} post={post} />
 							))}

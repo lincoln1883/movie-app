@@ -80,7 +80,6 @@ const PostForm = ({ movie }: Props) => {
 		setMovieDetails({ ...movieDetails, [name]: value });
 	};
 
-	console.log(movieDetails);
 	return (
 		<div className="flex justify-center items-center py-1 w-full">
 			<form className="flex gap-1 items-center flex-1 w-full">

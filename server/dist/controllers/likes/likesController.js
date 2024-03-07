@@ -56,7 +56,7 @@ const deleteLike = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         yield like.deleteOne();
         post.likes = post.likes.filter((likeId) => likeId.toString() !== like._id.toString());
         yield post.save();
-        return res.status(200).json({ message: "Like deleted" });
+        return res.status(200).json({ message: "Like deleted", like });
     }
     catch (error) {
         res.status(500).json({ error: error.message });

@@ -123,11 +123,12 @@ const User = () => {
 	};
 
 	return (
-		<div>
+		<>
 			{userData && (
 				<div>
+					<h1 className="text-center">User Profile</h1>
 					{!editMode ? (
-						<div className="flex sm:w-10/12 h-full items-center justify-center sm:mx-auto shadow-lg rounded-lg p-3 bg-white">
+						<div className="flex h-full items-center justify-center mx-auto shadow-lg rounded-lg p-3 bg-white">
 							<div className="flex flex-col justify-center items-center mt-2 gap-1 w-11/12 py-5">
 								<img
 									className="rounded-full object-cover w-40 h-40"
@@ -288,7 +289,7 @@ const User = () => {
 					)}
 				</div>
 			)}
-		</div>
+		</>
 	);
 };
 
