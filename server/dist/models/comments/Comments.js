@@ -19,9 +19,13 @@ const CommentSchema = new mongoose_1.default.Schema({
         type: String,
         required: true,
     },
-    likes: {
+    numberOfLikes: {
         type: Number,
         default: 0,
+    },
+    likes: {
+        type: Array,
+        default: [],
     },
 }, {
     timestamps: true,

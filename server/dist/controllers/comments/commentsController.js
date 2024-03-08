@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.dislikeComment = exports.likeComment = exports.deleteComment = exports.getComments = exports.getAllComments = exports.updateComment = exports.createComment = void 0;
+exports.likeComment = exports.deleteComment = exports.getComments = exports.getAllComments = exports.updateComment = exports.createComment = void 0;
 const Comments_1 = __importDefault(require("../../models/comments/Comments"));
 const User_1 = __importDefault(require("../../models/users/User"));
 const Post_1 = __importDefault(require("../../models/posts/Post"));
@@ -47,6 +47,7 @@ const updateComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         if ((user === null || user === void 0 ? void 0 : user._id.toString()) !== (comment === null || comment === void 0 ? void 0 : comment.userId)) {
             return res.status(401).json({ error: "Only authors can edit comments." });
         }
+        ;
         if (!comment) {
             return res.status(404).json({ error: "Comment not found" });
         }
@@ -82,7 +83,9 @@ const getComments = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             return res.status(400).json({ error: "Post ID is required" });
         }
         ;
-        const comments = yield Comments_1.default.find({ postId }).populate('Comment[]').exec();
+        const comments = yield Comments_1.default.find({ postId })
+            .populate("Comment[]")
+            .exec();
         if (!comments || comments.length === 0) {
             return res.status(404).json({ error: "No comments found" });
         }
@@ -101,7 +104,9 @@ const deleteComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
         const user = yield User_1.default.findById(req.user);
         const comment = yield Comments_1.default.findById(_id);
         if ((comment === null || comment === void 0 ? void 0 : comment.userId) !== (user === null || user === void 0 ? void 0 : user._id.toString())) {
-            return res.status(401).json({ error: "Your are not authorized to delete this comment." });
+            return res
+                .status(401)
+                .json({ error: "Your are not authorized to delete this comment." });
         }
         ;
         if (!comment) {
@@ -119,15 +124,33 @@ const deleteComment = (req, res) => __awaiter(void 0, void 0, void 0, function* 
 exports.deleteComment = deleteComment;
 const likeComment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const { commentId } = req.params;
-        const comment = yield Comments_1.default.findById(commentId);
+        const { _id } = req.params;
+        const user = yield User_1.default.findById(req.user);
+        if (!user) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        ;
+        const id = user._id;
+        console.log("like controller", req.params, req.user, _id);
+        const comment = yield Comments_1.default.findById(_id);
         if (!comment) {
             return res.status(404).json({ error: "Comment not found" });
         }
         ;
-        comment.likes += 1;
+        let message;
+        if (comment.likes.includes(id)) {
+            comment.likes.splice(comment.likes.indexOf(id), 1);
+            comment.numberOfLikes -= 1;
+            message = "Comment unliked successfully";
+        }
+        else {
+            comment.likes.push(id);
+            comment.numberOfLikes += 1;
+            message = "Comment liked successfully";
+        }
+        ;
         yield comment.save();
-        return res.status(200).json(comment);
+        return res.status(200).json({ message: message });
     }
     catch (error) {
         res.status(500).json({ error: error.message });
@@ -135,27 +158,3 @@ const likeComment = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.likeComment = likeComment;
-const dislikeComment = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    try {
-        const { commentId } = req.params;
-        const comment = yield Comments_1.default.findById(commentId);
-        if (!comment) {
-            return res.status(404).json({ error: "Comment not found" });
-        }
-        ;
-        if (comment.likes > 0) {
-            comment.likes -= 1;
-        }
-        ;
-        if (comment.likes === 0) {
-            return res.status(400).json({ error: "Comment has no likes to delete" });
-        }
-        yield comment.save();
-        return res.status(200).json(comment);
-    }
-    catch (error) {
-        res.status(500).json({ error: error.message });
-        throw error;
-    }
-});
-exports.dislikeComment = dislikeComment;
