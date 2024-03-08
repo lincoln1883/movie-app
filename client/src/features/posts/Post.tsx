@@ -160,15 +160,15 @@ const Post = ({ post, users }: Props) => {
 				<p className="text-xs px-4">{post.reviews}</p>
 				<hr className="my-2" />
 				<div className="flex justify-evenly mt-1">
-					<div className="flex-1 flex items-center justify-center gap-2 text-indigo-600">
+					<div className="flex-1 flex items-center justify-center gap-1 text-indigo-600">
 						<CreateLike post={post} />
 						<span className="text-xs">Like</span>
 					</div>
-					<div className="flex-1 flex items-center justify-center gap-2 text-indigo-600">
+					<div className="flex-1 flex items-center justify-center gap-1 text-indigo-600">
 						<CommentsModal post={post} />
 						<span className="text-xs">Comment</span>
 					</div>
-					<div className="flex-1 flex items-center justify-center gap-2 hover:cursor-pointer hover:text-indigo-400 text-indigo-600">
+					<div className="flex-1 flex items-center justify-center gap-1 hover:cursor-pointer hover:text-indigo-400 text-indigo-600">
 						<FaRecycle />
 						<span className="text-xs">Repost</span>
 					</div>

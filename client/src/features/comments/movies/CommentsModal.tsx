@@ -26,7 +26,7 @@ interface Comment {
 	postId: string;
 	userId: string;
 	comment: string;
-	likes?: number;
+	likes?: string[];	
 }
 
 const CommentsModal = ({ post }: Props) => {

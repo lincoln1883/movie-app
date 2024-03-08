@@ -12,7 +12,8 @@ interface Comment {
 	comment: string;
 	createdAt?: string;
 	updatedAt?: string;
-	likes?: number;
+	likes?: string[];
+	numberOfLikes?: number;
 }
 
 interface CommentState {
@@ -117,16 +118,14 @@ export const deleteComment = createAsyncThunk<
 });
 
 export const likeComment = createAsyncThunk<
-	void,
+	Comment,
 	string,
 	{ rejectValue: string }
 >("comments/likeComment", async (id, thunkAPI) => {
 	try {
-		const response = await axios.put(
-			`${BASE_URL}/comments/${id}/likes`,{like: 1},
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
+		const response = await axios.put(`${BASE_URL}/comments/${id}`,{},{
+			headers: {
+				Authorization: `Bearer ${token}`,
 				},
 			}
 		);
@@ -141,30 +140,6 @@ export const likeComment = createAsyncThunk<
 	}
 });
 
-export const unlikeComment = createAsyncThunk<
-	void,
-	string,
-	{ rejectValue: string }
->("comments/unlikeComment", async (id, thunkAPI) => {
-	try {
-		const response = await axios.put(
-			`${BASE_URL}/comments/${id}/dislikes`,{like: 1},
-			{
-				headers: {
-					Authorization: `Bearer ${token}`,
-				},
-			}
-		);
-		return response.data;
-	}
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	catch (error: unknown | any) {
-		return thunkAPI.rejectWithValue(
-			error.message || "Failed to unlike comment"
-		);
-	}
-});
-
 export const commentSlice = createSlice({
 	name: "comment",
 	initialState,
@@ -172,21 +147,10 @@ export const commentSlice = createSlice({
 		addComment: (state, action: PayloadAction<Comment>) => {
 			state.comments.push(action.payload);
 		},
-		addLike: (state, action: PayloadAction<string>) => {
-			const comment = state.comments.find(
-				(comment) => comment._id === action.payload
+		likeComments: (state, action: PayloadAction<Comment>) => {
+			state.comments = state.comments.map((comment) =>
+				comment._id === action.payload._id ? action.payload : comment
 			);
-			if (comment) {
-				comment.likes = comment.likes! + 1;
-			}
-		},
-		removeLike: (state, action: PayloadAction<string>) => {
-			const comment = state.comments.find(
-				(comment) => comment._id === action.payload
-			);
-			if (comment) {
-				comment.likes = comment.likes! - 1;
-			}
 		},
 	},
 	extraReducers: (builder) => {
@@ -233,10 +197,23 @@ export const commentSlice = createSlice({
 				state.error = null;
 			}).addCase(deleteComment.rejected, (state, action) => {
 				state.error = action.payload as string;
+			}).addCase(likeComment.pending, (state) => {
+				state.status = "loading";
+			}).addCase(likeComment.fulfilled, (state, action) => {
+				state.status = "success";
+				state.comments = state.comments.map((comment) => {
+					if (comment._id === action.payload._id) {
+						return action.payload;
+					}
+					return comment;
+				});
+				state.error = null;
+			}).addCase(likeComment.rejected, (state, action) => {
+				state.error = action.payload as string;
 			});
 	},
 });
 
-export const { addComment,addLike,removeLike } = commentSlice.actions;
+export const { addComment} = commentSlice.actions;
 
 export default commentSlice.reducer;
