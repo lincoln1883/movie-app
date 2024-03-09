@@ -40,9 +40,9 @@ const PaginateShow = () => {
 
 	return (
 		<>
-			<div className="flex justify-between p-2">
-				<h4 className="text-lg font-semibold sm:font-bold">Popular TV Shows</h4>
-				<Link to={"/shows"} className="text-sm sm:text-lg underline mb-2">
+			<div className="flex justify-between py-2">
+				<h4 className="text-lg font-semibold sm:font-bold">TV Shows</h4>
+				<Link to={"/shows"} className="text-sm sm:text-lg underline">
 					Show more
 				</Link>
 			</div>

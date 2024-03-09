@@ -23,7 +23,7 @@ const MovieList = () => {
   return (
     <div className="w-full">
       <MovieSearch />
-      <h1 className="text-center text-3xl font-semibold mb-2 capitalize">
+      <h1 className="text-center text-lg font-semibold mb-2 capitalize">
         Popular movies
       </h1>
       {loading ? (

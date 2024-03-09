@@ -21,9 +21,9 @@ const ShowList = () => {
   };
 
   return (
-		<div>
+		<div className="w-full">
 			<ShowSearch />
-			<h1 className="text-center text-3xl font-semibold mb-2 capitalize">
+			<h1 className="text-center text-lg font-semibold mb-2 capitalize">
 				Popular shows
 			</h1>
 			{loading ? (

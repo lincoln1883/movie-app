@@ -1,8 +1,12 @@
-import Home from "../components/Home";
+import Popular from "../components/Popular";
+import Trending from "../components/Trending";
 
 const HomePage = () => {
   return (
-    <Home />
+    <div className="flex flex-col w-full">
+    <Popular />
+    <Trending />
+    </div>
   );
 };
 

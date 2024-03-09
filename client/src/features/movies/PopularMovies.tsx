@@ -9,7 +9,7 @@ interface Movie {
   poster_path: string;
 }
 
-const PaginateMovie = () => {
+const PopularMovie = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -40,9 +40,9 @@ const PaginateMovie = () => {
 
   return (
 		<>
-			<div className="flex justify-between p-2">
-				<h4 className="text-lg font-semibold sm:font-bold">Popular Movies</h4>
-				<Link to={"/movies"} className="sm:text-lg underline mb-2">
+			<div className="flex justify-between py-2">
+				<h4 className="text-md font-semibold sm:font-bold">Movies</h4>
+				<Link to={"/movies"} className="sm:text-lg underline">
 					Show more
 				</Link>
 			</div>
@@ -72,4 +72,4 @@ const PaginateMovie = () => {
 	);
 };
 
-export default PaginateMovie;
+export default PopularMovie;

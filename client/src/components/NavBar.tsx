@@ -67,19 +67,7 @@ const NavBar = () => {
 								Sign out
 							</Dropdown.Item>
 						</Dropdown>
-						{/* <Navbar.Toggle  /> */}
 					</div>
-					{/* <Navbar.Collapse>
-						<Navbar.Link as={Link} to="/home" active>
-							Home
-						</Navbar.Link>
-						<Navbar.Link as={Link} to="/feed">
-							Feed
-						</Navbar.Link>
-						<Navbar.Link as={Link} to="/profile">
-							Profile
-						</Navbar.Link>
-						</Navbar.Collapse> */}
 				</>
 			) : null}
 		</Navbar>
