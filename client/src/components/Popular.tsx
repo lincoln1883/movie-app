@@ -14,11 +14,11 @@ const Popular = () => {
 			<div className="flex flex-col gap-1 object-cover m-3">
 				<div className="flex justify-start items-center gap-1">
 					<h4 className="sm:text-lg font-semibold">Popular</h4>
-					<nav className="flex gap-1">
+					<nav className="flex bg-violet-400 rounded-full">
 						{activeTab === "movies" ? (
 							<button
 								type="button"
-								className="rounded-lg bg-blue-400 px-2 text-white hover:bg-blue-300 hover:text-black"
+								className="rounded-xl bg-blue-300 p-1 text-black w-full h-full hover:bg-blue-300 hover:text-black text-sm"
 								onClick={() => handleTabChange("movies")}
 							>
 								Movies
@@ -26,7 +26,7 @@ const Popular = () => {
 						) : (
 							<button
 								type="button"
-								className="rounded-lg bg-gray-300 px-2 text-gray-500 hover:bg-blue-300 hover:text-black"
+								className="rounded-xl p-1 bg-inherit text-white hover:bg-blue-300 hover:text-black text-sm"
 								onClick={() => handleTabChange("movies")}
 							>
 								Movies
@@ -35,7 +35,7 @@ const Popular = () => {
 						{activeTab === "shows" ? (
 							<button
 								type="button"
-								className="rounded-lg bg-blue-400 px-2 text-white hover:bg-blue-300 hover:text-black"
+								className="rounded-xl bg-blue-300 p-1 text-black w-full h-full hover:bg-blue-300 hover:text-black text-sm"
 								onClick={() => handleTabChange("shows")}
 							>
 								shows
@@ -43,7 +43,7 @@ const Popular = () => {
 						) : (
 							<button
 								type="button"
-								className="rounded-lg bg-gray-300 px-2 text-gray-500 hover:bg-blue-300 hover:text-black"
+								className="rounded-xl p-1 bg-inherit text-white hover:bg-blue-300 hover:text-black text-sm"
 								onClick={() => handleTabChange("shows")}
 							>
 								Shows

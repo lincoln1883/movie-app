@@ -14,11 +14,11 @@ const Trending = () => {
 			<div className="flex flex-col gap-1 object-cover m-3">
 				<div className="flex justify-start items-center gap-1">
 					<h4 className="text-lg font-semibold">Trending</h4>
-					<nav className="flex gap-1">
+					<nav className="flex bg-violet-400 rounded-full">
 						{activeTab === "today" ? (
 							<button
 								type="button"
-								className="rounded-lg bg-blue-400 px-2 text-white hover:bg-blue-300 hover:text-black "
+								className="rounded-xl bg-blue-300 p-1 text-black w-full h-full hover:bg-blue-300 hover:text-black text-sm"
 								onClick={() => handleTabChange("today")}
 							>
 								Today
@@ -26,7 +26,7 @@ const Trending = () => {
 						) : (
 							<button
 								type="button"
-								className="rounded-lg bg-gray-300 px-2 text-gray-500 hover:bg-blue-300 hover:text-black "
+								className="rounded-xl p-1 bg-inherit text-white hover:bg-blue-300 hover:text-black text-sm"
 								onClick={() => handleTabChange("today")}
 							>
 								Today
@@ -35,18 +35,18 @@ const Trending = () => {
 						{activeTab === "week" ? (
 							<button
 								type="button"
-								className="rounded-lg bg-blue-400 px-2 text-white hover:bg-blue-300 hover:text-black "
+								className="rounded-xl bg-blue-300 p-1 text-black w-full h-full hover:bg-blue-300 hover:text-black text-sm"
 								onClick={() => handleTabChange("week")}
 							>
-								This Week
+								Week
 							</button>
 						) : (
 							<button
 								type="button"
-								className="rounded-lg bg-gray-300 px-2 text-gray-500 hover:bg-blue-300 hover:text-black "
+								className="rounded-xl p-1 bg-inherit text-white hover:bg-blue-300 hover:text-black text-sm"
 								onClick={() => handleTabChange("week")}
 							>
-								This Week
+								Week
 							</button>
 						)}
 					</nav>
