@@ -11,6 +11,7 @@ interface Show {
   poster_path: string;
   vote_average: number;
   overview: string;
+  networks?: { name: string; logo_path: string }[];
 }
 
 interface ShowState {

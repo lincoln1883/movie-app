@@ -7,6 +7,7 @@ import { Rating, Spinner } from "flowbite-react";
 import MovieCredit from "../credits/movieCredits/MovieCredit";
 import PostForm from "../posts/PostForm";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import SimilarMovies from "./SimilarMovies";
 
 type ProviderType = {
 	provider_id: number;
@@ -82,7 +83,7 @@ const MovieDetails = () => {
 	));
 
 	return (
-		<div className="sm:mx-12 lg:mx-40 mx-2">
+		<div className="flex flex-col gap-1 sm:mx-12 lg:mx-40 mx-2 overflow-hidden">
 			<div className="h-10 flex gap-1">
 				<IoMdArrowRoundBack
 					title="Go Back"
@@ -97,21 +98,21 @@ const MovieDetails = () => {
 				) : (
 					<div className="flex flex-col text-xs flex-1">
 						<div className="flex flex-col justify-center bg-white items-center w-100 sm:flex-row shadow-md sm:h-96 rounded-lg gap-1">
-							<div className="flex flex-col items-center justify-center w-full h-full sm:w-full sm:h-ful rounded">
+							<div className="flex flex-col items-center justify-center w-full h-full sm:w-full sm:h-full rounded">
 								<img
 									src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
 									alt={movie.title}
 									className="w-full h-64 sm:w-full sm:h-72 rounded-t-lg rounded-b-none sm:rounded-none sm:rounded-l-lg flex-1"
 								/>
 								{watchProviders && (
-									<div className="flex flex-col w-full gap-1 my-2">
+									<div className="flex flex-col w-full gap-0.5 my-1">
 										{watchProviders?.flatrate?.length > 0 && (
 											<div className="flex justify-start gap-1 items-center flex-wrap">
 												<h5 className="sm:text-lg px-1">
-													<span className="text-sm font-semibold">Watch :</span>
+													<span className="text-xs font-semibold">Watch :</span>
 												</h5>
-												{watchProviders?.flatrate?.map(
-													(provider: ProviderType) => (
+												{watchProviders?.flatrate
+													?.splice(0, 2).map((provider: ProviderType) => (
 														<div
 															key={provider.provider_id}
 															className="flex gap-1 justify-start items-center px-1"
@@ -121,12 +122,14 @@ const MovieDetails = () => {
 																alt={provider.provider_name}
 																className="w-5 h-5"
 															/>
-															<span className="text-sm dark:text-white">
-																{provider.provider_name.slice(0, 7)}
+															<span className="text-xs dark:text-white">
+																{provider.provider_name
+																	.split(" ")
+																	.slice(0, 1)
+																	.join("")}
 															</span>
 														</div>
-													)
-												)}
+													))}
 											</div>
 										)}
 										{watchProviders?.buy?.length > 0 && (
@@ -134,43 +137,51 @@ const MovieDetails = () => {
 												<h5 className="sm:text-lg px-1">
 													<span className="text-xs font-semibold">Buy :</span>
 												</h5>
-												{watchProviders?.buy?.map((provider: ProviderType) => (
-													<div
-														key={provider.provider_id}
-														className="flex gap-1 justify-start items-center px-1"
-													>
-														<img
-															src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`}
-															alt={provider.provider_name}
-															className="w-5 h-5"
-														/>
-														<span className="text-sm dark:text-white">
-															{provider.provider_name.slice(0, 7)}
-														</span>
-													</div>
-												))}
+												{watchProviders?.buy
+													?.splice(0,2).map((provider: ProviderType) => (
+														<div
+															key={provider.provider_id}
+															className="flex gap-1 justify-start items-center px-1"
+														>
+															<img
+																src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`}
+																alt={provider.provider_name}
+																className="w-5 h-5"
+															/>
+															<span className="text-xs dark:text-white">
+																{provider.provider_name
+																	.split(" ")
+																	.slice(0, 1)
+																	.join("")}
+															</span>
+														</div>
+													))}
 											</div>
 										)}
 										{watchProviders?.rent?.length > 0 && (
 											<div className="flex justify-start gap-1  items-center flex-wrap">
 												<h5 className="sm:text-lg px-1">
-													<span className="text-sm font-semibold">Rent :</span>
+													<span className="text-xs font-semibold">Rent :</span>
 												</h5>
-												{watchProviders?.rent.map((provider: ProviderType) => (
-													<div
-														key={provider.provider_id}
-														className="flex gap-1 justify-start items-center px-1"
-													>
-														<img
-															src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`}
-															alt={provider.provider_name}
-															className="w-5 h-5"
-														/>
-														<span className="text-sm dark:text-white">
-															{provider.provider_name.slice(0, 7)}
-														</span>
-													</div>
-												))}
+												{watchProviders?.rent?.slice(0,2)
+													.map((provider: ProviderType) => (
+														<div
+															key={provider.provider_id}
+															className="flex gap-1 justify-start items-center px-1"
+														>
+															<img
+																src={`https://image.tmdb.org/t/p/w500${provider.logo_path}`}
+																alt={provider.provider_name}
+																className="w-5 h-5"
+															/>
+															<span className="text-xs dark:text-white">
+																{provider.provider_name
+																	.split(" ")
+																	.slice(0, 1)
+																	.join("")}
+															</span>
+														</div>
+													))}
 											</div>
 										)}
 									</div>
@@ -209,6 +220,10 @@ const MovieDetails = () => {
 			</div>
 			<div className="shadow-md p-2 bg-white rounded-lg">
 				<MovieCredit />
+			</div>
+			<div className="overflow-x-auto mb-2 bg-white p-1 rounded-md">
+				<h4 className="capitalize">Similar movies</h4>
+				<SimilarMovies movieId={id} />
 			</div>
 		</div>
 	);

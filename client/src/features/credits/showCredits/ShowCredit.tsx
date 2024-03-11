@@ -14,7 +14,7 @@ const ShowCredit = () => {
         dispatch(fetchShowCredits(id as string))
     }, [dispatch, id])
 
-    const newCast = credits?.slice(0, 6)
+    const newCast = credits?.slice(0, 4)
 
   return (
     <>
@@ -22,7 +22,7 @@ const ShowCredit = () => {
     <div className="flex justify-center">
       {loading && <Spinner aria-label="Default status example" />}
       {newCast.length === 0 && <h1>No cast found</h1>}
-      <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 justify-center sm:gap-2 px-1 pr-1 mb-8">
+      <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 justify-start sm:gap-2 px-1 pr-1 mb-2">
         {newCast.map((credit) => (
           <li key={credit.id} className="border-2 rounded-lg shadow-md">
             {credit.profile_path === null ||
@@ -40,11 +40,11 @@ const ShowCredit = () => {
               />
             )}
             <div className="p-1">
-              <h3 className="font-semibold">{credit.name.slice(0, 20)}</h3>
-              <p className="font-thin text-sm">
+              <h3 className="text-sm font-semibold">{credit.name.slice(0, 20)}</h3>
+              <p className="font-thin text-xs">
                 {credit.character.slice(0, 20)}
               </p>
-              <p className="font-thin text-sm">
+              <p className="font-thin text-xs">
                 {credit.known_for_department}
               </p>
             </div>
