@@ -131,7 +131,6 @@ const likeComment = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         }
         ;
         const id = user._id;
-        console.log("like controller", req.params, req.user, _id);
         const comment = yield Comments_1.default.findById(_id);
         if (!comment) {
             return res.status(404).json({ error: "Comment not found" });

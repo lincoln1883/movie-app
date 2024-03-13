@@ -24,7 +24,6 @@ const jwtOptions = {
 passport_1.default.use(new passport_jwt_1.Strategy(jwtOptions, (jwtPayload, done) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const user = yield User_1.default.findById(jwtPayload.userId);
-        //console.log(user)
         if (!user) {
             return done(null, false);
         }

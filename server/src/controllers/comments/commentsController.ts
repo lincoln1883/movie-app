@@ -108,7 +108,6 @@ export const likeComment = async (req: Request, res: Response) => {
 			return res.status(401).json({ error: "Unauthorized" });
 		};
 		const id = user._id;
-			console.log("like controller", req.params, req.user, _id);
 			const comment = await Comment.findById(_id);
 			if (!comment) {
 				return res.status(404).json({ error: "Comment not found" });

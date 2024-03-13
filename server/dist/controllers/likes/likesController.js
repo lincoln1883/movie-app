@@ -30,7 +30,7 @@ const createLike = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         }
         const newLike = new Like_1.default({ userId: user === null || user === void 0 ? void 0 : user._id, postId });
         yield newLike.save();
-        post.likes.push(newLike._id);
+        post.likes.push(newLike === null || newLike === void 0 ? void 0 : newLike._id);
         yield post.save();
         return res.status(201).json(newLike);
     }

@@ -17,7 +17,7 @@ export const createLike = async (req: Request, res: Response) => {
 		}
 		const newLike = new Like({ userId: user?._id, postId });
 		await newLike.save();
-		post.likes.push(newLike._id);
+		post.likes.push(newLike?._id);
 		await post.save();
 		return res.status(201).json(newLike);
 	} catch (error: unknown | any) {
