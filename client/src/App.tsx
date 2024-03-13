@@ -15,6 +15,7 @@ import HomePage from "./pages/HomePage";
 import Feed from "./pages/Feed";
 import ProfilePage from "./pages/ProfilePage";
 import CheckTokenExpiration from "./components/CheckTokenExpiration";
+import PostDetails from "./features/posts/PostDetails";
 
 function App() {
 	return (
@@ -27,7 +28,8 @@ function App() {
 				<Route element={<ProtectedRoute />}>
 					<Route path="/" element={<Layout />}>
 						<Route path="/home" element={<HomePage />} />
-						<Route path="/feed" element={<Feed />} />
+						<Route path="/posts" element={<Feed />} />
+						<Route path="/posts/:id" element={<PostDetails />} />
 						<Route path="/profile" element={<ProfilePage />} />
 						<Route path="/movies" element={<MovieList />} />
 						<Route path="/movies/:id" element={<MovieDetails />} />

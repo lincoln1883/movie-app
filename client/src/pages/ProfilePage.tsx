@@ -32,7 +32,7 @@ const ProfilePage = () => {
 		<div className="flex flex-col gap-2 mx-3 w-full mb-6 bg-slate-100">
 			<div className="flex gap-1">
 				<IoMdArrowRoundBack
-					onClick={() => navigate("/feed")}
+					onClick={() => navigate("/posts")}
 					title="Go to Feed"
 					className="hover:cursor-pointer text-lg"
 				/>

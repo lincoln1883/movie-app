@@ -55,7 +55,7 @@ const NavBar = () => {
 								<Link to={"/profile"}>Profile</Link>
 							</Dropdown.Item>
 							<Dropdown.Item>
-								<Link to={"/feed"}>Feed</Link>
+								<Link to={"/posts"}>Feed</Link>
 							</Dropdown.Item>
 							<Dropdown.Item>
 								<Link to={"/home"}>Home</Link>
