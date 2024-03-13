@@ -83,7 +83,7 @@ const MovieDetails = () => {
 	));
 
 	return (
-		<div className="flex flex-col gap-1 sm:mx-12 lg:mx-40 mx-2 overflow-hidden">
+		<div className="flex flex-col gap-1 sm:mx-12 lg:mx-60 mx-2 overflow-hidden">
 			<div className="h-10 flex gap-1">
 				<IoMdArrowRoundBack
 					title="Go Back"
