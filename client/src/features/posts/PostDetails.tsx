@@ -36,7 +36,7 @@ const PostDetails = () => {
 			const foundLikes = likes?.filter((like) => like.postId === id);
 			setLikeState(foundLikes.length);
 		}
-	}, [post, likes, id]);
+	},[post, likes, id]);
 
 	useEffect(() => {
 		if (post && users) {

@@ -16,7 +16,7 @@ const Comments = () => {
 
 	useEffect(() => {
 		const me = JSON.parse(localStorage.getItem("currentUser") || "{}");
-		if (comments && users) {
+		if (!comments && !users) {
 			dispatch(fetchComments());
 			dispatch(fetchAllUsers());
 			dispatch(fetchUser(me._id));

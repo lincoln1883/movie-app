@@ -1,8 +1,10 @@
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaMessage } from "react-icons/fa6";
 import moment from "moment";
-import { useAppSelector } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { getLikes } from "../likes/likeSlice";
 
 interface Props {
 	post: {
@@ -34,9 +36,17 @@ const Post = ({ post, users }: Props) => {
 	const comments = useAppSelector((state) => state.comments.comments);
 	const likes = useAppSelector((state) => state.likes.likes);
 
+	const dispatch = useAppDispatch();
+
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();
 	};
+
+	useEffect(() => {
+		if(!likes){
+			dispatch(getLikes());
+		}
+	}, [likes, dispatch]);
 
 	// count the number of comments
 	const commentCount = comments.filter((comment) => comment.postId === post._id).length;

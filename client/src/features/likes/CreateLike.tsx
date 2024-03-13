@@ -13,7 +13,7 @@ const CreateLike = () => {
 	const {id} = useParams();
 
 	useEffect(() => {
-		if(likes){
+		if(likes.length === 0 && !likes){
 			dispatch(getLikes());
 		}
 	}, [dispatch, likes]);
@@ -23,7 +23,6 @@ const CreateLike = () => {
 		dispatch(
 			createLike({ userId: me._id as string, postId: id as string })
 		);
-		dispatch(getLikes());
 	};
 
 	const isLiked = () => {
@@ -42,7 +41,6 @@ const CreateLike = () => {
 				_id: likeId as string,
 			})
 		);
-		dispatch(getLikes());
 	};
 
 	return (
