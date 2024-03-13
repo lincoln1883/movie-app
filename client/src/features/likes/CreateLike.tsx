@@ -1,4 +1,4 @@
-import { FormEvent, useEffect } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { createLike, disLike, getLikes } from "./likeSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { FaRegThumbsUp } from "react-icons/fa6";
@@ -6,6 +6,7 @@ import { FaRegThumbsDown } from "react-icons/fa";
 import { useParams } from "react-router-dom";
 
 const CreateLike = () => {
+	const [likeState, setLikeState] = useState<number>(0);
 	const likes = useAppSelector((state) => state.likes.likes);
 	const me = JSON.parse(localStorage.getItem("currentUser") as string);
 
@@ -13,16 +14,16 @@ const CreateLike = () => {
 	const {id} = useParams();
 
 	useEffect(() => {
-		if(likes.length === 0 && !likes){
 			dispatch(getLikes());
-		}
-	}, [dispatch, likes]);
+			setLikeState(likes?.filter((like) => like.postId === id).length);
+	}, [dispatch, likes, id]);
 
 	const handleLike = (e: FormEvent) => {
 		e.preventDefault();
 		dispatch(
 			createLike({ userId: me._id as string, postId: id as string })
 		);
+		setLikeState(likeState + 1);
 	};
 
 	const isLiked = () => {
@@ -41,6 +42,7 @@ const CreateLike = () => {
 				_id: likeId as string,
 			})
 		);
+		setLikeState(likeState - 1);
 	};
 
 	return (
