@@ -3,24 +3,7 @@ import { useState } from "react";
 import { useAppDispatch } from "../../../redux/store";
 import { createComment } from "./commentSlice";
 import { FaMessage } from "react-icons/fa6";
-
-interface Post {
-	_id?: string;
-	movieId: string;
-	userId: string;
-	title: string;
-	overview: string;
-	release_date: string;
-	poster_path: string;
-	rating: number;
-	likes?: string[];
-	comments?: string[];
-	reviews?: string;
-	createdAt?: string;
-}
-interface Props {
-	post: Post;
-}
+import { useParams } from "react-router-dom";
 
 interface Comment {
 	postId: string;
@@ -29,7 +12,7 @@ interface Comment {
 	likes?: string[];	
 }
 
-const CommentsModal = ({ post }: Props) => {
+const CommentsModal = () => {
 	const [openModal, setOpenModal] = useState(false);
 	const [comment, setComment] = useState<Comment>({
 		postId: "",
@@ -39,6 +22,8 @@ const CommentsModal = ({ post }: Props) => {
 	const user = JSON.parse(localStorage.getItem("currentUser")!) as {
 		_id: string;
 	};
+
+	const {id} = useParams<{id: string}>();
 
 	const dispatch = useAppDispatch();
 
@@ -55,7 +40,7 @@ const CommentsModal = ({ post }: Props) => {
 			...comment,
 			[name]: value,
 			userId: user?._id,
-			postId: post?._id as string,
+			postId: id as string,
 		});
 	};
 
@@ -75,7 +60,7 @@ const CommentsModal = ({ post }: Props) => {
 					<div className="text-center w-full p-6">
 						<form className="w-full" onSubmit={handleSubmit}>
 							<label htmlFor="comment" hidden></label>
-							<input type="hidden" name="postId" value={post?._id} />
+							<input type="hidden" name="postId" value={id} />
 							<input type="hidden" name="userId" value={user?._id} />
 							<textarea
 								name="comment"

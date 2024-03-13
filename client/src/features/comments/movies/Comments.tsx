@@ -1,23 +1,27 @@
 import { Avatar } from "flowbite-react";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import moment from "moment";
-import { fetchComments } from "./commentSlice";
 import { useEffect } from "react";
 import CommentLikes from "./CommentLikes";
+import { fetchAllUsers, fetchUser } from "../../users/userSlice";
+import { useParams } from "react-router-dom";
+import { fetchComments } from "./commentSlice";
 
-interface Props {
-	postId: string | undefined;
-}
-
-const Comments = ({ postId }: Props) => {
+const Comments = () => {
 	const users = useAppSelector((state) => state.user.users);
 	const comments = useAppSelector((state) => state.comments.comments);
 
 	const dispatch = useAppDispatch();
+	const { id } = useParams();
 
 	useEffect(() => {
-		dispatch(fetchComments());
-	}, [dispatch]);
+		const me = JSON.parse(localStorage.getItem("currentUser") || "{}");
+		if (comments && users) {
+			dispatch(fetchComments());
+			dispatch(fetchAllUsers());
+			dispatch(fetchUser(me._id));
+		}
+	}, [dispatch, comments, users]);
 
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();
@@ -27,11 +31,10 @@ const Comments = ({ postId }: Props) => {
 		return users!.find((user) => user._id === userId);
 	};
 
-	// Filter comments for the specific post
-	const postComments = comments.filter((comment) => comment.postId === postId);
+	const postComments = comments.filter((comment) => comment.postId === id);
 
 	return (
-		<div className="flex flex-col gap-1 w-full my-1">
+		<div className="grid gap-1 w-full my-1">
 			{!postComments.length && (
 				<p className="text-sm mt-2 text-center">Be the first to comment</p>
 			)}
@@ -62,17 +65,16 @@ const Comments = ({ postId }: Props) => {
 								</div>
 								<p className="text-xs mt-2 w-full">{comment.comment}</p>
 								<hr className="border border-solid m-1 border-gray-200 w-full" />
-								<div className="flex justify-between items-center w-full gap-2 px-1">
-									<div className="flex items-center gap-2 w-full">
+								<div className="flex justify-between items-center w-full gap-1 px-1">
+									<div className="flex items-center gap-2 w-3/4">
 										<CommentLikes id={comment?._id} />
 									</div>
-									<div className="flex">
-										<span className="text-xs text-gray-500 w-12 text-center">
-											{comment.likes && comment.likes.length}{" "}
-											{comment.likes && comment.likes.length < 2
-												? "like"
-												: "likes"}
-										</span>
+									<div className="self-end w-1/4">
+										{postComments[0]?.numberOfLikes && (
+											<p className="text-xs text-end text-gray-500">
+												{postComments[0]?.numberOfLikes} like
+											</p>
+										)}
 									</div>
 								</div>
 							</div>

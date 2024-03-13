@@ -55,7 +55,6 @@ const PostForm = ({ movie }: Props) => {
 				userId: user._id,
 			});
 		};
-
 		handleFetchMovieDetails();
 	}, [movie, user._id]);
 
@@ -72,7 +71,7 @@ const PostForm = ({ movie }: Props) => {
 			rating: 0,
 			reviews: "",
 		});
-		navigate("/feed");
+		navigate("/posts");
 	};
 
 	const handleChange = (e: FormEvent) => {

@@ -1,8 +1,18 @@
 import PostList from "../features/posts/PostList";
 import { Link } from "react-router-dom";
 import Profile from "../features/users/ProfileCard";
+import { useEffect } from "react";
+import { fetchPosts } from "../features/posts/postSlice";
+import { useAppDispatch } from "../redux/store";
 
 const Feed = () => {
+
+	const dispatch = useAppDispatch();
+	
+	useEffect(() => {
+		dispatch(fetchPosts());
+	}, [dispatch]);
+
 	return (
 		<div className="flex flex-col gap-1 m-3">
 			<div className="flex justify-center items-center mb-1">

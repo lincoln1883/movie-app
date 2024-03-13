@@ -1,9 +1,9 @@
-import React from "react";
+import { useState } from "react";
 import TrendingMovieToday from "../features/movies/TrendingDay";
 import TrendingMovieWeek from "../features/movies/TrendingWeek";
 
 const Trending = () => {
-	const [activeTab, setActiveTab] = React.useState("today");
+	const [activeTab, setActiveTab] = useState("today");
 
 	const handleTabChange = (tab: string) => {
 		setActiveTab(tab);

@@ -53,6 +53,24 @@ export const fetchPosts = createAsyncThunk<Post[], void, { rejectValue: string }
   }
 );
 
+export const fetchPost = createAsyncThunk<Post, string, { rejectValue: string }>(
+  'posts/fetchPost',
+  async (id, thunkAPI) => {
+    try {
+      const response = await axios.get(`${BASE_URL}/posts/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    catch (error: unknown | any) {
+      return thunkAPI.rejectWithValue(error.response.data.error);
+    }
+  }
+);
+
 export const createPost = createAsyncThunk<Post, Post, { rejectValue: string }>(
   'posts/createPost',
   async (post, thunkAPI) => {
@@ -167,8 +185,17 @@ export const postSlice = createSlice({
       .addCase(updatePost.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload as string;
-      })
-  }
+      }).addCase(fetchPost.pending, (state) => {
+        state.status = "loading";
+      }).addCase(fetchPost.fulfilled, (state, action) => {
+        state.status = "success";
+        state.post = action.payload;
+        state.error = null;
+      }).addCase(fetchPost.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload as string;
+      });
+  },
 });
 
 export const { clearPost, postCreate } = postSlice.actions;

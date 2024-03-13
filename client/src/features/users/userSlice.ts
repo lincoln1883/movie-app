@@ -53,7 +53,7 @@ export const fetchUser = createAsyncThunk<
 	{ rejectValue: string }
 >("user/fetchUser", async (id, thunkAPI) => {
 	try {
-		const token = await localStorage.getItem("token") as string;
+		const token = (await localStorage.getItem("token")) as string;
 		const response = await axios.get(`${BASE_URL}/users/${id}`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -72,7 +72,7 @@ export const fetchAllUsers = createAsyncThunk<
 	{ rejectValue: string }
 >("user/fetchAllUsers", async (_, thunkAPI) => {
 	try {
-		const token = await localStorage.getItem("token") as string;
+		const token = (await localStorage.getItem("token")) as string;
 		const response = await axios.get(`${BASE_URL}/users`, {
 			headers: {
 				Authorization: `Bearer ${token}`,
@@ -85,24 +85,22 @@ export const fetchAllUsers = createAsyncThunk<
 	}
 });
 
-export const editUser = createAsyncThunk<
-	User,
-	User,
-	{ rejectValue: string }
->("user/editUser", async (user, thunkAPI) => {
-	try {
-		const response = await axios.put(`${BASE_URL}/users/${user._id}`,user, {
-			headers: {
-				Authorization: `Bearer ${token}`,
-			},
-		});
-		return response.data;
+export const editUser = createAsyncThunk<User, User, { rejectValue: string }>(
+	"user/editUser",
+	async (user, thunkAPI) => {
+		try {
+			const response = await axios.put(`${BASE_URL}/users/${user._id}`, user, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
+			return response.data;
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (error: unknown | any) {
+			return thunkAPI.rejectWithValue(error.response.data.error);
+		}
 	}
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	catch (error: unknown | any) {
-		return thunkAPI.rejectWithValue(error.response.data.error);
-	}
-});
+);
 
 const userSlice = createSlice({
 	name: "user",

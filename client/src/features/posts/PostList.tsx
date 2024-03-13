@@ -5,6 +5,7 @@ import { fetchAllUsers } from "../users/userSlice";
 import Post from "./Post";
 import { Spinner } from "flowbite-react";
 import { fetchComments } from "../comments/movies/commentSlice";
+import { getLikes } from "../likes/likeSlice";
 
 type User = {
 	_id: string;
@@ -21,16 +22,12 @@ const PostList = () => {
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
-		if (status === "idle") {
+		if (posts.length === 0) {
 			dispatch(fetchPosts());
-		}
-	}, [status, dispatch]);
-
-	useEffect(() => {
-		if(status === "idle"){
 			dispatch(fetchComments());
+			dispatch(getLikes());
 		}
-	}, [status, dispatch, posts]);
+	}, [dispatch, posts]);
 
 	useEffect(() => {
 		if (users?.length === 0) {

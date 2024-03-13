@@ -3,59 +3,42 @@ import { createLike, disLike, getLikes } from "./likeSlice";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { FaRegThumbsUp } from "react-icons/fa6";
 import { FaRegThumbsDown } from "react-icons/fa";
+import { useParams } from "react-router-dom";
 
-interface Props {
-	post: {
-		_id?: string;
-		movieId: string;
-		userId: string;
-		title: string;
-		overview: string;
-		release_date: string;
-		poster_path: string;
-		rating: number;
-		likes?: string[];
-		comments?: string[];
-		reviews?: string;
-		createdAt?: string;
-	};
-}
-
-const CreateLike = ({ post }: Props) => {
+const CreateLike = () => {
 	const likes = useAppSelector((state) => state.likes.likes);
 	const me = JSON.parse(localStorage.getItem("currentUser") as string);
 
 	const dispatch = useAppDispatch();
+	const {id} = useParams();
 
 	useEffect(() => {
-		dispatch(getLikes());
-	}, [dispatch]);
+		if(likes){
+			dispatch(getLikes());
+		}
+	}, [dispatch, likes]);
 
 	const handleLike = (e: FormEvent) => {
 		e.preventDefault();
 		dispatch(
-			createLike({ userId: me._id as string, postId: post._id as string })
+			createLike({ userId: me._id as string, postId: id as string })
 		);
 		dispatch(getLikes());
 	};
 
-	const postPtId = post?._id as string;
-
 	const isLiked = () => {
 		return (
 			Array.isArray(likes) &&
-			likes.some((like) => like.userId === me._id && like.postId === postPtId)
+			likes.some((like) => like.userId === me._id && like.postId === id)
 		);
 	};
 
 	const handleDeleteLike = () => {
-		const likeId = likes?.find(
-			(like) => like.userId === me._id && like.postId === postPtId
-		)?._id;
+		const likeId = likes?.find((like) => like.userId === me._id && like.postId === id)?._id;
 		dispatch(
 			disLike({
 				userId: me._id as string,
-				postId: post._id as string,
+				postId: id as string,
 				_id: likeId as string,
 			})
 		);
@@ -76,7 +59,7 @@ const CreateLike = ({ post }: Props) => {
 			) : (
 				<form onSubmit={handleLike}>
 					<input type="hidden" name="userId" value={me._id} />
-					<input type="hidden" name="postId" value={post?._id} />
+					<input type="hidden" name="postId" value={id} />
 					<button
 						type="submit"
 						className="text-xs hover:cursor-pointer  hover:text-indigo-400 text-indigo-600 "

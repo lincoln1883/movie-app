@@ -1,8 +1,9 @@
-import { useEffect } from "react";
-import { fetchComments, likeComment } from "./commentSlice";
+///import { useEffect } from "react";
+import { likeComment } from "./commentSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { FaRegThumbsUp } from "react-icons/fa6";
 import { FaRegThumbsDown } from "react-icons/fa";
+import { getLikes } from "../../likes/likeSlice";
 
 interface Props {
 	id: string | undefined;
@@ -14,14 +15,12 @@ const CommentLikes = ({ id }: Props) => {
 
 	const dispatch = useAppDispatch();
 
-	useEffect(() => {
-		dispatch(fetchComments());
-	}, [dispatch]);
 
 	const handleLike = () => {
 		dispatch(
 			likeComment(id as string)
 		);
+		dispatch(getLikes());
 	};
 
 	const isLiked = () => {
