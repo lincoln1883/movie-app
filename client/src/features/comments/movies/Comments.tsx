@@ -70,11 +70,16 @@ const Comments = () => {
 										<CommentLikes id={comment?._id} />
 									</div>
 									<div className="self-end w-1/4">
-										{postComments[0]?.numberOfLikes && (
+										{postComments[0].likes && (
+											postComments[0].likes.length <= 1 ? (
 											<p className="text-xs text-end text-gray-500">
 												{postComments[0]?.numberOfLikes} like
 											</p>
-										)}
+										) : (
+											<p className="text-xs text-end text-gray-500">
+												{postComments[0]?.numberOfLikes} likes
+											</p>
+										))}
 									</div>
 								</div>
 							</div>

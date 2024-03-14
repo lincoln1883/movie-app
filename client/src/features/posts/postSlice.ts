@@ -15,8 +15,8 @@ interface Post {
   userId: string;
   rating: number;
   reviews?: string;
-  likes?: string[];
-  comments?: string[];
+  likes?: [];
+  comments?: [];
   createdAt?: string;
   updatedAt?: string;
 }

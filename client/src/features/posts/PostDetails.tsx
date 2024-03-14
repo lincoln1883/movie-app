@@ -21,6 +21,7 @@ const PostDetails = () => {
 	const [likeState, setLikeState] = useState<number>(0);
 
 	const post = useAppSelector((state) => state.posts.post);
+	const comments = useAppSelector((state) => state.comments.comments);
 	const users = useAppSelector((state) => state.user.users);
 	const likes = useAppSelector((state) => state.likes.likes);
 	const dispatch = useAppDispatch();
@@ -32,18 +33,18 @@ const PostDetails = () => {
 	}, [dispatch, id]);
 
 	useEffect(() => {
-		if (post) {
+		if (comments && likes) {
 			const foundLikes = likes?.filter((like) => like.postId === id);
-			setLikeState(foundLikes.length);
+			setLikeState(foundLikes?.length || 0);
 		}
-	},[post, likes, id]);
+	},[likes, id, comments, dispatch]);
 
 	useEffect(() => {
 		if (post && users) {
 			const postAuthor = users?.filter((user) => user._id === post.userId);
 			setAuthor(postAuthor[0]);
 		}
-	}, [post, users]);
+	}, [post, users, dispatch]);
 
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();
@@ -128,21 +129,21 @@ const PostDetails = () => {
 					</div>
 					<div className="flex justify-end gap-1 px-1">
 						<div>
-							{likeState ? (
+							{likeCount <= 1 ? (
 								<div className="flex justify-end items-center gap-0.5">
-									<p className="text-xs text-gray-400">{likeCount}</p>
+									<p className="text-xs text-gray-400">{likeState}</p>
 									<p className="text-xs text-gray-400">like</p>
 								</div>
 							) : (
 								<div className="flex justify-end items-center gap-0.5">
-									<p className="text-xs text-gray-400">{likeCount}</p>
+									<p className="text-xs text-gray-400">{likeState}</p>
 									<p className="text-xs text-gray-400">likes</p>
 								</div>
 							)}
 						</div>
 						<div>
 							{commentCount === undefined || null ? (
-								"no comments"
+									<p className="text-xs text-gray-400">Be the first to comment</p>
 							) : commentCount <= 1 ? (
 								<div className="flex justify-end items-center gap-0.5">
 									<p className="text-xs text-gray-400">
@@ -161,11 +162,11 @@ const PostDetails = () => {
 						</div>
 					</div>
 					<div className="flex justify-start gap-2 mt-1">
-						<div className="flex items-center justify-center gap-1 text-indigo-600 p-2">
+						<div className="flex items-center justify-center gap-1 p-2">
 							<CreateLike />
 							<span className="text-xs">Like</span>
 						</div>
-						<div className="flex items-center justify-center gap-1 text-indigo-600 p-2">
+						<div className="flex items-center justify-center gap-1 p-2">
 							<CommentsModal />
 							<span className="text-xs">Comment</span>
 						</div>

@@ -16,8 +16,8 @@ interface Props {
 		release_date: string;
 		poster_path: string;
 		rating: number;
-		likes?: string[];
-		comments?: string[];
+		likes?: [];
+		comments?: [];
 		reviews?: string;
 		createdAt?: string;
 	};
@@ -46,13 +46,13 @@ const Post = ({ post, users }: Props) => {
 		if(!likes){
 			dispatch(getLikes());
 		}
-	}, [likes, dispatch]);
+	}, [dispatch, likes]);
 
 	// count the number of comments
 	const commentCount = comments.filter((comment) => comment.postId === post._id).length;
 
 	// count the number of likes
-	const likeCount = likes.filter((like) => like.postId === post._id);
+	const likeCount = likes.filter((like) => like.postId === post._id).length;
 
 	return (
 		<div className="flex flex-col rounded-xl shadow-md bg-white">
@@ -124,9 +124,7 @@ const Post = ({ post, users }: Props) => {
 							</div>
 							<div className="flex justify-end gap-1 px-1">
 								<div>
-									{likeCount === undefined || null ? (
-										"no likes"
-									) : likeCount.length <= 1 ? (
+									{likeCount <= 1 ? (
 										<div className="flex justify-end items-center gap-0.5">
 											<p className="text-xs text-gray-400">
 												{post.likes?.length}
