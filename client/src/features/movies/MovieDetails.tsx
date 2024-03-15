@@ -83,7 +83,7 @@ const MovieDetails = () => {
 	));
 
 	return (
-		<div className="flex flex-col gap-1 sm:mx-12 lg:mx-60 mx-2 overflow-hidden">
+		<div className="flex flex-col gap-1 sm:mx-12 mx-2 overflow-hidden">
 			<div className="h-10 flex gap-1">
 				<IoMdArrowRoundBack
 					title="Go Back"
@@ -92,7 +92,7 @@ const MovieDetails = () => {
 				/>
 				<span className="self-center">Go Back</span>
 			</div>
-			<div className="flex w-100">
+			<div className="flex flex-col lg:flex-row w-full gap-1">
 				{loading ? (
 					<Spinner aria-label="Default status example" />
 				) : (
@@ -112,7 +112,8 @@ const MovieDetails = () => {
 													<span className="text-xs font-semibold">Watch :</span>
 												</h5>
 												{watchProviders?.flatrate
-													?.splice(0, 2).map((provider: ProviderType) => (
+													?.splice(0, 2)
+													.map((provider: ProviderType) => (
 														<div
 															key={provider.provider_id}
 															className="flex gap-1 justify-start items-center px-1"
@@ -138,7 +139,8 @@ const MovieDetails = () => {
 													<span className="text-xs font-semibold">Buy :</span>
 												</h5>
 												{watchProviders?.buy
-													?.splice(0,2).map((provider: ProviderType) => (
+													?.splice(0, 2)
+													.map((provider: ProviderType) => (
 														<div
 															key={provider.provider_id}
 															className="flex gap-1 justify-start items-center px-1"
@@ -163,7 +165,8 @@ const MovieDetails = () => {
 												<h5 className="sm:text-lg px-1">
 													<span className="text-xs font-semibold">Rent :</span>
 												</h5>
-												{watchProviders?.rent?.slice(0,2)
+												{watchProviders?.rent
+													?.slice(0, 2)
 													.map((provider: ProviderType) => (
 														<div
 															key={provider.provider_id}
@@ -217,9 +220,9 @@ const MovieDetails = () => {
 						</div>
 					</div>
 				)}
-			</div>
-			<div className="shadow-md p-2 bg-white rounded-lg">
-				<MovieCredit />
+				<div className="shadow-md p-2 bg-white rounded-lg md:w-1/2">
+					<MovieCredit />
+				</div>
 			</div>
 			<div className="overflow-x-auto mb-2 bg-white p-1 rounded-md">
 				<h4 className="capitalize">Similar movies</h4>

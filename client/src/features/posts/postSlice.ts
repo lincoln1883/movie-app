@@ -17,7 +17,7 @@ interface Post {
   reviews?: string;
   likes?: [];
   comments?: [];
-  createdAt?: string;
+  createdAt?: string | undefined;
   updatedAt?: string;
 }
 

@@ -7,14 +7,14 @@ import CommentsModal from "../comments/movies/CommentsModal";
 import CreateLike from "../likes/CreateLike";
 import Comments from "../comments/movies/Comments";
 import { fetchPost } from "./postSlice";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 type User = {
 	_id?: string;
 	username: string;
 	profilePicture?: string | undefined;
-}
-
+};
 
 const PostDetails = () => {
 	const [author, setAuthor] = useState<User | null>(null);
@@ -25,6 +25,7 @@ const PostDetails = () => {
 	const users = useAppSelector((state) => state.user.users);
 	const likes = useAppSelector((state) => state.likes.likes);
 	const dispatch = useAppDispatch();
+	const Navigate = useNavigate();
 
 	const { id } = useParams();
 
@@ -37,7 +38,7 @@ const PostDetails = () => {
 			const foundLikes = likes?.filter((like) => like.postId === id);
 			setLikeState(foundLikes?.length || 0);
 		}
-	},[likes, id, comments, dispatch]);
+	}, [likes, id, comments, dispatch]);
 
 	useEffect(() => {
 		if (post && users) {
@@ -53,29 +54,46 @@ const PostDetails = () => {
 	const likeCount = likes?.filter((like) => like.postId === id).length;
 	const commentCount = post?.comments?.length;
 
+	const goBack = () => {
+		Navigate(-1);
+	};
+
 	return (
 		<div className="grid grid-cols-1 gap-1 sm:grid-cols-6 bg-inherit">
+			<div className="ps-3 h-6 flex gap-1">
+				<IoMdArrowRoundBack
+					title="Go Back"
+					className="text-lg self-center hover:text-blue-700 cursor-pointer"
+					onClick={goBack}
+				/>
+				<span className="self-center text-xs">Go Back</span>
+			</div>
 			<div className="col-span-1 sm:col-start-2 sm:col-span-4">
 				<div className="flex flex-col py-3 sm:mx-4 bg-white p-2">
 					<div className="flex justify-between items-center px-2">
-						<div className="flex items-center gap-2 mb-1">
-							<img
-								src={
-									author?.profilePicture || "https://via.placeholder.com/150"
-								}
-								alt={author?.username}
-								className="w-10 h-10 rounded-full"
-							/>
-							<div className="flex flex-col">
-								<h3 className="text-xs font-bold">{author?.username}</h3>
-								<div className="flex gap-1">
-									<p className="text-xs text-gray-400">Posted:</p>
-									<p className="text-xs text-gray-400">
-										{createdDate(post?.createdAt)}
-									</p>
+						<Link to={`/profile/${author?._id}`}>
+						<div
+							key={author?._id}
+							className="flex justify-between items-center px-2"
+						>
+								<img
+									src={
+										author?.profilePicture || "https://via.placeholder.com/150"
+									}
+									alt={author?.username}
+									className="w-10 h-10 rounded-full"
+								/>
+								<div className="flex flex-col">
+									<h3 className="text-xs font-bold">{author?.username}</h3>
+									<div className="flex gap-1">
+										<p className="text-xs text-gray-400">Posted:</p>
+										<p className="text-xs text-gray-400">
+											{createdDate(post?.createdAt)}
+										</p>
+									</div>
 								</div>
-							</div>
 						</div>
+							</Link>
 						<div className="flex items-center gap-2">
 							<button
 								title="message"
@@ -143,7 +161,7 @@ const PostDetails = () => {
 						</div>
 						<div>
 							{commentCount === undefined || null ? (
-									<p className="text-xs text-gray-400">Be the first to comment</p>
+								<p className="text-xs text-gray-400">Be the first to comment</p>
 							) : commentCount <= 1 ? (
 								<div className="flex justify-end items-center gap-0.5">
 									<p className="text-xs text-gray-400">

@@ -44,11 +44,11 @@ const Comments = () => {
 					return (
 						<div
 							key={comment._id}
-							className="m-1 rounded-md bg-white flex gap-1 px-1"
+							className="m-1 rounded-md flex gap-1 px-1"
 						>
 							<Avatar
-								className="self-start border border-solid border-black w-10 h-10 rounded-full mt-1"
-								size={"sm"}
+								className="self-start border border-solid border-black w-6 h-6 rounded-full mt-1"
+								size={"xs"}
 								img={author?.profilePicture}
 								alt={author?.username}
 								rounded

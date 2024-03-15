@@ -18,33 +18,32 @@ const MovieCredit = () => {
 
   return (
     <>
-      <h1 className="text-xl font-bold mb-4">Main Cast</h1>
-      <div className="flex justify-center">
+      <div className="my-auto">
         {newCast.length === 0 && <h1>No cast found</h1> }
         {loading && <Spinner aria-label="Default status example" />}
-        <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 justify-center sm:gap-2 mb-2">
+        <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 sm:gap-2">
           {newCast.map((credit) => (
-            <li key={credit.id} className="border-2 rounded-lg shadow-md">
+            <li key={credit.id} className="flex flex-col justify-center item-center flex-2">
               {credit.profile_path === null ||
               credit.profile_path === undefined ? (
                 <img
-                  className="w-44 h-44 object-cover rounded-t-lg"
+                  className="w-20 h-20 rounded-full self-center"
                   src="https://via.placeholder.com/300x450?text=No+Image"
                   alt={credit.name}
                 />
               ) : (
                 <img
-                  className="w-44 h-44 object-cover rounded-t-lg"
+                  className="w-20 h-20 object-cover rounded-full self-center"
                   src={`https://image.tmdb.org/t/p/w500${credit.profile_path}`}
                   alt={credit.name}
                 />
               )}
-              <div className="p-1">
-                <h3 className="text-sm font-semibold">{credit.name.slice(0, 20)}</h3>
-                <p className="font-thin sm:text-sm text-xs">
+              <div className="flex flex-col justify-center item-center p-1">
+                <h3 className="text-center text-sm font-semibold">{credit.name.slice(0, 20)}</h3>
+                <p className="text-center font-thin sm:text-sm text-xs">
                   {credit.character.slice(0, 20)}
                 </p>
-                <p className="font-thin text-sm">
+                <p className="text-center font-thin text-sm">
                   {credit.known_for_department}
                 </p>
               </div>

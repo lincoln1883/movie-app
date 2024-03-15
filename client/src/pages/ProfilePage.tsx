@@ -46,7 +46,7 @@ const ProfilePage = () => {
 					<h1 className="text-center">Recent activities</h1>
 					<div className="flex flex-col justify-center gap-1">
 						{timeline.length === 0 && (
-							<p className="text-center">You have not created any posts.</p>
+							<p className="text-center">You have created {userPosts.length} posts.</p>
 						)}
 						<div className="flex flex-col gap-1">
 							{timeline.map((post) => (

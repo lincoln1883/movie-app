@@ -19,7 +19,7 @@ interface Props {
 		likes?: [];
 		comments?: [];
 		reviews?: string;
-		createdAt?: string;
+		createdAt?: string | undefined;
 	};
 	users: {
 		_id: string;
@@ -57,7 +57,8 @@ const Post = ({ post, users }: Props) => {
 	return (
 		<div className="flex flex-col rounded-xl shadow-md bg-white">
 			<div className="flex flex-col py-3">
-				<div className="flex justify-between items-center px-2">
+				<div key={users?._id} className="flex justify-between items-center px-2">
+					<Link to={`/profile/${users?._id}`}>
 					<div className="flex items-center gap-2 mb-1">
 						<img
 							src={users?.profilePicture || "https://via.placeholder.com/150"}
@@ -69,11 +70,12 @@ const Post = ({ post, users }: Props) => {
 							<div className="flex gap-1">
 								<p className="text-xs text-gray-400">Posted:</p>
 								<p className="text-xs text-gray-400">
-									{createdDate(post.createdAt)}
+									{createdDate(post?.createdAt)}
 								</p>
 							</div>
 						</div>
 					</div>
+						</Link>
 					<div className="flex items-center gap-2">
 						<button
 							title="message"
