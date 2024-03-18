@@ -61,6 +61,7 @@ const getPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         if (!posts) {
             return res.status(404).json({ error: "No posts found" });
         }
+        ;
         return res.status(200).json(posts);
     }
     catch (error) {
@@ -72,10 +73,7 @@ exports.getPosts = getPosts;
 const getPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { id } = req.params;
-        const post = yield Post_1.default.findById(id)
-            .populate("likes")
-            .populate("comments")
-            .exec();
+        const post = yield Post_1.default.findById(id).populate("comments").populate("likes").exec();
         if (!post) {
             return res.status(404).json({ error: "Post not found" });
         }

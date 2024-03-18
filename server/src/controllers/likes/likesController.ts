@@ -6,17 +6,17 @@ import Like from "../../models/likes/Like";
 export const createLike = async (req: Request, res: Response) => {
 	try {
 		const { postId, userId } = req.body;
-		const user = await User.findById(userId);
+		if (!postId || !userId) {
+			return res.status(401).json({ error: "Unauthorized" });
+		}
+		const newLike = new Like({ userId, postId });
+		await newLike.save();
+
 		const post = await Post.findById(postId);
 		if (!post) {
 			return res.status(404).json({ error: "Post not found" });
 		}
-		const like = await Like.findOne({ userId: user?._id, postId });
-		if (like) {
-			return res.status(400).json({ error: "You already liked this post" });
-		}
-		const newLike = new Like({ userId: user?._id, postId });
-		await newLike.save();
+
 		post.likes.push(newLike?._id);
 		await post.save();
 		return res.status(201).json(newLike);

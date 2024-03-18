@@ -57,7 +57,7 @@ export const getPosts = async (req: Request, res: Response) => {
 		});
 		if (!posts) {
 			return res.status(404).json({ error: "No posts found" });
-		}
+		};
 		return res.status(200).json(posts);
 	} catch (error: unknown | any) {
 		res.status(500).json({ error: error.message });
@@ -68,10 +68,7 @@ export const getPosts = async (req: Request, res: Response) => {
 export const getPost = async (req: Request, res: Response) => {
 	try {
 		const { id } = req.params;
-		const post = await Post.findById(id)
-			.populate("likes")
-			.populate("comments")
-			.exec();
+		const post = await Post.findById(id).populate("comments").populate("likes").exec();
 		if (!post) {
 			return res.status(404).json({ error: "Post not found" });
 		}

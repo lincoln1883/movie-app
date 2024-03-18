@@ -19,17 +19,15 @@ const Like_1 = __importDefault(require("../../models/likes/Like"));
 const createLike = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { postId, userId } = req.body;
-        const user = yield User_1.default.findById(userId);
+        if (!postId || !userId) {
+            return res.status(401).json({ error: "Unauthorized" });
+        }
+        const newLike = new Like_1.default({ userId, postId });
+        yield newLike.save();
         const post = yield Post_1.default.findById(postId);
         if (!post) {
             return res.status(404).json({ error: "Post not found" });
         }
-        const like = yield Like_1.default.findOne({ userId: user === null || user === void 0 ? void 0 : user._id, postId });
-        if (like) {
-            return res.status(400).json({ error: "You already liked this post" });
-        }
-        const newLike = new Like_1.default({ userId: user === null || user === void 0 ? void 0 : user._id, postId });
-        yield newLike.save();
         post.likes.push(newLike === null || newLike === void 0 ? void 0 : newLike._id);
         yield post.save();
         return res.status(201).json(newLike);
