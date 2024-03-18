@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { getLikes } from "../likes/likeSlice";
+import { fetchPosts } from "./postSlice";
 
 interface Props {
 	post: {
@@ -44,6 +45,7 @@ const Post = ({ post, users }: Props) => {
 
 	useEffect(() => {
 		if(!likes){
+			dispatch(fetchPosts());
 			dispatch(getLikes());
 		}
 	}, [dispatch, likes]);

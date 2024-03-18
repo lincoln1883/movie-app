@@ -9,6 +9,8 @@ import Comments from "../comments/movies/Comments";
 import { fetchPost } from "./postSlice";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
+import { fetchComments } from "../comments/movies/commentSlice";
+import { fetchAllUsers } from "../users/userSlice";
 
 type User = {
 	_id?: string;
@@ -18,12 +20,8 @@ type User = {
 
 const PostDetails = () => {
 	const [author, setAuthor] = useState<User | null>(null);
-	const [likeState, setLikeState] = useState<number>(0);
-
 	const post = useAppSelector((state) => state.posts.post);
-	const comments = useAppSelector((state) => state.comments.comments);
 	const users = useAppSelector((state) => state.user.users);
-	const likes = useAppSelector((state) => state.likes.likes);
 	const dispatch = useAppDispatch();
 	const Navigate = useNavigate();
 
@@ -31,14 +29,9 @@ const PostDetails = () => {
 
 	useEffect(() => {
 		dispatch(fetchPost(id as string));
+		dispatch(fetchAllUsers());
+		dispatch(fetchComments());
 	}, [dispatch, id]);
-
-	useEffect(() => {
-		if (comments && likes) {
-			const foundLikes = likes?.filter((like) => like.postId === id);
-			setLikeState(foundLikes?.length || 0);
-		}
-	}, [likes, id, comments, dispatch]);
 
 	useEffect(() => {
 		if (post && users) {
@@ -51,8 +44,8 @@ const PostDetails = () => {
 		return moment(date).fromNow();
 	};
 
-	const likeCount = likes?.filter((like) => like.postId === id).length;
 	const commentCount = post?.comments?.length;
+	const likesCount = post?.likes?.length;
 
 	const goBack = () => {
 		Navigate(-1);
@@ -72,10 +65,10 @@ const PostDetails = () => {
 				<div className="flex flex-col py-3 sm:mx-4 bg-white p-2">
 					<div className="flex justify-between items-center px-2">
 						<Link to={`/profile/${author?._id}`}>
-						<div
-							key={author?._id}
-							className="flex justify-between items-center px-2"
-						>
+							<div
+								key={author?._id}
+								className="flex justify-between items-center px-2"
+							>
 								<img
 									src={
 										author?.profilePicture || "https://via.placeholder.com/150"
@@ -92,8 +85,8 @@ const PostDetails = () => {
 										</p>
 									</div>
 								</div>
-						</div>
-							</Link>
+							</div>
+						</Link>
 						<div className="flex items-center gap-2">
 							<button
 								title="message"
@@ -147,14 +140,20 @@ const PostDetails = () => {
 					</div>
 					<div className="flex justify-end gap-1 px-1">
 						<div>
-							{likeCount <= 1 ? (
+							{likesCount === undefined || null ? (
+								<p className="text-xs text-gray-400">0 likes</p>
+							) : likesCount <= 1 ? (
 								<div className="flex justify-end items-center gap-0.5">
-									<p className="text-xs text-gray-400">{likeState}</p>
+									<p className="text-xs text-gray-400">
+										{post?.likes?.length}
+									</p>
 									<p className="text-xs text-gray-400">like</p>
 								</div>
 							) : (
 								<div className="flex justify-end items-center gap-0.5">
-									<p className="text-xs text-gray-400">{likeState}</p>
+									<p className="text-xs text-gray-400">
+										{post?.likes?.length}
+									</p>
 									<p className="text-xs text-gray-400">likes</p>
 								</div>
 							)}
