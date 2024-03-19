@@ -220,7 +220,7 @@ const MovieDetails = () => {
 						</div>
 					</div>
 				)}
-				<div className="shadow-md p-2 bg-white rounded-lg md:w-1/2">
+				<div className="flex shadow-md p-2 bg-white rounded-lg lg:1/2">
 					<MovieCredit />
 				</div>
 			</div>

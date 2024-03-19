@@ -17,11 +17,10 @@ const MovieCredit = () => {
   const newCast = credits?.slice(0, 4);
 
   return (
-    <>
-      <div className="my-auto">
+      <div className="lg:self-center flex-1">
         {newCast.length === 0 && <h1>No cast found</h1> }
         {loading && <Spinner aria-label="Default status example" />}
-        <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 sm:gap-2">
+        <ul className="grid grid-cols-2 gap-1 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-2 sm:gap-2 h-full">
           {newCast.map((credit) => (
             <li key={credit.id} className="flex flex-col justify-center item-center flex-2">
               {credit.profile_path === null ||
@@ -51,7 +50,6 @@ const MovieCredit = () => {
           ))}
         </ul>
       </div>
-    </>
   );
 };
 

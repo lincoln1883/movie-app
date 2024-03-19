@@ -11,6 +11,7 @@ import { useParams, useNavigate, Link } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { fetchComments } from "../comments/movies/commentSlice";
 import { fetchAllUsers } from "../users/userSlice";
+import { getLikes } from "../likes/likeSlice"
 
 type User = {
 	_id?: string;
@@ -29,6 +30,7 @@ const PostDetails = () => {
 
 	useEffect(() => {
 		dispatch(fetchPost(id as string));
+		dispatch(getLikes())
 		dispatch(fetchAllUsers());
 		dispatch(fetchComments());
 	}, [dispatch, id]);
@@ -43,9 +45,6 @@ const PostDetails = () => {
 	const createdDate = (date: string | undefined) => {
 		return moment(date).fromNow();
 	};
-
-	const commentCount = post?.comments?.length;
-	const likesCount = post?.likes?.length;
 
 	const goBack = () => {
 		Navigate(-1);
@@ -63,23 +62,16 @@ const PostDetails = () => {
 			</div>
 			<div className="col-span-1 sm:col-start-2 sm:col-span-4">
 				<div className="flex flex-col py-3 sm:mx-4 bg-white p-2">
-					<div className="flex justify-between items-center px-2">
+					<div className="flex justify-between items-center">
 						<Link to={`/profile/${author?._id}`}>
-							<div
-								key={author?._id}
-								className="flex justify-between items-center px-2"
-							>
-								<img
-									src={
-										author?.profilePicture || "https://via.placeholder.com/150"
-									}
+							<div key={author?._id} className="flex justify-between items-center gap-1 ps-0.5">
+								<img src={author?.profilePicture || "https://via.placeholder.com/150"}
 									alt={author?.username}
 									className="w-10 h-10 rounded-full"
 								/>
 								<div className="flex flex-col">
 									<h3 className="text-xs font-bold">{author?.username}</h3>
 									<div className="flex gap-1">
-										<p className="text-xs text-gray-400">Posted:</p>
 										<p className="text-xs text-gray-400">
 											{createdDate(post?.createdAt)}
 										</p>
@@ -93,14 +85,14 @@ const PostDetails = () => {
 								type="button"
 								className="text-xs text-gray-400 hover:text-indigo-400"
 							>
-								<FaMessage />
+								<FaMessage/>
 							</button>
 							<button
 								title="Report this post"
 								type="button"
 								className="text-xs text-gray-400 hover:text-indigo-400"
 							>
-								<BsThreeDotsVertical />
+								<BsThreeDotsVertical/>
 							</button>
 						</div>
 					</div>
@@ -138,11 +130,24 @@ const PostDetails = () => {
 							</div>
 						</div>
 					</div>
-					<div className="flex justify-end gap-1 px-1">
+
+					<div className="flex justify-between gap-2 mt-1">
+						<div className="flex">
+						<div className="flex items-center justify-center gap-1 p-2">
+							<CreateLike/>
+							<span className="text-xs">Like</span>
+						</div>
+						<div className="flex items-center justify-center gap-1 p-2">
+							<CommentsModal/>
+							<span className="text-xs">Comment</span>
+						</div>
+					</div>
+
+					<div className="flex justify-end items-center gap-1 px-1">
 						<div>
-							{likesCount === undefined || null ? (
-								<p className="text-xs text-gray-400">0 likes</p>
-							) : likesCount <= 1 ? (
+							{!post?.likes?.length ? (
+								<p className="text-xs text-gray-400">{post?.likes?.length} likes</p>
+							) : post.likes.length <= 1 ? (
 								<div className="flex justify-end items-center gap-0.5">
 									<p className="text-xs text-gray-400">
 										{post?.likes?.length}
@@ -159,9 +164,9 @@ const PostDetails = () => {
 							)}
 						</div>
 						<div>
-							{commentCount === undefined || null ? (
-								<p className="text-xs text-gray-400">Be the first to comment</p>
-							) : commentCount <= 1 ? (
+							{!post?.comments?.length ? (
+								<p className="text-xs text-gray-400">{post?.comments?.length} comments</p>
+							) : post.comments.length <= 1 ? (
 								<div className="flex justify-end items-center gap-0.5">
 									<p className="text-xs text-gray-400">
 										{post?.comments?.length}
@@ -178,17 +183,9 @@ const PostDetails = () => {
 							)}
 						</div>
 					</div>
-					<div className="flex justify-start gap-2 mt-1">
-						<div className="flex items-center justify-center gap-1 p-2">
-							<CreateLike />
-							<span className="text-xs">Like</span>
-						</div>
-						<div className="flex items-center justify-center gap-1 p-2">
-							<CommentsModal />
-							<span className="text-xs">Comment</span>
-						</div>
-					</div>
-					<Comments />
+
+				</div>
+					<Comments/>
 				</div>
 			</div>
 		</div>

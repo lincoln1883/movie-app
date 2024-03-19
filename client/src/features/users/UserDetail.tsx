@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { useParams, useNavigate } from "react-router-dom";
 import { fetchUser } from "./userSlice";
+import { fetchPosts }  from "../posts/postSlice"
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Card } from "flowbite-react";
 import { FaPlus } from "react-icons/fa6";
@@ -17,6 +18,7 @@ const UserDetail = () => {
 	useEffect(() => {
 		if (id) {
 			dispatch(fetchUser(id));
+			dispatch(fetchPosts())
 		}
 	}, [id, dispatch]);
 
@@ -39,20 +41,21 @@ const UserDetail = () => {
 
 	return (
 		<section className="w-full h-full">
-			<div className="grid grid-cols-1 gap-1 sm:grid-cols-6 lg:grid-cols-8">
+			<div>
 				<div className="ps-3 h-6 flex gap-1">
-					<IoMdArrowRoundBack
-						title="Go Back"
-						className="text-lg self-center hover:text-blue-700 cursor-pointer"
-						onClick={goBack}
+					<IoMdArrowRoundBack title="Go Back" className="text-lg self-center hover:text-blue-700 cursor-pointer" onClick={goBack}
 					/>
 					<span className="self-center text-xs">Go Back</span>
 				</div>
+				<h1 className="text-center">{user.username}'s Profile Page</h1>
+			</div>
+			<div className="grid grid-cols-1 gap-1 sm:grid-cols-6 lg:grid-cols-8">
 				<div
 					key={user._id}
 					className="col-span-1 sm:col-start-1 sm:col-span-3 lg:col-start-2 lg:col-span-3 mb-2"
 				>
-					<div className="bg-white relative shadow p-2 rounded-lg text-gray-800 hover:shadow-lg hover:transition-transform ease-in-out">
+					<div
+						className="bg-white relative shadow p-2 rounded-lg text-gray-800 hover:shadow-lg hover:transition-transform ease-in-out">
 						<div className="right-0 mt-4 rounded-l-full absolute text-center font-bold text-xs text-white px-2 py-1 bg-orange-500">
               <FaPlus className="inline-block hover:cursor-pointer" title="follow" />
 						</div>
@@ -79,7 +82,7 @@ const UserDetail = () => {
 					</div>
 				</div>
 				<div className="sm:col-start-4 sm:col-span-3 lg:col-start-5 ">
-					<h1 className="text-center">Posts created by {user.username}</h1>
+
 					<div className="flex flex-col justify-center gap-1">
 						{timeline.length === 0 && (
 							<p className="text-center">

@@ -26,7 +26,7 @@ const CommentLikes = ({ id }: Props) => {
 
 	const isLiked = () => {
     const myLikes = comments.filter((comment) => comment._id === id).map((comment) => comment.likes);
-    return myLikes[0]?.includes(me._id)
+    return myLikes[0]?.includes(me?._id)
 	};
 
 	return (

@@ -56,7 +56,7 @@ const PostForm = ({ movie }: Props) => {
 			});
 		};
 		handleFetchMovieDetails();
-	}, [movie, user._id, movieDetails]);
+	}, [movie, user._id]);
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();

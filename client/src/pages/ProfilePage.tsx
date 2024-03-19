@@ -43,7 +43,7 @@ const ProfilePage = () => {
 					<User />
 				</div>
 				<div className="sm:col-start-4 sm:col-span-3 lg:col-start-5 overflow-y-scroll">
-					<h1 className="text-center">Recent activities</h1>
+					<h1 className="text-center">{user.username}'s recent activities</h1>
 					<div className="flex flex-col justify-center gap-1">
 						{timeline.length === 0 && (
 							<p className="text-center">You have created {userPosts.length} posts.</p>

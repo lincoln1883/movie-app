@@ -67,7 +67,9 @@ const Comments = () => {
 								<hr className="border border-solid m-1 border-gray-200 w-full" />
 								<div className="flex justify-between items-center w-full gap-1 px-1">
 									<div className="flex items-center gap-2 w-3/4">
-										<CommentLikes id={comment?._id} />
+										{comment?.likes && (
+											<CommentLikes id={comment?._id} />
+										)}
 									</div>
 									<div className="self-end w-1/4">
 										{postComments[0].likes && (

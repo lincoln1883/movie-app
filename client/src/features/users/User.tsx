@@ -96,7 +96,7 @@ const User = () => {
 			} else {
 				return (
 					<div>
-						<h1 className="text-center">User Profile</h1>
+						<h1 className="text-center">{userData.username}'s Profile</h1>
 						<div className="flex h-full items-center justify-center mx-auto shadow-lg rounded-lg p-3 bg-white relative">
 							<div className="flex flex-col justify-center items-center mt-2 gap-1 w-11/12 py-5">
 								<img

@@ -70,7 +70,6 @@ const Post = ({ post, users }: Props) => {
 						<div className="flex flex-col">
 							<h3 className="text-xs font-bold">{users?.username}</h3>
 							<div className="flex gap-1">
-								<p className="text-xs text-gray-400">Posted:</p>
 								<p className="text-xs text-gray-400">
 									{createdDate(post?.createdAt)}
 								</p>
@@ -126,21 +125,19 @@ const Post = ({ post, users }: Props) => {
 									{post.release_date}
 								</p>
 							</div>
-							<div className="flex justify-end gap-1 px-1">
+							<div className="flex justify-end gap-1 mx-2">
 								<div>
 									{likeCount <= 1 ? (
 										<div className="flex justify-end items-center gap-0.5">
 											<p className="text-xs text-gray-400">
-												{post.likes?.length}
+												{post.likes?.length} like
 											</p>
-											<p className="text-xs text-gray-400">like</p>
 										</div>
 									) : (
 										<div className="flex justify-end items-center gap-0.5">
 											<p className="text-xs text-gray-400">
-												{post.likes?.length}
+												{post.likes?.length} likes
 											</p>
-											<p className="text-xs text-gray-400">likes</p>
 										</div>
 									)}
 								</div>
@@ -148,16 +145,14 @@ const Post = ({ post, users }: Props) => {
 									{commentCount <= 1 ? (
 										<div className="flex justify-end items-center gap-0.5">
 											<p className="text-xs text-gray-400">
-												{post.comments?.length}
+												{post.comments?.length} comment
 											</p>
-											<p className="text-xs text-gray-400">comment</p>
 										</div>
 									) : (
 										<div className="flex justify-end items-center gap-0.5">
 											<p className="text-xs text-gray-400">
-												{post.comments?.length}
+												{post.comments?.length} comments
 											</p>
-											<p className="text-xs text-gray-400">comments</p>
 										</div>
 									)}
 								</div>
