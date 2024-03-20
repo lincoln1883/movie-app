@@ -1,4 +1,4 @@
-import React,{useState} from 'react'
+import React, {ChangeEvent, useState,} from 'react'
 import { Button, Label, TextInput, Textarea } from "flowbite-react";
 import { editUser } from "./userSlice";
 import { useAppDispatch, useAppSelector } from '../../redux/store';
@@ -64,7 +64,7 @@ const EditProfile = ({setEditMode,userData,setUserData}: EditProfileProps) => {
 		}
 	};
 
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = event.target;
 		setUserData((prevUser) => ({
 			...prevUser!,
@@ -93,7 +93,7 @@ const EditProfile = ({setEditMode,userData,setUserData}: EditProfileProps) => {
 	};
 
 	const handleTextareaChange = (
-		event: React.ChangeEvent<HTMLTextAreaElement>
+		event: ChangeEvent<HTMLTextAreaElement>
 	) => {
 		const { name, value } = event.target;
 		setUserData((prevUser) => ({
@@ -102,7 +102,7 @@ const EditProfile = ({setEditMode,userData,setUserData}: EditProfileProps) => {
 		}));
 	};
 
-	const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
 		const file = event.target.files?.[0];
 		if (file) {
 			setFile(file);

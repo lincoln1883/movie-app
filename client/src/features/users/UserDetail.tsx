@@ -8,7 +8,7 @@ import { Card } from "flowbite-react";
 import { FaPlus } from "react-icons/fa6";
 
 const UserDetail = () => {
-	const user = useAppSelector((state) => state.user.user);
+	const user = useAppSelector((state) => state.users.user);
 	const posts = useAppSelector((state) => state.posts.posts);
 	const dispatch = useAppDispatch();
 
