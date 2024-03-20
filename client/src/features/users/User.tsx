@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
-import { BsPencil } from "react-icons/bs";
+import {BsPencil, BsTrash} from "react-icons/bs";
 import moment from "moment";
 import EditProfile from "./EditProfile";
+import {deleteUser} from "./userSlice";
+import { useAppDispatch } from "../../redux/store"
+import {useNavigate} from "react-router-dom";
+import {logout} from '../auth/authSlice'
 
 interface User {
 	_id: string;
@@ -19,12 +23,22 @@ interface User {
 const User = () => {
 	const [userData, setUserData] = useState<User | null>(null);
 	const [editMode, setEditMode] = useState(false); // State variable to toggle edit mode
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
 		setUserData(user);
 	}, []);
 
+	const dispatch = useAppDispatch()
+	const handleDeleteUser = () => {
+		const confirmation = window.confirm("Did you mean to delete this your profile?")
+		if(confirmation){
+		dispatch(deleteUser(userData?._id as string))
+			navigate("/");
+		}
+		dispatch(logout())
+	}
 	const handleEditProfile = () => {
 		setEditMode(true); // Enable edit mode
 	};
@@ -83,11 +97,18 @@ const User = () => {
 									</p>
 								</div>
 							</div>
-							<div className="self-start flex-1 text-center justify-center h-5 absolute top-4 right-4">
+							<div className="self-start flex-1 text-center justify-center h-5 absolute bottom-4 right-4">
 								<BsPencil
 									title="Edit Profile"
 									className="mx-auto hover:cursor-pointer"
 									onClick={handleEditProfile}
+								/>
+							</div>
+							<div className="self-start flex-1 text-center justify-center h-5 absolute bottom-4 right-12">
+								<BsTrash
+									title="delete Profile"
+									className="mx-auto hover:cursor-pointer"
+									onClick={handleDeleteUser}
 								/>
 							</div>
 						</div>
@@ -135,11 +156,18 @@ const User = () => {
 									)}
 								</div>
 							</div>
-							<div className="self-start flex-1 text-center justify-center h-5 absolute top-4 right-4">
+							<div className="self-start flex-1 text-center justify-center h-5 absolute bottom-4 right-4">
 								<BsPencil
 									title="Edit Profile"
 									className="mx-auto hover:cursor-pointer"
 									onClick={handleEditProfile}
+								/>
+							</div>
+							<div className="self-start flex-1 text-center justify-center h-5 absolute bottom-4 right-12">
+								<BsTrash
+									title="Delete Profile"
+									className="mx-auto hover:cursor-pointer"
+									onClick={handleDeleteUser}
 								/>
 							</div>
 						</div>

@@ -1,5 +1,5 @@
 import { Button, Modal } from "flowbite-react";
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { useAppDispatch } from "../../../redux/store";
 import { createComment } from "./commentSlice";
 import { FaMessage } from "react-icons/fa6";
@@ -27,14 +27,14 @@ const CommentsModal = () => {
 
 	const dispatch = useAppDispatch();
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		dispatch(createComment(comment));
 		setComment({ postId: "", userId: "", comment: "" });
 		setOpenModal(false);
 	};
 
-	const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+	const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
 		const { name, value } = e.target;
 		setComment({
 			...comment,

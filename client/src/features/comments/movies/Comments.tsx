@@ -8,7 +8,7 @@ import { useParams } from "react-router-dom";
 import { fetchComments } from "./commentSlice";
 
 const Comments = () => {
-	const users = useAppSelector((state) => state.user.users);
+	const users = useAppSelector((state) => state.users.users);
 	const comments = useAppSelector((state) => state.comments.comments);
 
 	const dispatch = useAppDispatch();
@@ -38,13 +38,13 @@ const Comments = () => {
 			{!postComments.length && (
 				<p className="text-sm mt-2 text-center">Be the first to comment</p>
 			)}
-			<div className="bg-slate-100 m-1">
+			<div className="m-1">
 				{postComments.map((comment) => {
 					const author = findAuthor(comment.userId);
 					return (
 						<div
 							key={comment._id}
-							className="m-1 rounded-md flex gap-1 px-1"
+							className="m-1 rounded-md bg-slate-200 border flex gap-1 px-1"
 						>
 							<Avatar
 								className="self-start border border-solid border-black w-6 h-6 rounded-full mt-1"

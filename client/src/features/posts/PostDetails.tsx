@@ -22,7 +22,7 @@ type User = {
 const PostDetails = () => {
 	const [author, setAuthor] = useState<User | null>(null);
 	const post = useAppSelector((state) => state.posts.post);
-	const users = useAppSelector((state) => state.user.users);
+	const users = useAppSelector((state) => state.users.users);
 	const dispatch = useAppDispatch();
 	const Navigate = useNavigate();
 
@@ -183,7 +183,6 @@ const PostDetails = () => {
 							)}
 						</div>
 					</div>
-
 				</div>
 					<Comments/>
 				</div>

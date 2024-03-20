@@ -19,7 +19,7 @@ interface User {
 interface UserState {
 	user: User | null;
 	users: User[] | null;
-	status: "idle" | "loading" | "failed" | "success";
+	status: "idle" | "loading" | "failed" | "success" | "User deleted successfully";
 	error: string | null;
 }
 
@@ -89,6 +89,7 @@ export const editUser = createAsyncThunk<User, User, { rejectValue: string }>(
 	"user/editUser",
 	async (user, thunkAPI) => {
 		try {
+			const token = (await localStorage.getItem("token")) as string;
 			const response = await axios.put(`${BASE_URL}/users/${user._id}`, user, {
 				headers: {
 					Authorization: `Bearer ${token}`,
@@ -101,6 +102,23 @@ export const editUser = createAsyncThunk<User, User, { rejectValue: string }>(
 		}
 	}
 );
+
+export const deleteUser = createAsyncThunk<void, string, {rejectValue: string }>(
+	"user/deleteUser",
+	async(id, thunkAPI) => {
+		try {
+			const response = await axios.delete(`${BASE_URL}/users/${id}`, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				}
+			});
+			return response.data.message
+			// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		} catch (e: unknown | any) {
+			return thunkAPI.rejectWithValue(e.response.data.error)
+		}
+	}
+)
 
 const userSlice = createSlice({
 	name: "user",
@@ -159,7 +177,15 @@ const userSlice = createSlice({
 			.addCase(editUser.rejected, (state, action) => {
 				state.status = "failed";
 				state.error = action.payload as string;
-			});
+			}).addCase(deleteUser.pending, (state) => {
+				state.status = 'loading'
+		}).addCase(deleteUser.fulfilled,(state) => {
+			state.status = 'success';
+			state.error = null;
+		}).addCase(deleteUser.rejected, (state, action) => {
+			state.status = 'failed';
+			state.error = action.payload as string
+		})
 	},
 });
 

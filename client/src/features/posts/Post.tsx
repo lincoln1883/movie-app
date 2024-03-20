@@ -58,7 +58,7 @@ const Post = ({ post, users }: Props) => {
 
 	return (
 		<div className="flex flex-col rounded-xl shadow-md bg-white">
-			<div className="flex flex-col py-3">
+			<div className="flex flex-col py-1">
 				<div key={users?._id} className="flex justify-between items-center px-2">
 					<Link to={`/profile/${users?._id}`}>
 					<div className="flex items-center gap-2 mb-1">

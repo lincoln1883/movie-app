@@ -15,7 +15,7 @@ const CreateLike = () => {
 
 	const handleLike = async (e: FormEvent) => {
 		e.preventDefault();
-		dispatch(createLike({ userId: me._id as string, postId: id as string })
+		dispatch(createLike({ userId: me?._id as string, postId: id as string })
 		);
 		await dispatch(getLikes());
 	};

@@ -24,9 +24,9 @@ const UserSignUp = () => {
 	});
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const success = useAppSelector((state) => state.user.status === 'success');
-	const loading = useAppSelector((state) => state.user.status === 'loading');
-  const error = useAppSelector((state) => state.user.error);
+	const success = useAppSelector((state) => state.users.status === 'success');
+	const loading = useAppSelector((state) => state.users.status === 'loading');
+  const error = useAppSelector((state) => state.users.error);
 
 	const handleSubmit = (e: FormEvent) => {
 		e.preventDefault();

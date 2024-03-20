@@ -18,7 +18,7 @@ const PostList = () => {
 	const posts = useAppSelector((state) => state.posts.posts);
 	const status = useAppSelector((state) => state.posts.status);
 	const error = useAppSelector((state) => state.posts.error);
-	const users = useAppSelector((state) => state.user.users);
+	const users = useAppSelector((state) => state.users.users);
 	const dispatch = useAppDispatch();
 
 	useEffect(() => {
