@@ -87,19 +87,19 @@ const User = () => {
 											{moment(userData.updatedAt).fromNow()}
 										</p>
 									)}
-									<p className="text-yellow-500 text-xs">
+									<p className="text-yellow-500 text-xs mb-2">
 										Please take a moment to complete your profile!
 									</p>
 								</div>
 							</div>
-							<div className="self-start flex-1 text-center justify-center h-5 absolute bottom-4 right-4">
+							<div className="self-start flex-1 text-center justify-center h-5 absolute bottom-2.5 right-6">
 								<BsPencil
 									title="Edit Profile"
 									className="mx-auto hover:cursor-pointer"
 									onClick={handleEditProfile}
 								/>
 							</div>
-							<div className="self-start flex-1 text-center justify-center h-5 absolute bottom-4 right-12">
+							<div className="self-start flex-1 text-center justify-center h-5 absolute bottom-2.5 right-14">
 								<BsTrash
 									title="delete Profile"
 									className="mx-auto hover:cursor-pointer"

@@ -123,6 +123,7 @@ export const likeComment = createAsyncThunk<
 	{ rejectValue: string }
 >("comments/likeComment", async (id, thunkAPI) => {
 	try {
+		const token = localStorage.getItem("token") as string;
 		const response = await axios.put(`${BASE_URL}/comments/${id}`,{},{
 			headers: {
 				Authorization: `Bearer ${token}`,

@@ -8,20 +8,24 @@ import { fetchPost } from "./postSlice";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { fetchComments } from "../comments/movies/commentSlice";
-import { fetchAllUsers } from "../users/userSlice";
-import { getLikes } from "../likes/likeSlice"
-import {FaPlus} from "react-icons/fa";
+import { fetchAllUsers, followUser } from "../users/userSlice";
+import { getLikes } from "../likes/likeSlice";
+import { FaMinus, FaPlus } from "react-icons/fa";
 
 type User = {
 	_id?: string;
 	username: string;
 	profilePicture?: string | undefined;
+	followers?: [];
+	following?: [];
 };
 
 const PostDetails = () => {
 	const [author, setAuthor] = useState<User | null>(null);
 	const post = useAppSelector((state) => state.posts.post);
 	const users = useAppSelector((state) => state.users.users);
+	const currentUser = useAppSelector((state) => state.users.user);
+	
 	const dispatch = useAppDispatch();
 	const Navigate = useNavigate();
 
@@ -29,7 +33,7 @@ const PostDetails = () => {
 
 	useEffect(() => {
 		dispatch(fetchPost(id as string));
-		dispatch(getLikes())
+		dispatch(getLikes());
 		dispatch(fetchAllUsers());
 		dispatch(fetchComments());
 	}, [dispatch, id]);
@@ -49,6 +53,23 @@ const PostDetails = () => {
 		Navigate(-1);
 	};
 
+	// check the follow array for the current user
+	// if the user is in the array, display unfollow
+	// if the user is not in the array, display follow
+
+	const isFollowed = () => {
+		if (
+			currentUser?.following &&
+			currentUser.following.some((follow: string) => {
+				return follow === author?._id;
+			})
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	};
+
 	return (
 		<div className="grid grid-cols-1 gap-1 sm:grid-cols-6 bg-inherit">
 			<div className="ps-3 h-6 flex gap-1">
@@ -63,8 +84,14 @@ const PostDetails = () => {
 				<div className="flex flex-col py-3 sm:mx-4 bg-white p-2">
 					<div className="flex justify-between items-center">
 						<Link to={`/profile/${author?._id}`}>
-							<div key={author?._id} className="flex justify-between items-center gap-1 ps-0.5">
-								<img src={author?.profilePicture || "https://via.placeholder.com/150"}
+							<div
+								key={author?._id}
+								className="flex justify-between items-center gap-1 ps-0.5"
+							>
+								<img
+									src={
+										author?.profilePicture || "https://via.placeholder.com/150"
+									}
 									alt={author?.username}
 									className="w-10 h-10 rounded-full"
 								/>
@@ -78,18 +105,32 @@ const PostDetails = () => {
 								</div>
 							</div>
 						</Link>
-						<div className="flex items-center gap-1">
-							<button
-								title="follow"
-								type="button"
-								className="text-xs text-gray-400 hover:text-indigo-400"
-								onClick={()=>{}}
-							>
-								<FaPlus/>
-							</button>
-							<p className="text-xs">
-								Follow
-							</p>
+						<div>
+							{currentUser?._id !== author?._id && isFollowed() ? (
+								<div className="flex items-center gap-1">
+									<button
+										title="unfollow"
+										type="button"
+										className="text-xs text-gray-400 hover:text-indigo-400"
+										onClick={() => dispatch(followUser(author?._id as string))}
+									>
+										<FaMinus />
+									</button>
+									<p className="text-xs">unfollow</p>
+								</div>
+							) : (
+								<div className="flex items-center gap-1">
+									<button
+										title="follow"
+										type="button"
+										className="text-xs text-gray-400 hover:text-indigo-400"
+										onClick={() => dispatch(followUser(author?._id as string))}
+									>
+										<FaPlus />
+									</button>
+									<p className="text-xs">follow</p>
+								</div>
+							)}
 						</div>
 					</div>
 					<p className="text-xs px-4 my-3">{post?.reviews}</p>
@@ -129,58 +170,62 @@ const PostDetails = () => {
 
 					<div className="flex justify-between gap-2 mt-1">
 						<div className="flex">
-						<div className="flex items-center justify-center gap-1 p-2">
-							<CreateLike/>
-							<span className="text-xs">Like</span>
+							<div className="flex items-center justify-center gap-1 p-2">
+								<CreateLike />
+								<span className="text-xs">Like</span>
+							</div>
+							<div className="flex items-center justify-center gap-1 p-2">
+								<CommentsModal />
+								<span className="text-xs">Comment</span>
+							</div>
 						</div>
-						<div className="flex items-center justify-center gap-1 p-2">
-							<CommentsModal/>
-							<span className="text-xs">Comment</span>
-						</div>
-					</div>
 
-					<div className="flex justify-end items-center gap-1 px-1">
-						<div>
-							{!post?.likes?.length ? (
-								<p className="text-xs text-gray-400">{post?.likes?.length} likes</p>
-							) : post.likes.length <= 1 ? (
-								<div className="flex justify-end items-center gap-0.5">
+						<div className="flex justify-end items-center gap-1 px-1">
+							<div>
+								{!post?.likes?.length ? (
 									<p className="text-xs text-gray-400">
-										{post?.likes?.length}
+										{post?.likes?.length} likes
 									</p>
-									<p className="text-xs text-gray-400">like</p>
-								</div>
-							) : (
-								<div className="flex justify-end items-center gap-0.5">
+								) : post.likes.length <= 1 ? (
+									<div className="flex justify-end items-center gap-0.5">
+										<p className="text-xs text-gray-400">
+											{post?.likes?.length}
+										</p>
+										<p className="text-xs text-gray-400">like</p>
+									</div>
+								) : (
+									<div className="flex justify-end items-center gap-0.5">
+										<p className="text-xs text-gray-400">
+											{post?.likes?.length}
+										</p>
+										<p className="text-xs text-gray-400">likes</p>
+									</div>
+								)}
+							</div>
+							<div>
+								{!post?.comments?.length ? (
 									<p className="text-xs text-gray-400">
-										{post?.likes?.length}
+										{post?.comments?.length} comments
 									</p>
-									<p className="text-xs text-gray-400">likes</p>
-								</div>
-							)}
-						</div>
-						<div>
-							{!post?.comments?.length ? (
-								<p className="text-xs text-gray-400">{post?.comments?.length} comments</p>
-							) : post.comments.length <= 1 ? (
-								<div className="flex justify-end items-center gap-0.5">
-									<p className="text-xs text-gray-400">
-										{post?.comments?.length}
-									</p>
-									<p className="text-xs text-gray-400">comment</p>
-								</div>
-							) : (
-								<div className="flex justify-end items-center gap-0.5">
-									<p className="text-xs text-gray-400">
-										{post?.comments?.length}
-									</p>
-									<p className="text-xs text-gray-400">comments</p>
-								</div>
-							)}
+								) : post.comments.length <= 1 ? (
+									<div className="flex justify-end items-center gap-0.5">
+										<p className="text-xs text-gray-400">
+											{post?.comments?.length}
+										</p>
+										<p className="text-xs text-gray-400">comment</p>
+									</div>
+								) : (
+									<div className="flex justify-end items-center gap-0.5">
+										<p className="text-xs text-gray-400">
+											{post?.comments?.length}
+										</p>
+										<p className="text-xs text-gray-400">comments</p>
+									</div>
+								)}
+							</div>
 						</div>
 					</div>
-				</div>
-					<Comments/>
+					<Comments />
 				</div>
 			</div>
 		</div>

@@ -14,6 +14,8 @@ interface User {
 	password?: string;
 	profilePicture?: string;
 	bio?: string;
+	following?: [];
+	followers?: [];
 }
 
 interface UserState {
@@ -103,6 +105,23 @@ export const editUser = createAsyncThunk<User, User, { rejectValue: string }>(
 	}
 );
 
+export const followUser = createAsyncThunk<User, string, { rejectValue: string }>(
+	"user/followUser", async (id, thunkAPI) => {
+	try {
+		const token = localStorage.getItem("token") as string;
+		const response = await axios.put(`${BASE_URL}/users/${id}/follow`, {}, {
+			headers: {
+				Authorization: `Bearer ${token}`,
+			},
+		});
+		console.log(response.data)
+		return response.data;
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	} catch (error: unknown | any) {
+		return thunkAPI.rejectWithValue(error.response.data.error);
+	}
+});
+
 const userSlice = createSlice({
 	name: "user",
 	initialState,
@@ -158,6 +177,17 @@ const userSlice = createSlice({
 				state.user = action.payload;
 			})
 			.addCase(editUser.rejected, (state, action) => {
+				state.status = "failed";
+				state.error = action.payload as string;
+			})
+			.addCase(followUser.pending, (state) => {
+				state.status = "loading";
+			})
+			.addCase(followUser.fulfilled, (state, action) => {
+				state.status = "success";
+				state.user = action.payload;
+			})
+			.addCase(followUser.rejected, (state, action) => {
 				state.status = "failed";
 				state.error = action.payload as string;
 			});

@@ -16,7 +16,7 @@ const Profile = () => {
 		<div>
 			<div className="bg-white relative shadow p-2 rounded-lg text-gray-800 hover:shadow-lg hover:transition-transform ease-in-out">
 				<div className="right-0 mt-4 rounded-l-full absolute text-center font-bold text-xs text-white px-2 py-1 bg-orange-500">
-					0 Follower
+					{user?.following?.length || 0 } Following
 				</div>
 				<img
 					alt=""
