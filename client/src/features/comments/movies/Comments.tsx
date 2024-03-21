@@ -59,7 +59,6 @@ const Comments = () => {
 										{author?.username}
 									</h4>
 									<p className="text-xs text-gray-500">
-										Commented:
 										{createdDate(comment?.createdAt)}
 									</p>
 								</div>

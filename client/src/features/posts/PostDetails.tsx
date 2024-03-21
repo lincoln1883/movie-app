@@ -1,8 +1,6 @@
 import moment from "moment";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
-import { FaMessage } from "react-icons/fa6";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import CommentsModal from "../comments/movies/CommentsModal";
 import CreateLike from "../likes/CreateLike";
 import Comments from "../comments/movies/Comments";
@@ -12,6 +10,7 @@ import { IoMdArrowRoundBack } from "react-icons/io";
 import { fetchComments } from "../comments/movies/commentSlice";
 import { fetchAllUsers } from "../users/userSlice";
 import { getLikes } from "../likes/likeSlice"
+import {FaPlus} from "react-icons/fa";
 
 type User = {
 	_id?: string;
@@ -79,21 +78,18 @@ const PostDetails = () => {
 								</div>
 							</div>
 						</Link>
-						<div className="flex items-center gap-2">
+						<div className="flex items-center gap-1">
 							<button
-								title="message"
+								title="follow"
 								type="button"
 								className="text-xs text-gray-400 hover:text-indigo-400"
+								onClick={()=>{}}
 							>
-								<FaMessage/>
+								<FaPlus/>
 							</button>
-							<button
-								title="Report this post"
-								type="button"
-								className="text-xs text-gray-400 hover:text-indigo-400"
-							>
-								<BsThreeDotsVertical/>
-							</button>
+							<p className="text-xs">
+								Follow
+							</p>
 						</div>
 					</div>
 					<p className="text-xs px-4 my-3">{post?.reviews}</p>
