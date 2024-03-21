@@ -1,11 +1,10 @@
-import { useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import {BsPencil, BsTrash} from "react-icons/bs";
 import moment from "moment";
 import EditProfile from "./EditProfile";
-import {deleteUser} from "./userSlice";
-import { useAppDispatch } from "../../redux/store"
+import {deleteUser, logout} from "../auth/authSlice";
+import { useAppDispatch, useAppSelector } from "../../redux/store"
 import {useNavigate} from "react-router-dom";
-import {logout} from '../auth/authSlice'
 
 interface User {
 	_id: string;
@@ -23,21 +22,24 @@ interface User {
 const User = () => {
 	const [userData, setUserData] = useState<User | null>(null);
 	const [editMode, setEditMode] = useState(false); // State variable to toggle edit mode
+	const userState = useAppSelector((state) => state.currentUser?.status === "User deleted successfully")
+	const dispatch = useAppDispatch()
 	const navigate = useNavigate()
 
 	useEffect(() => {
 		const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
-		setUserData(user);
-	}, []);
-
-	const dispatch = useAppDispatch()
-	const handleDeleteUser = () => {
-		const confirmation = window.confirm("Did you mean to delete this your profile?")
-		if(confirmation){
-		dispatch(deleteUser(userData?._id as string))
-			navigate("/");
+		if(userState){
+			navigate('/')
+			dispatch(logout())
 		}
-		dispatch(logout())
+		setUserData(user);
+	}, [userState,navigate]);
+
+	const handleDeleteUser = () => {
+		const confirmation = window.confirm("This action is irreversible, are you sure?")
+		if(confirmation){
+			dispatch(deleteUser(userData?._id as string))
+		}
 	}
 	const handleEditProfile = () => {
 		setEditMode(true); // Enable edit mode

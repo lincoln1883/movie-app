@@ -58,6 +58,7 @@ const Post = ({ post, users }: Props) => {
 
 	return (
 		<div className="flex flex-col rounded-xl shadow-md bg-white">
+			{users && (
 			<div className="flex flex-col py-1">
 				<div key={users?._id} className="flex justify-between items-center px-2">
 					<Link to={`/profile/${users?._id}`}>
@@ -161,6 +162,7 @@ const Post = ({ post, users }: Props) => {
 					</div>
 				</Link>
 			</div>
+				) }
 		</div>
 	);
 };
