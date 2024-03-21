@@ -2,9 +2,8 @@ import {useEffect, useState} from "react";
 import {BsPencil, BsTrash} from "react-icons/bs";
 import moment from "moment";
 import EditProfile from "./EditProfile";
-import {deleteUser, logout} from "../auth/authSlice";
-import { useAppDispatch, useAppSelector } from "../../redux/store"
-import {useNavigate} from "react-router-dom";
+import {deleteUser} from "../auth/authSlice";
+import { useAppDispatch } from "../../redux/store"
 
 interface User {
 	_id: string;
@@ -21,19 +20,13 @@ interface User {
 
 const User = () => {
 	const [userData, setUserData] = useState<User | null>(null);
-	const [editMode, setEditMode] = useState(false); // State variable to toggle edit mode
-	const userState = useAppSelector((state) => state.currentUser?.status === "User deleted successfully")
+	const [editMode, setEditMode] = useState(false);
 	const dispatch = useAppDispatch()
-	const navigate = useNavigate()
 
 	useEffect(() => {
 		const user = JSON.parse(localStorage.getItem("currentUser") || "{}");
-		if(userState){
-			navigate('/')
-			dispatch(logout())
-		}
 		setUserData(user);
-	}, [userState,navigate]);
+	}, []);
 
 	const handleDeleteUser = () => {
 		const confirmation = window.confirm("This action is irreversible, are you sure?")
