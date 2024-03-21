@@ -120,4 +120,34 @@ const getUser = async (req: Request, res: Response) => {
 	}
 };
 
+export const followUser = async (req: Request, res: Response) => {
+	try {
+		const {_id } = req.params;
+		console.log(req.user)
+		console.log(_id)
+		const user = await User.findById(req?.user)
+		if(!user){
+			res.status(404).json({error: "User not found."})
+		}
+		const following = await User.findById(_id)
+		if (!following){
+			res.status(401).json({error: "Unauthorized"})
+		}
+		if (user?.following.includes(_id)){
+			await User.findByIdAndUpdate(req.user, {$pull: {following: _id}})
+			await User.findByIdAndUpdate(_id, {$pull: {followers: req.user}})
+		}
+		else{
+			await User.findByIdAndUpdate(req.user, {$push: {following: _id}})
+			await User.findByIdAndUpdate(_id, {$push: {followers: req.user}})
+		}
+		await user?.save()
+		await following?.save()
+		res.status(200).json({message: "Operation successful"})
+	}catch (error: unknown |any) {
+		res.status(500).json({error: error.message})
+		throw error as Error
+	}
+}
+
 export { createUser, editUser, deleteUser, getUsers, getUser };

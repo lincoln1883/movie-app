@@ -9,6 +9,7 @@ import {
 	removeUser,
 	readUser,
 	readUsers,
+	followUsers,
 } from "./routes/users/userRoutes";
 import { login } from "./routes/auth/loginRoute";
 import {
@@ -50,6 +51,7 @@ app.use("/api", updateUser);
 app.use("/api", removeUser);
 app.use("/api", readUser);
 app.use("/api", readUsers);
+app.use("/api", followUsers);
 // auth routes
 app.use("/api/auth", login);
 // Posts routes

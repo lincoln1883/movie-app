@@ -5,6 +5,7 @@ import {
 	deleteUser,
 	getUsers,
 	getUser,
+	followUser,
 } from "../../controllers/users/userController";
 import passport from "../../services/passport";
 
@@ -30,4 +31,10 @@ export const readUsers = router.get(
 	"/users",
 	passport.authenticate("jwt", { session: false }),
 	getUsers
+);
+
+export const followUsers = router.put(
+	"/users/:_id/follow",
+	passport.authenticate("jwt", { session: false }),
+	followUser
 );

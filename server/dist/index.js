@@ -29,6 +29,7 @@ app.use("/api", userRoutes_1.updateUser);
 app.use("/api", userRoutes_1.removeUser);
 app.use("/api", userRoutes_1.readUser);
 app.use("/api", userRoutes_1.readUsers);
+app.use("/api", userRoutes_1.followUsers);
 // auth routes
 app.use("/api/auth", loginRoute_1.login);
 // Posts routes

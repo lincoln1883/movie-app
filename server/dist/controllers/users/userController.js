@@ -12,7 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUser = exports.getUsers = exports.deleteUser = exports.editUser = exports.createUser = void 0;
+exports.getUser = exports.getUsers = exports.deleteUser = exports.editUser = exports.createUser = exports.followUser = void 0;
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const User_1 = __importDefault(require("../../models/users/User"));
 const passwordHelper_1 = require("../../utils/passwordHelper");
@@ -134,3 +134,34 @@ const getUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     }
 });
 exports.getUser = getUser;
+const followUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const { _id } = req.params;
+        console.log(req.user);
+        console.log(_id);
+        const user = yield User_1.default.findById(req === null || req === void 0 ? void 0 : req.user);
+        if (!user) {
+            res.status(404).json({ error: "User not found." });
+        }
+        const following = yield User_1.default.findById(_id);
+        if (!following) {
+            res.status(401).json({ error: "Unauthorized" });
+        }
+        if (user === null || user === void 0 ? void 0 : user.following.includes(_id)) {
+            yield User_1.default.findByIdAndUpdate(req.user, { $pull: { following: _id } });
+            yield User_1.default.findByIdAndUpdate(_id, { $pull: { followers: req.user } });
+        }
+        else {
+            yield User_1.default.findByIdAndUpdate(req.user, { $push: { following: _id } });
+            yield User_1.default.findByIdAndUpdate(_id, { $push: { followers: req.user } });
+        }
+        yield (user === null || user === void 0 ? void 0 : user.save());
+        yield (following === null || following === void 0 ? void 0 : following.save());
+        res.status(200).json({ message: "Operation successful" });
+    }
+    catch (error) {
+        res.status(500).json({ error: error.message });
+        throw error;
+    }
+});
+exports.followUser = followUser;

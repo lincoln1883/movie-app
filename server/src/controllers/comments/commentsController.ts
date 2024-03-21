@@ -106,12 +106,12 @@ export const likeComment = async (req: Request, res: Response) => {
 		const user = await User.findById(req.user);
 		if (!user) {
 			return res.status(401).json({ error: "Unauthorized" });
-		};
+		}
 		const id = user._id;
 			const comment = await Comment.findById(_id);
 			if (!comment) {
 				return res.status(404).json({ error: "Comment not found" });
-			};
+			}
 			let message;
 			if (comment.likes.includes(id)){
 				comment.likes.splice(comment.likes.indexOf(id), 1);
@@ -121,7 +121,7 @@ export const likeComment = async (req: Request, res: Response) => {
 				comment.likes.push(id);
 				comment.numberOfLikes += 1;
 				message = "Comment liked successfully";
-			};
+			}
 			await comment.save();
 		return res.status(200).json({ message: message });
 	} catch (error: unknown | any) {
