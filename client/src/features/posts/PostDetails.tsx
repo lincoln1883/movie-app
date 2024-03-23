@@ -16,8 +16,6 @@ type User = {
 	_id?: string;
 	username: string;
 	profilePicture?: string | undefined;
-	followers?: [];
-	following?: [];
 };
 
 const PostDetails = () => {
