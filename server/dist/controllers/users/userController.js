@@ -137,27 +137,27 @@ exports.getUser = getUser;
 const followUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { _id } = req.params;
-        console.log(req.user);
-        console.log(_id);
-        const user = yield User_1.default.findById(req === null || req === void 0 ? void 0 : req.user);
-        if (!user) {
-            res.status(404).json({ error: "User not found." });
+        const authenticatedUser = yield User_1.default.findById(req === null || req === void 0 ? void 0 : req.user);
+        const authenticatedUserId = authenticatedUser === null || authenticatedUser === void 0 ? void 0 : authenticatedUser._id;
+        if (!authenticatedUser) {
+            res.status(404).json({ error: "User not found " });
         }
-        const following = yield User_1.default.findById(_id);
-        if (!following) {
-            res.status(401).json({ error: "Unauthorized" });
+        const userToFollow = yield User_1.default.findById(_id);
+        if (!userToFollow) {
+            res.status(404).json({ error: "The user you want to follow is not found" });
         }
-        if (user === null || user === void 0 ? void 0 : user.following.includes(_id)) {
-            yield User_1.default.findByIdAndUpdate(req.user, { $pull: { following: _id } });
-            yield User_1.default.findByIdAndUpdate(_id, { $pull: { followers: req.user } });
+        let message;
+        if (authenticatedUser === null || authenticatedUser === void 0 ? void 0 : authenticatedUser.following.includes(_id)) {
+            yield User_1.default.findByIdAndUpdate(authenticatedUserId, { $pull: { following: userToFollow === null || userToFollow === void 0 ? void 0 : userToFollow._id } });
+            yield User_1.default.findByIdAndUpdate(userToFollow, { $pull: { followers: authenticatedUserId } });
+            message = "Unfollowed successfully";
         }
         else {
-            yield User_1.default.findByIdAndUpdate(req.user, { $push: { following: _id } });
-            yield User_1.default.findByIdAndUpdate(_id, { $push: { followers: req.user } });
+            yield User_1.default.findByIdAndUpdate(authenticatedUserId, { $push: { following: userToFollow === null || userToFollow === void 0 ? void 0 : userToFollow._id } });
+            yield User_1.default.findByIdAndUpdate(userToFollow, { $push: { followers: authenticatedUserId } });
+            message = "Followed successfully";
         }
-        yield (user === null || user === void 0 ? void 0 : user.save());
-        yield (following === null || following === void 0 ? void 0 : following.save());
-        res.status(200).json({ message: "Operation successful" });
+        return res.status(200).json({ message: message });
     }
     catch (error) {
         res.status(500).json({ error: error.message });

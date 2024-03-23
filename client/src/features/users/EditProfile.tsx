@@ -14,6 +14,8 @@ interface User {
 	createdAt?: string;
 	password?: string;
 	updatedAt?: string;
+	followers?: string[];
+	following?: string[];
 }
 
 interface EditProfileProps {
@@ -31,8 +33,7 @@ const EditProfile = ({setEditMode,userData,setUserData}: EditProfileProps) => {
 
 	const [file, setFile] = useState<File | null>(null);
 	const dispatch = useAppDispatch();
-	const loading = useAppSelector(
-		(state) => state.currentUser.status === "loading"
+	const loading = useAppSelector((state) => state.currentUser.status === "loading"
 	);
 
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {

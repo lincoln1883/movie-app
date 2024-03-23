@@ -16,6 +16,8 @@ interface User {
 	createdAt?: string;
 	password?: string;
 	updatedAt?: string;
+	following?: string[];
+	followers?: string[];
 }
 
 const User = () => {

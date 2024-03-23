@@ -14,8 +14,8 @@ interface User {
 	password?: string;
 	profilePicture?: string;
 	bio?: string;
-	following?: [];
-	followers?: [];
+	following?: string[];
+	followers?: string[];
 }
 
 interface UserState {
@@ -114,7 +114,6 @@ export const followUser = createAsyncThunk<User, string, { rejectValue: string }
 				Authorization: `Bearer ${token}`,
 			},
 		});
-		console.log(response.data)
 		return response.data;
 		// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	} catch (error: unknown | any) {

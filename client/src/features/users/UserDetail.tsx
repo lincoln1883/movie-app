@@ -82,7 +82,6 @@ const UserDetail = () => {
 					</div>
 				</div>
 				<div className="sm:col-start-4 sm:col-span-3 lg:col-start-5 ">
-
 					<div className="flex flex-col justify-center gap-1">
 						{timeline.length === 0 && (
 							<p className="text-center">

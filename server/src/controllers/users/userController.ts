@@ -122,28 +122,28 @@ const getUser = async (req: Request, res: Response) => {
 
 export const followUser = async (req: Request, res: Response) => {
 	try {
-		const {_id } = req.params;
-		console.log(req.user)
-		console.log(_id)
-		const user = await User.findById(req?.user)
-		if(!user){
-			res.status(404).json({error: "User not found."})
+		const { _id } = req.params;
+		const authenticatedUser = await User.findById(req?.user);
+		const authenticatedUserId = authenticatedUser?._id;
+		if (!authenticatedUser) {
+			res.status(404).json({ error: "User not found " });
 		}
-		const following = await User.findById(_id)
-		if (!following){
-			res.status(401).json({error: "Unauthorized"})
+		const userToFollow = await User.findById(_id);
+		if (!userToFollow) {
+			res.status(404).json({ error: "The user you want to follow is not found" });
 		}
-		if (user?.following.includes(_id)){
-			await User.findByIdAndUpdate(req.user, {$pull: {following: _id}})
-			await User.findByIdAndUpdate(_id, {$pull: {followers: req.user}})
+
+		let message;
+		if (authenticatedUser?.following.includes(_id)) {
+			await User.findByIdAndUpdate(authenticatedUserId, { $pull: { following: userToFollow?._id } });
+			await User.findByIdAndUpdate(userToFollow, { $pull: { followers: authenticatedUserId } });
+			message = "Unfollowed successfully";
+		} else {
+			await User.findByIdAndUpdate(authenticatedUserId, { $push: { following: userToFollow?._id } });
+			await User.findByIdAndUpdate(userToFollow, { $push: { followers: authenticatedUserId } });
+			message = "Followed successfully";
 		}
-		else{
-			await User.findByIdAndUpdate(req.user, {$push: {following: _id}})
-			await User.findByIdAndUpdate(_id, {$push: {followers: req.user}})
-		}
-		await user?.save()
-		await following?.save()
-		res.status(200).json({message: "Operation successful"})
+		return res.status(200).json({ message: message });
 	}catch (error: unknown |any) {
 		res.status(500).json({error: error.message})
 		throw error as Error
