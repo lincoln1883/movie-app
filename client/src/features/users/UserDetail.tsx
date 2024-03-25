@@ -5,7 +5,6 @@ import { fetchUser } from "./userSlice";
 import { fetchPosts }  from "../posts/postSlice"
 import { IoMdArrowRoundBack } from "react-icons/io";
 import { Card } from "flowbite-react";
-import { FaPlus } from "react-icons/fa6";
 
 const UserDetail = () => {
 	const user = useAppSelector((state) => state.users.user);
@@ -50,25 +49,21 @@ const UserDetail = () => {
 				<h1 className="text-center">{user.username}'s Profile Page</h1>
 			</div>
 			<div className="grid grid-cols-1 gap-1 sm:grid-cols-6 lg:grid-cols-8">
-				<div
-					key={user._id}
-					className="col-span-1 sm:col-start-1 sm:col-span-3 lg:col-start-2 lg:col-span-3 mb-2"
+				<Card key={user._id}
+					className="col-span-1 sm:col-start-1 sm:col-span-3 lg:col-start-2 lg:col-span-3 mb-2 relative"
 				>
-					<div
-						className="bg-white relative shadow p-2 rounded-lg text-gray-800 hover:shadow-lg hover:transition-transform ease-in-out">
-						<div className="right-0 mt-4 rounded-l-full absolute text-center font-bold text-xs text-white px-2 py-1 bg-orange-500">
-              <FaPlus className="inline-block hover:cursor-pointer" title="follow" />
+					<div>
+						<div className="right-0 top-20 mt-4 rounded-l-full absolute text-center font-bold text-xs text-white px-2 py-1 bg-orange-500">
+              {user?.followers?.length} Followers
 						</div>
-						<img
-							alt=""
-							src="https://images.unsplash.com/photo-1564497717650-489eb99e8d09?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1963&q=80"
-							className="h-32 rounded-lg w-full object-cover"
-						/>
-						<div className="flex justify-center">
+						<div className="right-0 top-12 mt-4 rounded-l-full absolute text-center font-bold text-xs text-white px-2 py-1 bg-orange-500">
+              {user?.following?.length} Following
+						</div>
+						<div className="flex justify-center items-center">
 							<img
 								alt={user.username}
 								src={user?.profilePicture || "https://via.placeholder.com/150"}
-								className="rounded-full -mt-6 border-4 object-center object-cover border-white mr-2 h-16 w-16"
+								className="rounded-full -mt-6 border-4 object-center object-cover border-white h-40 w-40"
 							/>
 						</div>
 						<div className="py-2 px-2">
@@ -80,7 +75,7 @@ const UserDetail = () => {
 							</div>
 						</div>
 					</div>
-				</div>
+				</Card>
 				<div className="sm:col-start-4 sm:col-span-3 lg:col-start-5 ">
 					<div className="flex flex-col justify-center gap-1">
 						{timeline.length === 0 && (

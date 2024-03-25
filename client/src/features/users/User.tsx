@@ -92,6 +92,12 @@ const User = () => {
 									<p className="text-yellow-500 text-xs mb-2">
 										Please take a moment to complete your profile!
 									</p>
+									<div className="right-0 top-5 mt-4 rounded-l-full absolute text-center font-bold text-xs text-white px-2 py-1 bg-orange-500">
+										{userData?.followers?.length} Followers
+									</div>
+									<div className="right-0 top-12 mt-4 rounded-l-full absolute text-center font-bold text-xs text-white px-2 py-1 bg-orange-500">
+										{userData?.following?.length} Following
+									</div>
 								</div>
 							</div>
 							<div className="self-start flex-1 text-center justify-center h-5 absolute bottom-2.5 right-6">

@@ -1,4 +1,3 @@
-///import { useEffect } from "react";
 import { fetchComments, likeComment } from "./commentSlice";
 import { useAppDispatch, useAppSelector } from "../../../redux/store";
 import { FaRegThumbsUp } from "react-icons/fa6";
