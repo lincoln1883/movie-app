@@ -13,7 +13,7 @@ const ImageCarousel = () => {
   }, [dispatch])
 
 	return (
-		<div className="h-64 sm:h-[600px]">
+		<div className="h-64 sm:h-[600px] w-full mx-2">
       <Carousel>
 			{movies.map((movie) => (
 					<img

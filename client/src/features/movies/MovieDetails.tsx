@@ -19,6 +19,8 @@ type ProviderType = {
 };
 
 const MovieDetails = () => {
+	const loading = useAppSelector((state) => state.movies.status === "loading");
+	const movie = useAppSelector((state) => state.movies.movie);
 	// eslint-disable-next-line @typescript-eslint/no-explicit-any
 	const [userLocation, setUserLocation] = useState<any>();
 	const [watchProviders, setWatchProviders] = useState<ProviderType>();
@@ -47,8 +49,6 @@ const MovieDetails = () => {
 		dispatch(fetchMovieById(id as string));
 	}, [dispatch, id]);
 
-	const loading = useAppSelector((state) => state.movies.status === "loading");
-	const movie = useAppSelector((state) => state.movies.movie);
 
 	useEffect(() => {
 		const getWatchProviders = async () => {
@@ -67,15 +67,15 @@ const MovieDetails = () => {
 		getWatchProviders();
 	}, [id, userLocation]);
 
-	if (!movie) {
-		return <h1>No movie found</h1>;
-	}
-
 	const goBack = () => {
 		Navigate(-1);
 	};
 
-	const ratingOutOf5 = movie.vote_average / 2;
+	if (!movie) {
+		return <Spinner aria-label="Default status example" />;
+	}
+	
+	const ratingOutOf5 = movie?.vote_average / 2;
 	const numberOfStars = Math.round(ratingOutOf5);
 
 	const starComponents = Array.from({ length: numberOfStars }, (_, index) => (
@@ -93,15 +93,15 @@ const MovieDetails = () => {
 				<span className="self-center">Go Back</span>
 			</div>
 			<div className="flex flex-col lg:flex-row w-full gap-1">
-				{loading ? (
+				{!movie && loading ? (
 					<Spinner aria-label="Default status example" />
 				) : (
 					<div className="flex flex-col text-xs flex-1">
 						<div className="flex flex-col justify-center bg-white items-center w-100 sm:flex-row shadow-md sm:h-96 rounded-lg gap-1">
 							<div className="flex flex-col items-center justify-center w-full h-full sm:w-full sm:h-full rounded">
 								<img
-									src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
-									alt={movie.title}
+									src={`https://image.tmdb.org/t/p/w500${movie?.poster_path}`}
+									alt={movie?.title}
 									className="w-full h-64 sm:w-full sm:h-72 rounded-t-lg rounded-b-none sm:rounded-none sm:rounded-l-lg flex-1"
 								/>
 								{watchProviders && (
